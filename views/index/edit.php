@@ -11,21 +11,25 @@ use Studip\Button, Studip\LinkButton;
     <?= CSRFProtection::tokenTag() ?>
     <input id="open_variable" type="hidden" name="open" value="<?= $flash['open'] ?>">
     
-    <?php foreach ($groupedFields as $date): ?>
+    <?php foreach ($groupedFields as $group): ?>
     <fieldset <?= isset($flash['open']) && $flash['open'] != 'bd_basicsettings' ? 'class="collapsed"' : ''?> data-open="bd_basicsettings">
-        <legend><?= $date['title'] ?></legend>
+        <legend><?= $group['title'] ?></legend>
         <table>
-            <?php foreach ($date['values'] as $field): ?>
+            <?php foreach ($group['entries'] as $field_entry): ?>
             <tr> 
                 <td style="width:500px">
-                    <?=$fields[$field]['title']?>: 
+                    <?=$field_entry->title?>: 
                 </td>
                 <td>
-                    <?= QuickSearch::get("text", $fach_suche)
+                    <?php if($field_entry->id == 'abschluss') : ?>
+                    <?= QuickSearch::get("abschluss", $abschluss_suche)
                         ->setInputStyle("width: 240px")
-                        ->defaultValue($entry[$field], $fields[$field]['title']) 
-                          ->render();?>
-                    <input type='text' name ='<?=$field?>' value ='<?= $entry[$field]?>'> 
+                        //->fireJSFunctionOnSelect('doktoranden_select')
+                        //->defaultValue($entry[$field], $fields[$field]['title']) 
+                        ->withButton()
+                        ->render();?>
+                     <?php endif ?>
+                    <input type='text' name ='<?=$field_entry->id?>' value ='<?= $entry[$field_entry->id]?>'> 
                 </td>
             </tr>
             <?php endforeach ?>
@@ -42,9 +46,16 @@ use Studip\Button, Studip\LinkButton;
 </form>
 
 
+<script>
 
+    jQuery('.quicksearch_frame').autocomplete({ minLength: 1 });
+    function doktoranden_select(){
+        //alert($('#abschluss_1').val());
+        //$('.abschluss').val($('#abschluss_1').val);
+    }
+    
 
-
+</script>
 
 
 

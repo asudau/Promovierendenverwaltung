@@ -101,9 +101,9 @@ class IndexController extends StudipController {
          $this->fields = DoktorandenEntry::getFieldsMetadata();
          $this->groupedFields = DoktorandenEntry::getGroupedFields();
          
-         $this->fach_suche = new SQLSearch("SELECT scnd_id, text " .
-        "FROM doktorandenverwaltung_field_values " .
-        "WHERE `text` LIKE :input OR scnd_id LIKE :input", _("Berichtsland"), "scnd_id");
+         $this->abschluss_suche = new SQLSearch("SELECT his_id, CONCAT(defaulttext, ' (' , uniquename, ')') as title " .
+        "FROM doktorandenverwaltung_field_values WHERE `field_id` LIKE 'abschluss' " .
+        "AND (`defaulttext` LIKE :input OR `uniquename` LIKE :input)", _("Abschluss"), "his_id");
         
     }
 

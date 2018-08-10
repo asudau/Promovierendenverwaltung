@@ -8,6 +8,11 @@
 
 class DoktorandenEntry extends \SimpleORMap
 {
+    private static $groups = array(
+        'promotionsdaten' => 'Daten zur Promotion',
+        'doktorandendaten'=> 'Doktorandendaten',
+        'ersteinschreibung'=> 'Daten zur Ersteinschreibung & HZB',
+        'abschlusspruefung'=> 'Daten zur Promotion berechtigenden Abschlussprüfung');
     
     private static $fields_metadata = array('berichtseinheitid' => array('title' => 'BerichtseinheitID', 'fill' => 'auto'),
             'ef001' => array('title' => 'Berichtsland', 'fill' => 'auto'),
@@ -67,54 +72,6 @@ class DoktorandenEntry extends \SimpleORMap
             'ef011', 
             'matrikelnummer'
         );
-    
-    private static $groupedFields = array ('promotionsdaten' => array( 'title' => 'Daten zur Promotion', 'values' => array(
-            'ef003',
-            'ef010',
-            'ef011',
-            'ef012',
-            'ef013u1',
-            'ef013u2',
-            'ef014u1',
-            'ef014u2',
-            'matrikelnummer',
-            'ef015',
-            'ef016',
-            'ef017',
-            'ef018'
-        )),
-        'doktorandendaten' => array( 'title' => 'Doktorandendaten', 'values' => array(
-            'ef005',
-            'ef006u1',
-            'ef006u2',
-            'ef006u3',
-            'nachname',
-            'vorname',
-            'ef007',
-            'ef008',
-            'ef009'
-        )),
-        'ersteinschreibung' => array( 'title' => 'Daten zur Ersteinschreibung & HZB', 'values' => array(
-            'ef019',
-            'ef020',
-            'ef021',
-            'ef022',
-            'ef031',
-            'ef032',
-            'ef033u1',
-            'ef033u2'
-        )),
-        'abschlusspruefung' => array( 'title' => 'Daten zur Promotion berechtigenden Abschlussprüfung', 'values' => array(
-            'ef023',
-            'ef024',
-            'ef025',
-            'ef026',
-            'ef027',
-            'ef028',
-            'ef029',
-            'ef030'
-        ))
-        ); 
     
     private static $values = array('ef011' => array(
         '148' => 'Sozialwissenschaften', 
@@ -231,8 +188,13 @@ class DoktorandenEntry extends \SimpleORMap
     }
     
     public static function getGroupedFields() {
-         
-        return DoktorandenEntry::$groupedFields;
+        $group_array = array();
+        foreach(self::$groups as $group => $title){
+            $group_array[$group]['entries'] = DoktorandenFields::findBySQL("`group` LIKE :group", array(':group' => $group));
+            $group_array[$group]['title'] = $title;
+        }
+        //return DoktorandenEntry::$groupedFields;
+        return $group_array;
     }
     
     public static function getValueMap() {

@@ -23,6 +23,14 @@ class DoktorandenverwaltungFieldValues extends Migration
             PRIMARY KEY (id)
         ) ");
 
+//        $query = "INSERT INTO `doktorandenverwaltung_fieldsVvalues` (`id`, `title`, `default`, `overview_position`, `group`, `group_position`, `fill`, `values`, `export`) 
+//           VALUES 
+//           ('berichtseinheitid', 'BerichtseinheitID', '5300000', NULL, '', NULL, 'auto', NULL, '1'),
+//            ";
+//        
+//        $db->exec($query);
+        
+        
         SimpleORMap::expireTableScheme();
     }
 

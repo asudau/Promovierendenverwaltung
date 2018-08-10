@@ -1,0 +1,6 @@
+pluginname=Doktorandenverwaltung
+pluginclassname=Doktorandenverwaltung
+origin=virtUOS
+version=0.1
+studipMinVersion=3.4
+studipMaxVersion=3.5.99

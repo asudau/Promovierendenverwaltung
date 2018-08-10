@@ -192,6 +192,30 @@ class DoktorandenEntry extends \SimpleORMap
         $config['additional_fields']['geburtstag_time']['get'] = function ($item) {
             return mktime(0, 0, 0, $item->ef006u1, $item->ef006u2, $item->ef006u3);
         };
+        $config['additional_fields']['berichtseinheitid']['get'] = function ($item) {
+            return '05300000';
+        };
+        $config['additional_fields']['ef001']['get'] = function ($item) {
+            return '03';
+        };
+        $config['additional_fields']['ef002']['get'] = function ($item) {
+            return date('Y', $entry->mkdate);
+        };
+        $config['additional_fields']['ef003']['get'] = function ($item) {
+            return '0530';
+        };
+        $config['additional_fields']['ef010']['get'] = function ($item) {
+            return 'TODO';
+        };
+        $config['additional_fields']['ef011']['get'] = function ($item) {
+            return 'TODO';
+        };
+        $config['additional_fields']['ef026']['get'] = function ($item) {
+            return 'TODO';
+        };
+        $config['additional_fields']['ef027']['get'] = function ($item) {
+            return 'TODO';
+        };
 
         parent::configure($config);
     }

@@ -122,4 +122,11 @@ class DoktorandenFields extends \SimpleORMap
             return $value['defaulttext'];
         } else return false;
     }
+    
+    public function getValueAstatByKey($key){
+        if($this->value_key != NULL){
+            $value = DoktorandenFieldValue::findOneBySQL('field_id = ? AND ' . $this->value_key . ' = ' . $key, array($this->id));
+            return $value['astat_bund'];
+        } else return false;
+    }
 }

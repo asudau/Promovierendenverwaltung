@@ -12,7 +12,7 @@ class DoktorandenEntry extends \SimpleORMap
         'promotionsdaten' => 'Daten zur Promotion',
         'doktorandendaten'=> 'Doktorandendaten',
         'ersteinschreibung'=> 'Daten zur Ersteinschreibung & HZB',
-        'abschlusspruefung'=> 'Daten zur Promotion berechtigenden Abschlussprüfung');
+        'abschlusspruefung'=> 'Daten zur Promotion berechtigenden Abschlussprï¿½fung');
     
     private static $fields_metadata = array('berichtseinheitid' => array('title' => 'BerichtseinheitID', 'fill' => 'auto'),
             'ef001' => array('title' => 'Berichtsland', 'fill' => 'auto'),
@@ -27,8 +27,8 @@ class DoktorandenEntry extends \SimpleORMap
             'vorname' => array('title' => 'Vorname', 'fill' => 'manual_req'),
             'nachname' => array('title' => 'Nachname', 'fill' => 'manual_req'),
             'ef007' => array('title' => 'Name', 'fill' => 'manual_req'),
-            'ef008' => array('title' => 'Staatsangehörigkeit', 'fill' => 'manual_req'),
-            'ef009' => array('title' => 'weitere Staatsangehörigkeit', 'fill' => 'manual_opt'),
+            'ef008' => array('title' => 'Staatsangehï¿½rigkeit', 'fill' => 'manual_req'),
+            'ef009' => array('title' => 'weitere Staatsangehï¿½rigkeit', 'fill' => 'manual_opt'),
             'ef010' => array('title' => 'Art der Promotion', 'fill' => 'manual_req'),
             'ef011' => array('title' => 'Promotionsfach', 'fill' => 'manual_req'), 
             'ef012' => array('title' => 'Art der Registrierung als Promovierender', 'fill' => 'manual_req'),
@@ -39,29 +39,29 @@ class DoktorandenEntry extends \SimpleORMap
             'matrikelnummer' => array('title' => 'Matrikelnummer'),
             'ef015' => array('title' => 'Immatrikulation', '0' => 'Nein', '1' => 'Ja'),
             'ef016' => array('title' => 'Teilnahme an einem strukturierenden Promotionsprogramm', '0' => 'Nein', '1' => 'Ja'),
-            'ef017' => array('title' => 'Beschäftigungsverhältnis an der Hochschule der Promotion', '0' => 'Nein', '1' => 'Ja'),
+            'ef017' => array('title' => 'Beschï¿½ftigungsverhï¿½ltnis an der Hochschule der Promotion', '0' => 'Nein', '1' => 'Ja'),
             'ef018' => array('title' => 'Art der Dissertation', '1' => 'Monografie', '2' => 'publikationsbasierte/kumulative Dissertation'),
             'ef019' => array('title' => 'Hochschule (Ersteinschreibung)'),
             'ef020' => array('title' => 'Bei Ersteinschreibung an einer Hochschule ausserhalb Deutschlands, der Staat der Hochschule'),
             'ef021' => array('title' => 'Semester', '1' => 'Sommersemester', '2' => 'Wintersemester'),
             'ef022' => array('title' => 'Jahr'),
-            'ef023' => array('title' => 'Zur Promotion berechtigende Abschlussprüfung', '0' => 'wurde noch nicht abgelegt', '1' => 'wurde abgelegt und bestanden') ,
+            'ef023' => array('title' => 'Zur Promotion berechtigende Abschlussprï¿½fung', '0' => 'wurde noch nicht abgelegt', '1' => 'wurde abgelegt und bestanden') ,
             'ef024' => array('title' => 'Hochschule'),
-            'ef025' => array('title' => 'Wenn Hochschule der zur Promotion berechtigenden, vorangegangenen bestandenen Abschlussprüfung außerhalb Deutschlands, der Staat der Hochschule'),
-            'ef026' => array('title' => 'Art der Prüfung', '11' => 'Diplom', '13' => 'Master of Arts (M.A.)', '17' => 'Master of Science (M.Sc.)', '02' => 'Magister', '18' => 'Diplom-Lehrer', '08' => 'Staatsexamen/1. Staatsprüfung'),
+            'ef025' => array('title' => 'Wenn Hochschule der zur Promotion berechtigenden, vorangegangenen bestandenen Abschlussprï¿½fung auï¿½erhalb Deutschlands, der Staat der Hochschule'),
+            'ef026' => array('title' => 'Art der Prï¿½fung', '11' => 'Diplom', '13' => 'Master of Arts (M.A.)', '17' => 'Master of Science (M.Sc.)', '02' => 'Magister', '18' => 'Diplom-Lehrer', '08' => 'Staatsexamen/1. Staatsprï¿½fung'),
             'ef027' => array('title' => '1. Studienfach'),
-            'ef028' => array('title' => 'Monat des Prüfungsabschlusses'),
-            'ef029' => array('title' => 'Jahr des Prüfungsabschlusses'),
+            'ef028' => array('title' => 'Monat des Prï¿½fungsabschlusses'),
+            'ef029' => array('title' => 'Jahr des Prï¿½fungsabschlusses'),
             'ef030' => array('title' => 'Gesamtnote'),
             'ef031' => array('title' => 'Jahr des Erwerbs einer HZB'),
             'ef032' => array('title' => 'Art der ersten HZB'),
             'ef033u1' => array('title' => 'Art der ersten HZB - Bundesland, bzw.'),
             'ef033u2' => array('title' => 'Art der ersten HZB - Kreis (bei Erwerb in Deutschland) bzw. Staat (bei Erwerb im Ausland)'),
-            'ef034' => array('title' => 'frei für landesinterne Angaben'),
-            'ef035' => array('title' => 'frei für landesinterne Angaben'),
-            'ef036' => array('title' => 'frei für landesinterne Angaben'),
-            'ef037' => array('title' => 'frei für landesinterne Angaben'),
-            'ef038' => array('title' => 'frei für landesinterne Angaben')
+            'ef034' => array('title' => 'frei fï¿½r landesinterne Angaben'),
+            'ef035' => array('title' => 'frei fï¿½r landesinterne Angaben'),
+            'ef036' => array('title' => 'frei fï¿½r landesinterne Angaben'),
+            'ef037' => array('title' => 'frei fï¿½r landesinterne Angaben'),
+            'ef038' => array('title' => 'frei fï¿½r landesinterne Angaben')
         );
     
     private static $fields_overview = array(
@@ -84,7 +84,7 @@ class DoktorandenEntry extends \SimpleORMap
         '26' => 'Biologie',
         '150' => 'Spanisch',
         '113' => 'Musikerziehung',
-        '59' => 'Französisch',
+        '59' => 'Franzï¿½sisch',
         '68' => 'Geschichte',
         '50' => 'Geographie / Erdkunde',
         '48' => 'Elektrotechnik',
@@ -105,9 +105,9 @@ class DoktorandenEntry extends \SimpleORMap
         '767' => 'Advanced Materials /Biologie',
         '105' => 'Mathematik',
         '128' => 'Physik',
-        '91' => 'Kunst/Kunstpädagogik',
+        '91' => 'Kunst/Kunstpï¿½dagogik',
         '92' =>  'Kunstgeschichte',
-        '114' => 'Bachelor-2-Fächer Musikwissenschaft',
+        '114' => 'Bachelor-2-Fï¿½cher Musikwissenschaft',
         '116' => 'Textiles Gestalten',
         '129' => 'Politikwissenschaft /Politologie',
         '149' => 'Soziologie',
@@ -115,7 +115,7 @@ class DoktorandenEntry extends \SimpleORMap
         '175' => 'Diplom(U)Volkswirtschaft',
         '21' => 'Kein AbschComputerlinguistik',
         '30' => 'Internationale Migration und Interkulturelle Beziehungen',
-        '52' => 'Erziehungswissenschaft /Pädagogik',
+        '52' => 'Erziehungswissenschaft /Pï¿½dagogik',
         '809' => 'Politik:Demokratisches Regieren u. Zivilgesellschaft',
         '95' => 'Latein',
         '98' => 'Sport / Sportwissenschaft',
@@ -123,7 +123,7 @@ class DoktorandenEntry extends \SimpleORMap
         ),
         
         'ef005' => array(
-            '1' => 'männlich', '2' => 'weiblich'
+            '1' => 'mï¿½nnlich', '2' => 'weiblich'
         ),
         
         'ef008' => array(
@@ -131,7 +131,7 @@ class DoktorandenEntry extends \SimpleORMap
         ),
         
         'ef010' => array(
-             '01' => 'Promotion an Hochschulen mit Promotionsrecht (einschl. Kooperation mit anderer Universität in Deutschland)',
+             '01' => 'Promotion an Hochschulen mit Promotionsrecht (einschl. Kooperation mit anderer Universitï¿½t in Deutschland)',
         ),
         
         'ef012' => array(
@@ -162,16 +162,21 @@ class DoktorandenEntry extends \SimpleORMap
             return '0530';
         };
         $config['additional_fields']['ef010']['get'] = function ($item) {
-            return 'TODO';
+            $field = DoktorandenFields::find('art_promotion');
+            return $field->getValueAstatByKey($item['art_promotion']);
         };
         $config['additional_fields']['ef011']['get'] = function ($item) {
-            return 'TODO';
+            $field = DoktorandenFields::find('promotionsfach');
+            return $field->getValueAstatByKey($item['promotionsfach']);
         };
         $config['additional_fields']['ef026']['get'] = function ($item) {
-            return 'TODO';
+            $field = DoktorandenFields::find('abschluss');
+            return $field->getValueAstatByKey($item['abschluss']);
         };
         $config['additional_fields']['ef027']['get'] = function ($item) {
-            return 'TODO';
+            $field = DoktorandenFields::find('abschluss_studienfach');
+            $astat = $field->getValueAstatByKey($item['abschluss_studienfach']);
+            return substr($astat,1);
         };
 
         parent::configure($config);

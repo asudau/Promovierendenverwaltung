@@ -77,6 +77,16 @@ class DoktorandenFields extends \SimpleORMap
     protected static function configure($config = array())
     {
         $config['db_table'] = 'doktorandenverwaltung_fields';
+        
+        $config['additional_fields']['search_object']['get'] = function ($item) {
+
+            if (FieldValue::findOneBySQL("field_id LIKE ?", array($item->id))){
+                    return new SQLSearch("SELECT his_id, CONCAT(defaulttext, ' (' , uniquename, ')') as title " .
+                    "FROM doktorandenverwaltung_field_values WHERE `field_id` LIKE '" . $item->id . "' " .
+                    "AND (`defaulttext` LIKE :input OR `uniquename` LIKE :input)", _($item->title), "his_id");
+            } else return NULL;
+
+        };
 
         parent::configure($config);
     }

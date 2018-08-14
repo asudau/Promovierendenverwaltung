@@ -21,8 +21,8 @@ use Studip\Button, Studip\LinkButton;
                     <?=$field_entry->title?>: 
                 </td>
                 <td>
-                    <?php if($field_entry->id == 'abschluss') : ?>
-                    <?= QuickSearch::get("abschluss", $abschluss_suche)
+                    <?php if($field_entry->search_object != NULL) : ?>
+                    <?= QuickSearch::get("abschluss", $field_entry->search_object)
                         ->setInputStyle("width: 240px")
                         //->fireJSFunctionOnSelect('doktoranden_select')
                         //->defaultValue($entry[$field], $fields[$field]['title']) 

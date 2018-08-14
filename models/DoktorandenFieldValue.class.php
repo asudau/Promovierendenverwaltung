@@ -6,7 +6,7 @@
  * @property int        $chdate
  */
 
-class FieldValue extends \SimpleORMap
+class DoktorandenFieldValue extends \SimpleORMap
 {
 
     protected static function configure($config = array())

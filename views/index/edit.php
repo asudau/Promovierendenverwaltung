@@ -22,14 +22,15 @@ use Studip\Button, Studip\LinkButton;
                 </td>
                 <td>
                     <?php if($field_entry->search_object != NULL) : ?>
-                    <?= QuickSearch::get("abschluss", $field_entry->search_object)
+                    <?= QuickSearch::get($field_entry->id, $field_entry->search_object)
                         ->setInputStyle("width: 240px")
                         //->fireJSFunctionOnSelect('doktoranden_select')
-                        //->defaultValue($entry[$field], $fields[$field]['title']) 
+                        ->defaultValue( $entry[$field_entry->id], $field_entry->getValueTextByKey($entry[$field_entry->id])) 
                         ->withButton()
                         ->render();?>
-                     <?php endif ?>
+                    <?php else : ?>
                     <input type='text' name ='<?=$field_entry->id?>' value ='<?= $entry[$field_entry->id]?>'> 
+                    <?php endif ?>
                 </td>
             </tr>
             <?php endforeach ?>

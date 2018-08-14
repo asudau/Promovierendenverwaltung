@@ -1,5 +1,7 @@
 <?php
 
+
+
 /**
  * @author  <asudau@uos.de>
  *
@@ -8,7 +10,7 @@
 
 class DoktorandenFields extends \SimpleORMap
 {
-    private static $values = array('ef011' => array(
+    private static $static_values = array('ef011' => array(
         '148' => 'Sozialwissenschaften', 
         '8' => 'Anglistik / Englisch',
         '48' => 'Elektrotechnik',
@@ -78,12 +80,20 @@ class DoktorandenFields extends \SimpleORMap
     {
         $config['db_table'] = 'doktorandenverwaltung_fields';
         
+        $config['has_many']['values'] = array(
+            'class_name' => 'DoktorandenFieldValue',
+            'assoc_foreign_key' => 'field_id',
+        );
+        
+        
         $config['additional_fields']['search_object']['get'] = function ($item) {
 
-            if (FieldValue::findOneBySQL("field_id LIKE ?", array($item->id))){
-                    return new SQLSearch("SELECT his_id, CONCAT(defaulttext, ' (' , uniquename, ')') as title " .
+            if (DoktorandenFieldValue::findOneBySQL("field_id LIKE ?", array($item->id))){
+                if ($item->value_key != NULL){
+                    return new SQLSearch("SELECT " .$item->value_key. ", CONCAT(defaulttext, ' (' , uniquename, ')') as title " .
                     "FROM doktorandenverwaltung_field_values WHERE `field_id` LIKE '" . $item->id . "' " .
-                    "AND (`defaulttext` LIKE :input OR `uniquename` LIKE :input)", _($item->title), "his_id");
+                    "AND (`defaulttext` LIKE :input OR `uniquename` LIKE :input)", _($item->title), "field_id");
+                }
             } else return NULL;
 
         };
@@ -103,6 +113,13 @@ class DoktorandenFields extends \SimpleORMap
     
     public static function getValueMap() {
          
-        return DoktorandenEntry::$values;
+        return DoktorandenEntry::$static_values;
+    }
+    
+    public function getValueTextByKey($key) {
+        if($this->value_key != NULL){
+            $value = DoktorandenFieldValue::findOneBySQL('field_id = ? AND ' . $this->value_key . ' = ' . $key, array($this->id));
+            return $value['defaulttext'];
+        } else return false;
     }
 }

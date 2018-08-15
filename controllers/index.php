@@ -106,11 +106,15 @@ class IndexController extends StudipController {
     public function save_action($entry_id){
 
         $entry = DoktorandenEntry::findOneBySQL('id = ' . $entry_id);
+        $groupedFields = DoktorandenEntry::getGroupedFields();
         
         if($entry){
-            foreach(DoktorandenEntry::getFieldsMetadata() as $field => $values){
-                if(Request::get($field)){
-                    $entry->$field = Request::get($field);
+            foreach ($groupedFields as $group){
+                foreach ($group['entries'] as $field_entry){
+                    $field = $field_entry->id;
+                    if(Request::get($field)){
+                        $entry->$field = Request::get($field);
+                    }
                 }
             }
             if ($entry->store() !== false) {

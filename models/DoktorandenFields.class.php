@@ -21,7 +21,7 @@ class DoktorandenFields extends \SimpleORMap
         '26' => 'Biologie',
         '150' => 'Spanisch',
         '113' => 'Musikerziehung',
-        '59' => 'Französisch',
+        '59' => 'Franzï¿½sisch',
         '68' => 'Geschichte',
         '50' => 'Geographie / Erdkunde',
         '48' => 'Elektrotechnik',
@@ -42,9 +42,9 @@ class DoktorandenFields extends \SimpleORMap
         '767' => 'Advanced Materials /Biologie',
         '105' => 'Mathematik',
         '128' => 'Physik',
-        '91' => 'Kunst/Kunstpädagogik',
+        '91' => 'Kunst/Kunstpï¿½dagogik',
         '92' =>  'Kunstgeschichte',
-        '114' => 'Bachelor-2-Fächer Musikwissenschaft',
+        '114' => 'Bachelor-2-Fï¿½cher Musikwissenschaft',
         '116' => 'Textiles Gestalten',
         '129' => 'Politikwissenschaft /Politologie',
         '149' => 'Soziologie',
@@ -52,7 +52,7 @@ class DoktorandenFields extends \SimpleORMap
         '175' => 'Diplom(U)Volkswirtschaft',
         '21' => 'Kein AbschComputerlinguistik',
         '30' => 'Internationale Migration und Interkulturelle Beziehungen',
-        '52' => 'Erziehungswissenschaft /Pädagogik',
+        '52' => 'Erziehungswissenschaft /Pï¿½dagogik',
         '809' => 'Politik:Demokratisches Regieren u. Zivilgesellschaft',
         '95' => 'Latein',
         '98' => 'Sport / Sportwissenschaft',
@@ -60,7 +60,7 @@ class DoktorandenFields extends \SimpleORMap
         ),
         
         'ef005' => array(
-            '1' => 'männlich', '2' => 'weiblich'
+            '1' => 'mï¿½nnlich', '2' => 'weiblich'
         ),
         
         'ef008' => array(
@@ -68,7 +68,7 @@ class DoktorandenFields extends \SimpleORMap
         ),
         
         'ef010' => array(
-             '01' => 'Promotion an Hochschulen mit Promotionsrecht (einschl. Kooperation mit anderer Universität in Deutschland)',
+             '01' => 'Promotion an Hochschulen mit Promotionsrecht (einschl. Kooperation mit anderer Universitï¿½t in Deutschland)',
         ),
         
         'ef012' => array(
@@ -109,11 +109,6 @@ class DoktorandenFields extends \SimpleORMap
     public static function getGroupedFields() {
          
         return DoktorandenEntry::$groupedFields;
-    }
-    
-    public static function getValueMap() {
-         
-        return DoktorandenEntry::$static_values;
     }
     
     public function getValueTextByKey($key) {

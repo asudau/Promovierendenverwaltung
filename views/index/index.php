@@ -21,8 +21,8 @@
 
         <?php foreach($fields as $field): ?>
             
-            <?php if ($value_map[$field->id][$entry[$field->id]]) : ?>
-                <td><?= $value_map[$field->id][$entry[$field->id]] ?></td>
+            <?php if ($field->value_key) : ?>
+                <td><?= $field->getValueTextByKey($entry[$field->id]) ?></td>
             <?php else: ?>
                 <td><?= $entry[$field->id] ?></td>
             <?php endif ?>

@@ -25,7 +25,7 @@ class DoktorandenverwaltungAddFieldsTable extends Migration
             PRIMARY KEY (id)
         ) ");
         
-        $query = "INSERT INTO `doktorandenverwaltung_fields` (`id`, `title`, `default`, `overview_position`, `group`, `group_position`, `fill`, `values`, `export`) 
+        $query = "INSERT INTO `doktorandenverwaltung_fields` (`id`, `title`, `default`, `overview_position`, `group`, `group_position`, `fill`, `value_key`, `export`) 
            VALUES 
            ('berichtseinheitid', 'BerichtseinheitID', '5300000', NULL, '', NULL, 'auto', NULL, '1'),
            ('ef001', 'Berichtsland', '03', NULL, NULL, NULL, 'auto', NULL, '1'),

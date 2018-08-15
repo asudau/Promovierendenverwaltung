@@ -9,7 +9,10 @@
 		<tr>
             <th style='width:10%'>Aktionen</th>
             <?php foreach($fields as $field): ?>
-                <th><span><?= $field['title'] ?></span></th>   
+                <th><span><?= $field['name'] ?></span></th>   
+            <?php endforeach ?>
+            <?php foreach($additionalfields as $field => $contents): ?>
+                <th><span><?= $field ?></span></th>   
             <?php endforeach ?>
         <!--<th>Courseware besucht?</th>-->
         </tr>
@@ -18,15 +21,12 @@
     <?php foreach ($entries as $entry): ?>
     <tr>
         <td><a href='<?=$this->controller->url_for('index/edit/' . $entry['id']) ?>' title='Eintrag editieren' data-dialog="size=auto;reload-on-close"><?=Icon::create('edit')?></a><br/></td>
-
         <?php foreach($fields as $field): ?>
-            
-            <?php if ($field->value_key) : ?>
-                <td><?= $field->getValueTextByKey($entry[$field->id]) ?></td>
-            <?php else: ?>
-                <td><?= $entry[$field->id] ?></td>
-            <?php endif ?>
-
+            <? $name = $field['name']; ?>
+            <td><?= $entry->$name ?></td>
+        <?php endforeach ?>
+         <?php foreach($additionalfields as $field => $contents): ?>
+            <td><?= $entry->$field ?></td>   
         <?php endforeach ?>
 
     </tr>

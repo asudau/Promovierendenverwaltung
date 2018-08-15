@@ -12,7 +12,7 @@ class DoktorandenEntry extends \SimpleORMap
         'promotionsdaten' => 'Daten zur Promotion',
         'doktorandendaten'=> 'Doktorandendaten',
         'ersteinschreibung'=> 'Daten zur Ersteinschreibung & HZB',
-        'abschlusspruefung'=> 'Daten zur Promotion berechtigenden Abschlussprï¿½fung');
+        'abschlusspruefung'=> 'Daten zur Promotion berechtigenden Abschlussprüfung');
     
     protected static function configure($config = array())
     {
@@ -70,9 +70,12 @@ class DoktorandenEntry extends \SimpleORMap
         parent::configure($config);
     }
     
-    public static function getHeaderFields() {
-         
-        return DoktorandenEntry::$fields_overview;
+    public function getFields() {
+        return $this->db_fields;
+    }
+    
+    public function getAdditionalFields() {
+        return $this->additional_fields;
     }
     
     public static function getGroupedFields() {

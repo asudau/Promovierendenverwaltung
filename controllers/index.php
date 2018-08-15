@@ -5,7 +5,6 @@ class IndexController extends StudipController {
     {
         parent::__construct($dispatcher);
         $this->plugin = $dispatcher->plugin;
-        Navigation::activateItem('doktorandenverwaltung/index');
         
         $sidebar = Sidebar::Get();
 
@@ -54,6 +53,8 @@ class IndexController extends StudipController {
 
     public function index_action()
     {
+        Navigation::activateItem('doktorandenverwaltung/index');
+        
         if($_SESSION['Doktorandenverwaltung_vars']['abschlussjahr'] != '0' && isset($_SESSION['Doktorandenverwaltung_vars']['abschlussjahr'])){
             //$search_query['abschlussjahr'] = ' `ef014u2` = ' . $_SESSION['Doktorandenverwaltung_vars']['abschlussjahr'];
         }
@@ -69,6 +70,50 @@ class IndexController extends StudipController {
         if ($query == '') $query = 'true';
         
         $this->fields = DoktorandenFields::getHeaderFields();
+        $this->entries = DoktorandenEntry::findBySQL($query); 
+        
+        $sidebar = Sidebar::get();
+        
+        
+        $this->abschlussjahre = array('2016', '2017');
+        $widget = new SelectWidget('Ende der Promotion (Jahr)', PluginEngine::GetURL('doktorandenverwaltung/index'), 'abschlussjahrSelector');
+        $option = new SelectElement('0', _('Alle Abschlussjahre anzeigen'));
+        if (('' ==  $_SESSION['Doktorandenverwaltung_vars']['abschlussjahr']) || ('0' ==  $_SESSION['Doktorandenverwaltung_vars']['abschlussjahr'])) {
+            $option->setActive();
+        }
+        $widget->addElement($option);
+        foreach ($this->abschlussjahre as $aj) {
+            $option = new SelectElement($aj, $aj);
+            if ($aj == $_SESSION['Doktorandenverwaltung_vars']['abschlussjahr']) {
+                $option->setActive();
+            }
+            $widget->addElement($option);
+        }
+        $sidebar->insertWidget($widget, 'pdb_actions');
+        
+                
+    }
+    
+    public function admin_action()
+    {
+        Navigation::activateItem('doktorandenverwaltung/index_admin');
+        if($_SESSION['Doktorandenverwaltung_vars']['abschlussjahr'] != '0' && isset($_SESSION['Doktorandenverwaltung_vars']['abschlussjahr'])){
+            //$search_query['abschlussjahr'] = ' `ef014u2` = ' . $_SESSION['Doktorandenverwaltung_vars']['abschlussjahr'];
+        }
+        if(Request::option('abschlussjahrSelector')){
+            $_SESSION['Doktorandenverwaltung_vars']['abschlussjahr'] = Request::option('abschlussjahrSelector');
+            $search_query['abschlussjahr'] = ' `ef014u2` = ' . Request::option('abschlussjahrSelector');
+        } else $_SESSION['Doktorandenverwaltung_vars']['abschlussjahr'] = 0;
+        
+        $query = '';
+        foreach($search_query as $query_part) {
+            $query .= $query_part;
+        }
+        if ($query == '') $query = 'true';
+        
+        $field = DoktorandenEntry::findOneBySQL('true');
+        $this->fields = $field->getFields();
+        $this->additionalfields = $field->getAdditionalFields();
         $this->entries = DoktorandenEntry::findBySQL($query); 
         
         $sidebar = Sidebar::get();

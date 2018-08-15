@@ -96,7 +96,6 @@ class IndexController extends StudipController {
      public function edit_action($entry_id)
     {
          $this->entry = DoktorandenEntry::findOneBySQL('id = ' . $entry_id);
-         $this->fields = DoktorandenEntry::getFieldsMetadata();
         $this->groupedFields = DoktorandenEntry::getGroupedFields();
 
     }

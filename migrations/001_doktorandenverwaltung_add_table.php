@@ -18,7 +18,7 @@ class DoktorandenverwaltungAddTable extends Migration
 
         // add db-table
         $db->exec("CREATE TABLE IF NOT EXISTS `doktorandenverwaltung` (
-            `id` int(11) NOT NULL,
+            `id` varchar(11) NOT NULL,
             `ef004` varchar(11) NULL,
             `hisinone_person_id` varchar(11) NULL,
             `ef005` varchar(11) NULL,

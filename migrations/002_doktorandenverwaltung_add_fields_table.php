@@ -28,7 +28,7 @@ class DoktorandenverwaltungAddFieldsTable extends Migration
         $query = "INSERT INTO `doktorandenverwaltung_fields` (`id`, `title`, `default`, `overview_position`, `group`, `group_position`, `fill`, `values`, `export`) 
            VALUES 
            ('berichtseinheitid', 'BerichtseinheitID', '5300000', NULL, '', NULL, 'auto', NULL, '1'),
-           ('ef001', 'Berichtsland', '003', NULL, NULL, NULL, 'auto', NULL, '1'),
+           ('ef001', 'Berichtsland', '03', NULL, NULL, NULL, 'auto', NULL, '1'),
            ('ef002', 'Berichtsjahr', NULL, NULL, NULL, NULL, 'auto', NULL, '1'),
            ('hisinone_person_id', 'HISinOne Person.ID', NULL, NULL, NULL, NULL, 'ext', NULL, '0'),
            ('ef003', 'Hochschule der Promotion', '0530', NULL, 'promotionsdaten', '1', 'auto', NULL, '1'),
@@ -45,7 +45,7 @@ class DoktorandenverwaltungAddFieldsTable extends Migration
            ('ef009', 'weitere Staatsangehörigkeit', NULL, NULL, 'doktorandendaten', '9', 'manual_opt', NULL, '1'),
            ('art_promotion', 'Art der Promotion HIOID', NULL, NULL, 'promotionsdaten', '2', 'manual_req', 'his_id', '0'),
            ('ef010', 'Art der Promotion', NULL, NULL, NULL, NULL, 'auto', NULL, '1'),
-           ('promotionsfach', 'Promotionsfach', NULL, NULL, 'promotionsdaten', '2', 'manual_req', 'lid', '0'),
+           ('promotionsfach', 'Promotionsfach', NULL, NULL, 'promotionsdaten', '3', 'manual_req', 'lid', '0'),
            ('ef011', 'Promotionsfach', NULL, '5', NULL, NULL, 'auto', NULL, '1'),
            ('ef012', 'Art der Registrierung als Promovierender', NULL, NULL, 'promotionsdaten', '4', 'manual_req', NULL, '1'),
            ('ef013u1', 'Promotionsbeginn - Monat', NULL, NULL, 'promotionsdaten', '5', 'manual_req', NULL, '1'),
@@ -68,7 +68,7 @@ class DoktorandenverwaltungAddFieldsTable extends Migration
            ('abschluss', 'Abschlussprüfung', NULL, NULL, 'abschlusspruefung', '6', 'manual_req', NULL, '0'),
            ('abschluss_studienfach', 'Studienfach Abschluss', NULL, NULL, 'abschlusspruefung', '7', 'manual_req', 'lid', '0'),
            ('ef026', 'Art der Prüfung', NULL, NULL, NULL, NULL, 'auto', NULL, '1'),
-           ('ef027', '1. Studienfach', NULL, NULL, 'abschlusspruefung', '9', 'manual_req', NULL, '1'),
+           ('ef027', '1. Studienfach', NULL, NULL, NULL, NULL, 'auto', NULL, '1'),
            ('ef028', 'Monat des Prüfungsabschlusses', NULL, NULL, 'abschlusspruefung', '10', 'manual_req', NULL, '1'),
            ('ef029', 'Jahr des Prüfungsabschlusses', NULL, NULL, 'abschlusspruefung', '11', 'manual_req', NULL, '1'),
            ('ef030', 'Gesamtnote', NULL, NULL, 'abschlusspruefung', '12', 'manual_req', NULL, '1'),
@@ -81,7 +81,7 @@ class DoktorandenverwaltungAddFieldsTable extends Migration
            ('ef036', 'frei für landesinterne Angaben', NULL, NULL, NULL, NULL, 'manual_opt', NULL, '1'),
            ('ef037', 'frei für landesinterne Angaben', NULL, NULL, NULL, NULL, 'manual_opt', NULL, '1'),
            ('ef038', 'frei für landesinterne Angaben', NULL, NULL, NULL, NULL, 'manual_opt', NULL, '1'),
-           ('geburtstag', 'Geburtstag', NULL, '4', NULL, NULL, 'generated', NULL, '0')
+           ('geburtstag', 'Geburtstag', NULL, '4', NULL, NULL, 'auto', NULL, '0')
            ";
         
         $db->exec($query);

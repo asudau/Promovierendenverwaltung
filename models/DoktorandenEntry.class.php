@@ -174,9 +174,12 @@ class DoktorandenEntry extends \SimpleORMap
             } else return NULL;
         };
         $config['additional_fields']['ef026']['get'] = function ($item) {
-            if($item['abschluss']){
+            if($item['studienform'] && $item['abschluss']){
+                $field = DoktorandenFields::find('studienform');
+                $studienform = $field->getValueAstatByKey($item['studienform']);
                 $field = DoktorandenFields::find('abschluss');
-                return $field->getValueAstatByKey($item['abschluss']);
+                $abschluss = $field->getValueAstatByKey($item['abschluss']);
+                return $studienform . $abschluss;
             } else return NULL;
         };
         $config['additional_fields']['ef027']['get'] = function ($item) {

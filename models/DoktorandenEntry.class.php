@@ -123,7 +123,7 @@ class DoktorandenEntry extends \SimpleORMap
         ),
         
         'ef005' => array(
-            '1' => 'mï¿½nnlich', '2' => 'weiblich'
+            '1' => 'männlich', '2' => 'weiblich'
         ),
         
         'ef008' => array(
@@ -131,7 +131,7 @@ class DoktorandenEntry extends \SimpleORMap
         ),
         
         'ef010' => array(
-             '01' => 'Promotion an Hochschulen mit Promotionsrecht (einschl. Kooperation mit anderer Universitï¿½t in Deutschland)',
+             '01' => 'Promotion an Hochschulen mit Promotionsrecht (einschl. Kooperation mit anderer Universitïät in Deutschland)',
         ),
         
         'ef012' => array(
@@ -162,21 +162,29 @@ class DoktorandenEntry extends \SimpleORMap
             return '0530';
         };
         $config['additional_fields']['ef010']['get'] = function ($item) {
-            $field = DoktorandenFields::find('art_promotion');
-            return $field->getValueAstatByKey($item['art_promotion']);
+            if($item['art_promotion']){
+                $field = DoktorandenFields::find('art_promotion');
+                return $field->getValueAstatByKey($item['art_promotion']);
+            } else return NULL;
         };
         $config['additional_fields']['ef011']['get'] = function ($item) {
-            $field = DoktorandenFields::find('promotionsfach');
-            return $field->getValueAstatByKey($item['promotionsfach']);
+            if($item['promotionsfach']){
+                $field = DoktorandenFields::find('promotionsfach');
+                return $field->getValueAstatByKey($item['promotionsfach']);
+            } else return NULL;
         };
         $config['additional_fields']['ef026']['get'] = function ($item) {
-            $field = DoktorandenFields::find('abschluss');
-            return $field->getValueAstatByKey($item['abschluss']);
+            if($item['abschluss']){
+                $field = DoktorandenFields::find('abschluss');
+                return $field->getValueAstatByKey($item['abschluss']);
+            } else return NULL;
         };
         $config['additional_fields']['ef027']['get'] = function ($item) {
-            $field = DoktorandenFields::find('abschluss_studienfach');
-            $astat = $field->getValueAstatByKey($item['abschluss_studienfach']);
-            return substr($astat,1);
+            if($item['abschluss_studienfach']){
+                $field = DoktorandenFields::find('abschluss_studienfach');
+                $astat = $field->getValueAstatByKey($item['abschluss_studienfach']);
+                return substr($astat,1);
+            } else return NULL;
         };
 
         parent::configure($config);

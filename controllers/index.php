@@ -10,13 +10,13 @@ class IndexController extends StudipController {
         $sidebar = Sidebar::Get();
 
         $navcreate = new ActionsWidget();
-        $navcreate->addLink("ï¿½bersicht", 'index' );
+        $navcreate->addLink("Übersicht", 'index' );
         $sidebar->addWidget($navcreate);
         
 //        $navcreate = new LinksWidget();
 //        $navcreate->setTitle('Aktionen');
 //        //$attr = array("onclick"=>"showModalNewSupervisorGroupAction()");
-//        //$navcreate->addLink("Ausnahme hinzufï¿½gen", $this::url_for('/index'), Icon::create('add'), $attr);
+//        //$navcreate->addLink("Ausnahme hinzufügen", $this::url_for('/index'), Icon::create('add'), $attr);
 //        // add "add dozent" to infobox
 //        $search_obj = new SQLSearch("SELECT auth_user_md5.user_id, CONCAT(auth_user_md5.nachname, ', ', auth_user_md5.vorname, ' (' , auth_user_md5.email, ')' ) as fullname, username, perms "
 //                            . "FROM auth_user_md5 "
@@ -26,13 +26,13 @@ class IndexController extends StudipController {
 //                            //. "AND auth_user_md5.user_id NOT IN "
 //                            //. "(SELECT supervisor_group_user.user_id FROM supervisor_group_user WHERE supervisor_group_user.supervisor_group_id = '". $supervisorgroupid ."')  "
 //                            . "ORDER BY Vorname, Nachname ",
-//                _("Ausnahme hinzufï¿½gen"), "username");
+//                _("Ausnahme hinzufügen"), "username");
 //        
 //        $mp = MultiPersonSearch::get('unset_user')
-//            ->setLinkText(sprintf(_('Ausnahme hinzufï¿½gen')))
+//            ->setLinkText(sprintf(_('Ausnahme hinzufügen')))
 //            //->setDefaultSelectedUser($filtered_members['dozent']->pluck('user_id'))
 //            ->setLinkIconPath("")
-//            ->setTitle(sprintf(_('Ausnahme hinzufï¿½gen')))
+//            ->setTitle(sprintf(_('Ausnahme hinzufügen')))
 //            ->setExecuteURL($this::url_for('/index/unset'))
 //            ->setSearchObject($search_obj)
 //            //->addQuickfilter(sprintf(_('%s der Einrichtung'), $this->status_groups['dozent']), $membersOfInstitute)
@@ -48,7 +48,7 @@ class IndexController extends StudipController {
     public function before_filter(&$action, &$args)
     {
         parent::before_filter($action, $args);
-        PageLayout::setTitle(_("Doktorandenverwaltung - ï¿½bersicht"));
+        PageLayout::setTitle(_("Doktorandenverwaltung - Übersicht"));
 
     }
 
@@ -95,7 +95,7 @@ class IndexController extends StudipController {
     
      public function edit_action($entry_id)
     {
-         $this->entry = DoktorandenEntry::findOneBySQL('id = ' . $entry_id);
+        $this->entry = DoktorandenEntry::findOneBySQL('id = ' . $entry_id);
         $this->groupedFields = DoktorandenEntry::getGroupedFields();
 
     }
@@ -115,7 +115,7 @@ class IndexController extends StudipController {
                 }
             }
             if ($entry->store() !== false) {
-                $message = MessageBox::success(_('Die ï¿½nderungen wurden ï¿½bernommen.'));
+                $message = MessageBox::success(_('Die Änderungen wurden übernommen.'));
                 PageLayout::postMessage($message);
             }
         } else {
@@ -138,12 +138,12 @@ class IndexController extends StudipController {
             $status_info->account_status = 0;
             UserConfig::get($user_id)->store("EXPIRATION_DATE", NULL);
             if ($status_info->store() !== false) {
-                $message = MessageBox::success(_('Der Nutzer wird auch im Falle lï¿½ngerer Inaktivitï¿½t nicht gelï¿½scht.'));
+                $message = MessageBox::success(_('Der Nutzer wird auch im Falle längerer Inaktivität nicht gelöscht.'));
                 PageLayout::postMessage($message);
             }
         } else {
             $mp = MultiPersonSearch::load('unset_user');
-            # User der Gruppe hinzufï¿½gen
+            # User der Gruppe hinzufügen
             foreach ($mp->getAddedUsers() as $user_id) {
                 $status_info = UsermanagementAccountStatus::find($user_id);
                 if ($status_info){
@@ -151,7 +151,7 @@ class IndexController extends StudipController {
                     $status_info->account_status = 0;
                     UserConfig::get($user_id)->store("EXPIRATION_DATE", NULL);
                     if ($status_info->store() !== false) {
-                        $message = MessageBox::success(_('Der Nutzer wird auch im Falle lï¿½ngerer Inaktivitï¿½t nicht gelï¿½scht.'));
+                        $message = MessageBox::success(_('Der Nutzer wird auch im Falle längerer Inaktivität nicht gelöscht.'));
                         PageLayout::postMessage($message);
                     }
                 } else {
@@ -161,7 +161,7 @@ class IndexController extends StudipController {
                     $status_info->delete_mode = 'nie loeschen'; //wenn nichts anderes bekannt ist das der default delete_mode
                     $status_info->chdate = time();
                     if ($status_info->store() !== false) {
-                        $message = MessageBox::success(_('Der Nutzer wird auch im Falle lï¿½ngerer Inaktivitï¿½t nicht gelï¿½scht.'));
+                        $message = MessageBox::success(_('Der Nutzer wird auch im Falle längerer Inaktivität nicht gelöscht.'));
                         PageLayout::postMessage($message);
                     }
                 }
@@ -178,7 +178,7 @@ class IndexController extends StudipController {
         $status_info->delete_mode = 'aktivitaet';
         $status_info->account_status = 0;
         if ($status_info->store() !== false) {
-            $message = MessageBox::success(_('Der Nutzer wird im Falle von Inaktivitaet gelï¿½scht werden.'));
+            $message = MessageBox::success(_('Der Nutzer wird im Falle von Inaktivitaet gelöscht werden.'));
             PageLayout::postMessage($message);
         }
         $this->redirect($this::url_for('/index'));
@@ -186,7 +186,7 @@ class IndexController extends StudipController {
     }
     
     // customized #url_for for plugins
-    public function url_for($to)
+    public function url_for($to = '')
     {
         $args = func_get_args();
 

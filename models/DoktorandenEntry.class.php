@@ -12,7 +12,7 @@ class DoktorandenEntry extends \SimpleORMap
         'promotionsdaten' => 'Daten zur Promotion',
         'doktorandendaten'=> 'Doktorandendaten',
         'ersteinschreibung'=> 'Daten zur Ersteinschreibung & HZB',
-        'abschlusspruefung'=> 'Daten zur Promotion berechtigenden Abschlussprüfung');
+        'abschlusspruefung'=> 'Daten zur Promotion berechtigenden Abschlussprï¿½fung');
     
     protected static function configure($config = array())
     {
@@ -31,7 +31,9 @@ class DoktorandenEntry extends \SimpleORMap
             return '03';
         };
         $config['additional_fields']['ef002']['get'] = function ($item) {
-            return date('Y', $entry->mkdate);
+            if ($entry->mkdate > 0){
+                return date('Y', $entry->mkdate);
+            } else return false;
         };
         $config['additional_fields']['ef003']['get'] = function ($item) {
             return '0530';

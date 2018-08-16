@@ -11,7 +11,7 @@
                Aktionen
         </th>
             <?php foreach($fields as $field): ?>
-                <th <? if ($sortby === 'completion') printf('class="sort%s"', strtolower($sortFlag)) ?>>
+                <th <? if ($sortby === $field['id']) printf('class="sort%s"', strtolower($sortFlag)) ?>>
                         <a href="<?= URLHelper::getLink('', array('sortby' => $field['id'], 'sortFlag' => strtolower($sortFlag))) ?>" title="<?= $field['title'] ?>">
                             <?= $field['title'] ?>
                         </a>

@@ -26,8 +26,8 @@ class DoktorandenverwaltungFieldValueEntries extends Migration
             (NULL, 'ef017', '0', NULL, '0', 'Nein', NULL),
             (NULL, 'ef018', '1', NULL, '1', 'Monografie', NULL),
             (NULL, 'ef018', '2', NULL, '2', 'publikationsbasierte/kumulative Dissertation', NULL),
-            (NULL, 'ef021', '1', NULL, '1', 'Sommersemester', NULL),
-            (NULL, 'ef021', '2', NULL, '2', 'Wintersemester', NULL),
+            (NULL, 'ef021', '1', NULL, 'SoSe', 'Sommersemester', NULL),
+            (NULL, 'ef021', '2', NULL, 'WiSe', 'Wintersemester', NULL),
             (NULL, 'ef023', '0', NULL, '0', 'wurde noch nicht abgelegt', NULL),
             (NULL, 'ef023', '1', NULL, '1', 'wurde abgelegt und bestanden', NULL)
             ";

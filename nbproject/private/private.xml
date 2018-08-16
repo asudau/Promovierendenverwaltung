@@ -3,11 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/anne/github/Doktorandenverwaltung/migrations/001_doktorandenverwaltung_add_table.php</file>
+            <file>file:/home/anne/github/Doktorandenverwaltung/views/index/admin.php</file>
             <file>file:/home/anne/github/Doktorandenverwaltung/models/DoktorandenEntry.class.php</file>
             <file>file:/home/anne/github/Doktorandenverwaltung/controllers/index.php</file>
-            <file>file:/home/anne/github/Doktorandenverwaltung/migrations/002_doktorandenverwaltung_add_fields_table.php</file>
+            <file>file:/home/anne/github/Doktorandenverwaltung/Doktorandenverwaltung.class.php</file>
             <file>file:/home/anne/github/Doktorandenverwaltung/models/DoktorandenFields.class.php</file>
+            <file>file:/home/anne/github/Doktorandenverwaltung/views/index/index.php</file>
         </group>
     </open-files>
 </project-private>

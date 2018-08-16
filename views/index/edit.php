@@ -17,7 +17,7 @@ use Studip\Button, Studip\LinkButton;
         <table>
             <?php foreach ($group['entries'] as $field_entry): ?>
             <tr> 
-                <td style="width:500px">
+                <td style="width:500px" <? if ($entry->req($field_entry->id)): ?> class='required' <? endif ?> >
                     <?=$field_entry->title?>: 
                 </td>
                 <td>
@@ -44,7 +44,7 @@ use Studip\Button, Studip\LinkButton;
 
     
     <footer data-dialog-button>
-        <?= Button::create(_('ï¿½bernehmen')) ?>
+        <?= Button::create(_('Übernehmen')) ?>
     </footer>
 </form>
 

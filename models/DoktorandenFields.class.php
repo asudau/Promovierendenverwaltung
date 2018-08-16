@@ -40,11 +40,6 @@ class DoktorandenFields extends \SimpleORMap
          
         return self::findBySQL('overview_position > 0 ORDER BY overview_position ASC');
     }
-   
-    public static function getGroupedFields() {
-         
-        return DoktorandenEntry::$groupedFields;
-    }
     
     public function getValueTextByKey($key) {
         if($this->value_key != NULL){
@@ -58,5 +53,9 @@ class DoktorandenFields extends \SimpleORMap
             $value = DoktorandenFieldValue::findOneBySQL('field_id = ? AND ' . $this->value_key . ' = ' . $key, array($this->id));
             return $value['astat_bund'];
         } else return false;
+    }
+    
+    public static function getRequiredFields() {
+        return self::findBySQL("fill = 'manual_req'" );
     }
 }

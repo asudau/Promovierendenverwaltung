@@ -87,5 +87,31 @@ class DoktorandenEntry extends \SimpleORMap
         //return DoktorandenEntry::$groupedFields;
         return $group_array;
     }
+    
+    public function completeProgress(){
+        if ($this->complete_progress > 0){
+            return $this->complete_progress;
+        } else {
+            $req_fields = DoktorandenFields::getRequiredFields();
+            $filled = 0;
+            foreach($req_fields as $field){
+                $field_id = $field->id;
+                if ($this->$field_id){
+                    $filled ++;
+                } 
+            }
+            $this->complete_progress = $filled;
+            $this->store();
+        }
+        return $this->complete_progress;
+    }
 
+    public function req($field){
+        if (DoktorandenFields::find($field)->fill == 'manual_req'){
+            if (!$this->$field || $this->$field == NULL){
+                return true;
+            }
+        } return false;
+    }
+    
 }

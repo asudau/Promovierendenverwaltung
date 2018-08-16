@@ -19,7 +19,7 @@
     <?php foreach ($entries as $entry): ?>
     <tr>
         <td><a href='<?=$this->controller->url_for('index/edit/' . $entry['id']) ?>' title='Eintrag editieren' data-dialog="size=auto;reload-on-close"><?=Icon::create('edit')?></a><br/></td>
-        <td><?= $entry->completeProgress() ?></td>
+        <td title='Noch <?= $number_required_fields-$entry->completeProgress() ?> fehlende Einträge'><?= round($entry->completeProgress()/$number_required_fields, 2)*100 ?>%</td>
         <?php foreach($fields as $field): ?>
             
             <?php if ($field->value_key) : ?>

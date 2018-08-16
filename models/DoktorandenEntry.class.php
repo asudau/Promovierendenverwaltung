@@ -92,8 +92,8 @@ class DoktorandenEntry extends \SimpleORMap
         if ($this->complete_progress > 0){
             return $this->complete_progress;
         } else {
-            $req_fields = DoktorandenFields::getRequiredFields();
             $filled = 0;
+            $req_fields = DoktorandenFields::getRequiredFields();
             foreach($req_fields as $field){
                 $field_id = $field->id;
                 if ($this->$field_id){

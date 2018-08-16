@@ -71,6 +71,7 @@ class IndexController extends StudipController {
         
         $this->fields = DoktorandenFields::getHeaderFields();
         $this->entries = DoktorandenEntry::findBySQL($query); 
+        $this->number_required_fields = sizeof(DoktorandenFields::getRequiredFields());
         
         $sidebar = Sidebar::get();
         
@@ -159,6 +160,18 @@ class IndexController extends StudipController {
                     }
                 }
             }
+            
+            //anzahl required fields aktualisieren
+            $filled = 0;
+            $req_fields = DoktorandenFields::getRequiredFields();
+            foreach($req_fields as $field){
+                $field_id = $field->id;
+                if ($entry->$field_id){
+                    $filled ++;
+                } 
+            }
+            $entry->complete_progress = $filled;
+            
             if ($entry->store() !== false) {
                 $message = MessageBox::success(_('Die Änderungen wurden übernommen.'));
                 PageLayout::postMessage($message);

@@ -4,7 +4,7 @@
     <div>
 <h1></h1>
 
-<table id='doktoranden-entries' class="tablesorter">
+<table id='doktoranden-entries' class="tablesorter default">
     <thead>
 		<tr>
             <th style='width:10%'>Aktionen</th>

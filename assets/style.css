@@ -4,6 +4,7 @@ table.tablesorter thead tr .header {
 	background-repeat: no-repeat;
 	background-position: center right;
 	cursor: pointer;
+        padding-right: 17px;
 }
 
 table.tablesorter thead tr .headerSortUp {
@@ -14,6 +15,9 @@ table.tablesorter thead tr .headerSortDown {
 }
 table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp {
 background-color: #8dbdd8;
+}
+table.tablesorter thead tr{
+    
 }
 
 .quicksearch_frame input[type=submit] {

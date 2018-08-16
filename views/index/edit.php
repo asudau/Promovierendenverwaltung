@@ -22,10 +22,12 @@ use Studip\Button, Studip\LinkButton;
                 </td>
                 <td>
                     <?php if($field_entry->search_object != NULL) : ?>
+                    <? ($entry[$field_entry->id])? $value = $field_entry->getValueTextByKey($entry[$field_entry->id]): $value = NULL; ?>
+                    
                     <?= QuickSearch::get($field_entry->id, $field_entry->search_object)
                         ->setInputStyle("width: 240px")
                         //->fireJSFunctionOnSelect('doktoranden_select')
-                        ->defaultValue( $entry[$field_entry->id], $field_entry->getValueTextByKey($entry[$field_entry->id])) 
+                        ->defaultValue( $entry[$field_entry->id], $value) 
                         ->withButton()
                         ->render();?>
                     <?php else : ?>
@@ -42,7 +44,7 @@ use Studip\Button, Studip\LinkButton;
 
     
     <footer data-dialog-button>
-        <?= Button::create(_('Übernehmen')) ?>
+        <?= Button::create(_('ï¿½bernehmen')) ?>
     </footer>
 </form>
 

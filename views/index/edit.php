@@ -16,13 +16,14 @@ use Studip\Button, Studip\LinkButton;
         <legend><?= $group['title'] ?></legend>
         <table>
             <?php foreach ($group['entries'] as $field_entry): ?>
+            <? ($entry[$field_entry->id])? $value = $field_entry->getValueTextByKey($entry[$field_entry->id]): $value = NULL; ?>
+            
             <tr> 
                 <td style="width:500px" <? if ($entry->req($field_entry->id)): ?> class='required' <? endif ?> >
                     <?=$field_entry->title?>: 
                 </td>
                 <td>
-                    <?php if($field_entry->search_object != NULL) : ?>
-                    <? ($entry[$field_entry->id])? $value = $field_entry->getValueTextByKey($entry[$field_entry->id]): $value = NULL; ?>
+                    <?php if(sizeof($field_entry->values) > 6) : ?>
                     
                     <?= QuickSearch::get($field_entry->id, $field_entry->search_object)
                         ->setInputStyle("width: 240px")
@@ -30,6 +31,16 @@ use Studip\Button, Studip\LinkButton;
                         ->defaultValue( $entry[$field_entry->id], $value) 
                         ->withButton()
                         ->render();?>
+                    
+                    <?php elseif (sizeof($field_entry->values) > 1) : ?>
+                    <select name ='<?=$field_entry->id?>'>
+                        <option value="">-- bitte auswählen --</option>
+                        <?php foreach ($field_entry->values as $entry_value): ?>
+                        <? $key = $field_entry->value_key; ?>
+                            <option <? if ($entry[$field_entry->id] == $entry_value->$key) :?> selected <? endif ?> value="<?= $entry_value->$key ?>"><?= $entry_value->defaulttext?></option>
+                        <?php endforeach ?>
+                    </select>
+                    
                     <?php else : ?>
                     <input type='text' name ='<?=$field_entry->id?>' value ='<?= $entry[$field_entry->id]?>'> 
                     <?php endif ?>

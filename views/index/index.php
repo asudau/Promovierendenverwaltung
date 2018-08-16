@@ -4,18 +4,12 @@
     <div>
 <h1></h1>
 
-<table id='doktoranden-entries' class="default sortable">
+<table id='doktoranden-entries' class="tablesorter">
     <thead>
 		<tr>
-            <th style='width:10%' >
-               Aktionen
-        </th>
+            <th style='width:10%'>Aktionen</th>
             <?php foreach($fields as $field): ?>
-                <th <? if ($sortby === $field['id']) printf('class="sort%s"', strtolower($sortFlag)) ?>>
-                        <a href="<?= URLHelper::getLink('', array('sortby' => $field['id'], 'sortFlag' => strtolower($sortFlag))) ?>" title="<?= $field['title'] ?>">
-                            <?= $field['title'] ?>
-                        </a>
-                </th>   
+                <th><span><?= $field['title'] ?></span></th>   
             <?php endforeach ?>
         <!--<th>Courseware besucht?</th>-->
         </tr>

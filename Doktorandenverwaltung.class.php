@@ -40,7 +40,6 @@ class Doktorandenverwaltung extends StudipPlugin implements AdministrationPlugin
     public function initialize ()
     {
         PageLayout::addStylesheet($this->getPluginURL().'/assets/style.css');
-        PageLayout::addScript($this->getPluginURL().'/assets/jquery.tablesorter.js');
         
     }
 

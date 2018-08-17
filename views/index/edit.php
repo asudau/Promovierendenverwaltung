@@ -23,7 +23,7 @@ use Studip\Button, Studip\LinkButton;
                     <?=$field_entry->title?>: 
                 </td>
                 <td>
-                    <?php if(sizeof($field_entry->values) > 6) : ?>
+                    <?php if(sizeof($field_entry->values) > 11) : ?>
                     
                     <?= QuickSearch::get($field_entry->id, $field_entry->search_object)
                         ->setInputStyle("width: 240px")
@@ -69,6 +69,18 @@ use Studip\Button, Studip\LinkButton;
         //alert($('#abschluss_1').val());
         //$('.abschluss').val($('#abschluss_1').val);
     }
+    
+    $(function() {
+            $('.mydate-picker').datepicker( {
+            changeMonth: true,
+            changeYear: true,
+            showButtonPanel: true,
+            dateFormat: 'MM yy',
+            onClose: function(dateText, inst) { 
+                $(this).datepicker('setDate', new Date(inst.selectedYear, inst.selectedMonth, 1));
+            }
+            });
+        });
     
 
 </script>

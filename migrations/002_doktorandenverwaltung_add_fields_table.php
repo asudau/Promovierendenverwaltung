@@ -35,9 +35,9 @@ class DoktorandenverwaltungAddFieldsTable extends Migration
            ('ef004', 'Paginiernummer', NULL, NULL, NULL, NULL, 'auto', NULL, '1'),
            ('id', 'Paginiernummer_int', NULL, NULL, NULL, NULL, 'auto', NULL, '1'),
            ('ef005', 'Geschlecht', NULL, '1', 'doktorandendaten', '1', 'manual_req', 'his_id', '1'),
-           ('ef006u1', 'Geburtsdatum - Tag', NULL, NULL, 'doktorandendaten', '2', 'manual_req', NULL, '1'),
-           ('ef006u2', 'Geburtsdatum - Monat', NULL, NULL, 'doktorandendaten', '3', 'manual_req', NULL, '1'),
-           ('ef006u3', 'Geburtsdatum - Jahr', NULL, NULL, 'doktorandendaten', '4', 'manual_req', NULL, '1'),
+           ('ef006u1', 'Geburtsdatum - Tag', NULL, NULL, NULL, NULL, 'manual_req', NULL, '1'),
+           ('ef006u2', 'Geburtsdatum - Monat', NULL, NULL, NULL, NULL, NULL, 'manual_req', NULL, '1'),
+           ('ef006u3', 'Geburtsdatum - Jahr', NULL, NULL, NULL, NULL, NULL, 'manual_req', NULL, '1'),
            ('vorname', 'Vorname', NULL, '2', 'doktorandendaten', '5', 'manual_req', NULL, '0'),
            ('nachname', 'Nachname', NULL, '3', 'doktorandendaten', '6', 'manual_req', NULL, '0'),
            ('ef007', 'Name', NULL, NULL, 'doktorandendaten', '7', 'manual_req', NULL, '1'),
@@ -60,7 +60,7 @@ class DoktorandenverwaltungAddFieldsTable extends Migration
            ('ef019', 'Hochschule (Ersteinschreibung)', NULL, NULL, 'ersteinschreibung', '1', 'manual_req', NULL, '1'),
            ('ef020', 'Bei Ersteinschreibung an einer Hochschule ausserhalb Deutschlands, der Staat der Hochschule', NULL, NULL, 'ersteinschreibung', '2', 'manual_req', NULL, '1'),
            ('ef021', 'Semester', NULL, NULL, 'ersteinschreibung', '3', 'manual_req', 'his_id', '1'),
-           ('ef022', 'Jahr', NULL, NULL, 'ersteinschreibung', '4', 'manual_req', NULL, '1'),
+           ('ef022', 'Jahr der Ersteinschreibung', NULL, NULL, 'ersteinschreibung', '4', 'manual_req', NULL, '1'),
            ('ef023', 'Zur Promotion berechtigende Abschlussprüfung', NULL, NULL, 'abschlusspruefung', '1', 'manual_req', 'his_id', '1'),
            ('ef024', 'Hochschule', NULL, NULL, 'abschlusspruefung', '2', 'manual_req', NULL, '1'),
            ('ef025', 'Wenn Hochschule der zur Promotion berechtigenden, vorangegangenen bestandenen Abschlussprüfung außerhalb Deutschlands, der Staat der Hochschule', NULL, NULL, 'abschlusspruefung', '3', 'manual_req', NULL, '1'),
@@ -81,7 +81,7 @@ class DoktorandenverwaltungAddFieldsTable extends Migration
            ('ef036', 'frei für landesinterne Angaben', NULL, NULL, NULL, NULL, 'manual_opt', NULL, '1'),
            ('ef037', 'frei für landesinterne Angaben', NULL, NULL, NULL, NULL, 'manual_opt', NULL, '1'),
            ('ef038', 'frei für landesinterne Angaben', NULL, NULL, NULL, NULL, 'manual_opt', NULL, '1'),
-           ('geburtstag', 'Geburtstag', NULL, '4', NULL, NULL, 'auto', NULL, '0')
+           ('geburtstag', 'Geburtstag', NULL, '4', 'doktorandendaten', '2', 'manual_req', NULL, '0')
            ";
         
         $db->exec($query);

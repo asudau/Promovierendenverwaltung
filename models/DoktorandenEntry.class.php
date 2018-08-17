@@ -19,7 +19,13 @@ class DoktorandenEntry extends \SimpleORMap
         $config['db_table'] = 'doktorandenverwaltung';
         
         $config['additional_fields']['geburtstag']['get'] = function ($item) {
-            return date('d.m.Y', mktime(0, 0, 0, $item->ef006u1, $item->ef006u2, $item->ef006u3));
+            return date('d.m.Y', mktime(0, 0, 0, $item->ef006u2, $item->ef006u1, $item->ef006u3));
+        };
+        $config['additional_fields']['geburtstag']['set'] = function ($item, $field, $data) {
+            $time = strtotime ($data);
+            $item->ef006u1 = date("d", $time);
+            $item->ef006u2 = date("m", $time);
+            $item->ef006u3 = date("Y", $time);
         };
         $config['additional_fields']['geburtstag_time']['get'] = function ($item) {
             return mktime(0, 0, 0, $item->ef006u1, $item->ef006u2, $item->ef006u3);

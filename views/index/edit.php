@@ -41,6 +41,8 @@ use Studip\Button, Studip\LinkButton;
                         <?php endforeach ?>
                     </select>
                     
+                    <?php elseif ($field_entry->id == 'geburtstag') : ?>
+                    <input type='text' name ='<?=$field_entry->id?>' data-date-picker value ='<?= $entry[$field_entry->id]?>'>
                     <?php else : ?>
                     <input type='text' name ='<?=$field_entry->id?>' value ='<?= $entry[$field_entry->id]?>'> 
                     <?php endif ?>

@@ -102,7 +102,7 @@ class DoktorandenEntry extends \SimpleORMap
             $req_fields = DoktorandenFields::getRequiredFields();
             foreach($req_fields as $field){
                 $field_id = $field->id;
-                if ($this->$field_id){
+                if ($this->$field_id != NULL){
                     $filled ++;
                 } 
             }
@@ -114,7 +114,7 @@ class DoktorandenEntry extends \SimpleORMap
 
     public function req($field){
         if (DoktorandenFields::find($field)->fill == 'manual_req'){
-            if (!$this->$field || $this->$field == NULL){
+            if ($this->$field == NULL){
                 return true;
             }
         } return false;

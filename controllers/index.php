@@ -156,7 +156,7 @@ class IndexController extends StudipController {
                 foreach ($group['entries'] as $field_entry){
                     $field = $field_entry->id;
                     if(Request::get($field)){
-                        $entry->$field = Request::get($field);
+                        $entry->$field = studip_utf8decode(Request::get($field));
                     }
                 }
             }

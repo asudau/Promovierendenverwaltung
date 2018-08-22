@@ -40,7 +40,7 @@ class DoktorandenverwaltungAddFieldsTable extends Migration
            ('ef006u3', 'Geburtsdatum - Jahr', NULL, NULL, NULL, NULL, NULL, 'manual_req', NULL, '1'),
            ('vorname', 'Vorname', NULL, '2', 'doktorandendaten', '5', 'manual_req', NULL, '0'),
            ('nachname', 'Nachname', NULL, '3', 'doktorandendaten', '6', 'manual_req', NULL, '0'),
-           ('ef007', 'Name', NULL, NULL, 'doktorandendaten', '7', 'manual_req', NULL, '1'),
+           ('ef007', 'Name', NULL, NULL, NULL, NULL, 'auto', NULL, '1'),
            ('ef008', 'Staatsangehörigkeit', NULL, NULL, 'doktorandendaten', '8', 'manual_req', 'his_id', '1'),
            ('ef009', 'weitere Staatsangehörigkeit', NULL, NULL, 'doktorandendaten', '9', 'manual_opt', NULL, '1'),
            ('art_promotion', 'Art der Promotion', NULL, NULL, 'promotionsdaten', '2', 'manual_req', 'his_id', '0'),

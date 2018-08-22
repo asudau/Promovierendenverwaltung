@@ -9,7 +9,7 @@ class IndexController extends StudipController {
         $sidebar = Sidebar::Get();
 
         $navcreate = new ActionsWidget();
-        $navcreate->addLink("ï¿½bersicht", 'index' );
+        $navcreate->addLink("Übersicht", 'index' );
         $navcreate->addLink(_('Neuer Eintrag'),
                               $this->url_for('index/new'),
                               Icon::create('seminar+add', 'clickable'))->asDialog('size=50%');
@@ -53,7 +53,7 @@ class IndexController extends StudipController {
     public function before_filter(&$action, &$args)
     {
         parent::before_filter($action, $args);
-        PageLayout::setTitle(_("Doktorandenverwaltung - ï¿½bersicht"));
+        PageLayout::setTitle(_("Doktorandenverwaltung - Übersicht"));
 
     }
 
@@ -166,7 +166,10 @@ class IndexController extends StudipController {
 
         if ($entry_id){
             $entry = DoktorandenEntry::findOneBySQL('id = ' . $entry_id);
-        } else $entry = new DoktorandenEntry();
+        } else {
+            $entry = new DoktorandenEntry();
+            $entry->id = $entry->getNextId();
+        }
         $groupedFields = DoktorandenEntry::getGroupedFields();
         
         if($entry){
@@ -191,12 +194,20 @@ class IndexController extends StudipController {
             $entry->complete_progress = $filled;
             
             if ($entry->store() !== false) {
-                $message = MessageBox::success(_('Die ï¿½nderungen wurden ï¿½bernommen.'));
+                $entry->setup();
+                $message = MessageBox::success(_('Die Änderungen wurden übernommen.'));
                 PageLayout::postMessage($message);
-            }
+            } else if ($entry->id != $entry->getNextId()){
+                $entry->id = $entry->getNextId();
+                $entry->store();
+                $entry->setup();
+            } 
+                
         } else {
+
             $message = MessageBox::success(_('Kein Eintrag mit dieser ID vorhanden'));
             PageLayout::postMessage($message);
+            
         }
         
        

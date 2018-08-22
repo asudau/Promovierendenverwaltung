@@ -206,60 +206,36 @@ class IndexController extends StudipController {
           
     }
     
-    public function unset_action($user_id){
+    public function export_action()
+    {
+        
+        $doktoranden_entries = DoktorandenEntry::findBySQL('true');
+        
+        if (!empty($doktoranden_entries)) {
+            $xls = new ExcelExport();
 
-         if ($user_id){
-            $status_info = UsermanagementAccountStatus::find($user_id);
-            $status_info->delete_mode = 'nie loeschen';
-            $status_info->account_status = 0;
-            UserConfig::get($user_id)->store("EXPIRATION_DATE", NULL);
-            if ($status_info->store() !== false) {
-                $message = MessageBox::success(_('Der Nutzer wird auch im Falle l�ngerer Inaktivit�t nicht gel�scht.'));
-                PageLayout::postMessage($message);
+            $xls->addRow(DoktorandenFields::getExportHeaderArray());
+
+            foreach ($doktoranden_entries as $entry) {
+                $xls->addRow(self::handleSingleRow($entry));
             }
-        } else {
-            $mp = MultiPersonSearch::load('unset_user');
-            # User der Gruppe hinzuf�gen
-            foreach ($mp->getAddedUsers() as $user_id) {
-                $status_info = UsermanagementAccountStatus::find($user_id);
-                if ($status_info){
-                    $status_info->delete_mode = 'nie loeschen';
-                    $status_info->account_status = 0;
-                    UserConfig::get($user_id)->store("EXPIRATION_DATE", NULL);
-                    if ($status_info->store() !== false) {
-                        $message = MessageBox::success(_('Der Nutzer wird auch im Falle l�ngerer Inaktivit�t nicht gel�scht.'));
-                        PageLayout::postMessage($message);
-                    }
-                } else {
-                    $status_info = new UsermanagementAccountStatus();
-                    $status_info->user_id = $user_id;
-                    $status_info->account_status = 0;
-                    $status_info->delete_mode = 'nie loeschen'; //wenn nichts anderes bekannt ist das der default delete_mode
-                    $status_info->chdate = time();
-                    if ($status_info->store() !== false) {
-                        $message = MessageBox::success(_('Der Nutzer wird auch im Falle l�ngerer Inaktivit�t nicht gel�scht.'));
-                        PageLayout::postMessage($message);
-                    }
-                }
-            }
+            $xls->download('Export_'
+                    . date("d-m-y") . '.xls');
         }
-       
-        $this->redirect($this::url_for('/index'));
-          
+        $this->render_nothing();
     }
     
-     public function set_action($user_id){
-
-        $status_info = UsermanagementAccountStatus::find($user_id);
-        $status_info->delete_mode = 'aktivitaet';
-        $status_info->account_status = 0;
-        if ($status_info->store() !== false) {
-            $message = MessageBox::success(_('Der Nutzer wird im Falle von Inaktivitaet gel�scht werden.'));
-            PageLayout::postMessage($message);
+     static function handleSingleRow($entry)
+    {
+        $rowData = array();
+        $fields = DoktorandenFields::getExportHeaderArray();
+        foreach($fields as $field){
+            $rowData[] = $entry->$field;
         }
-        $this->redirect($this::url_for('/index'));
-          
+
+        return $rowData;
     }
+
     
     // customized #url_for for plugins
     public function url_for($to = '')

@@ -42,7 +42,7 @@ use Studip\Button, Studip\LinkButton;
                     </select>
                     
                     <?php elseif ($field_entry->id == 'geburtstag') : ?>
-                    <input type='text' name ='<?=$field_entry->id?>' data-date-picker value ='<?= $entry[$field_entry->id]?>'>
+                    <input type='text' name ='<?=$field_entry->id?>' data-date-picker value ='<?= $entry[$field_entry->id] ? $entry[$field_entry->id] : ''?>'>
                     <?php else : ?>
                     <input type='text' name ='<?=$field_entry->id?>' value ='<?= $entry[$field_entry->id]?>'> 
                     <?php endif ?>

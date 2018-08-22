@@ -9,13 +9,19 @@ class IndexController extends StudipController {
         $sidebar = Sidebar::Get();
 
         $navcreate = new ActionsWidget();
-        $navcreate->addLink("Übersicht", 'index' );
+        $navcreate->addLink("ï¿½bersicht", 'index' );
+        $navcreate->addLink(_('Neuer Eintrag'),
+                              $this->url_for('index/new'),
+                              Icon::create('seminar+add', 'clickable'))->asDialog('size=50%');
+        $navcreate->addLink(_('Exportieren'),
+                              $this->url_for('index/export'),
+                              Icon::create('seminar+add', 'clickable'));
         $sidebar->addWidget($navcreate);
         
 //        $navcreate = new LinksWidget();
 //        $navcreate->setTitle('Aktionen');
 //        //$attr = array("onclick"=>"showModalNewSupervisorGroupAction()");
-//        //$navcreate->addLink("Ausnahme hinzufügen", $this::url_for('/index'), Icon::create('add'), $attr);
+//        //$navcreate->addLink("Ausnahme hinzufï¿½gen", $this::url_for('/index'), Icon::create('add'), $attr);
 //        // add "add dozent" to infobox
 //        $search_obj = new SQLSearch("SELECT auth_user_md5.user_id, CONCAT(auth_user_md5.nachname, ', ', auth_user_md5.vorname, ' (' , auth_user_md5.email, ')' ) as fullname, username, perms "
 //                            . "FROM auth_user_md5 "
@@ -25,13 +31,13 @@ class IndexController extends StudipController {
 //                            //. "AND auth_user_md5.user_id NOT IN "
 //                            //. "(SELECT supervisor_group_user.user_id FROM supervisor_group_user WHERE supervisor_group_user.supervisor_group_id = '". $supervisorgroupid ."')  "
 //                            . "ORDER BY Vorname, Nachname ",
-//                _("Ausnahme hinzufügen"), "username");
+//                _("Ausnahme hinzufï¿½gen"), "username");
 //        
 //        $mp = MultiPersonSearch::get('unset_user')
-//            ->setLinkText(sprintf(_('Ausnahme hinzufügen')))
+//            ->setLinkText(sprintf(_('Ausnahme hinzufï¿½gen')))
 //            //->setDefaultSelectedUser($filtered_members['dozent']->pluck('user_id'))
 //            ->setLinkIconPath("")
-//            ->setTitle(sprintf(_('Ausnahme hinzufügen')))
+//            ->setTitle(sprintf(_('Ausnahme hinzufï¿½gen')))
 //            ->setExecuteURL($this::url_for('/index/unset'))
 //            ->setSearchObject($search_obj)
 //            //->addQuickfilter(sprintf(_('%s der Einrichtung'), $this->status_groups['dozent']), $membersOfInstitute)
@@ -47,7 +53,7 @@ class IndexController extends StudipController {
     public function before_filter(&$action, &$args)
     {
         parent::before_filter($action, $args);
-        PageLayout::setTitle(_("Doktorandenverwaltung - Übersicht"));
+        PageLayout::setTitle(_("Doktorandenverwaltung - ï¿½bersicht"));
 
     }
 
@@ -146,9 +152,21 @@ class IndexController extends StudipController {
 
     }
 
+    public function new_action()
+    {
+        $this->entry = new DoktorandenEntry();
+        //$this->entry->store();
+        //$this->new = true;
+        
+        $this->groupedFields = DoktorandenEntry::getGroupedFields();
+        $this->render_action('edit');
+    }
+
     public function save_action($entry_id){
 
-        $entry = DoktorandenEntry::findOneBySQL('id = ' . $entry_id);
+        if ($entry_id){
+            $entry = DoktorandenEntry::findOneBySQL('id = ' . $entry_id);
+        } else $entry = new DoktorandenEntry();
         $groupedFields = DoktorandenEntry::getGroupedFields();
         
         if($entry){
@@ -173,7 +191,7 @@ class IndexController extends StudipController {
             $entry->complete_progress = $filled;
             
             if ($entry->store() !== false) {
-                $message = MessageBox::success(_('Die Änderungen wurden übernommen.'));
+                $message = MessageBox::success(_('Die ï¿½nderungen wurden ï¿½bernommen.'));
                 PageLayout::postMessage($message);
             }
         } else {
@@ -196,12 +214,12 @@ class IndexController extends StudipController {
             $status_info->account_status = 0;
             UserConfig::get($user_id)->store("EXPIRATION_DATE", NULL);
             if ($status_info->store() !== false) {
-                $message = MessageBox::success(_('Der Nutzer wird auch im Falle längerer Inaktivität nicht gelöscht.'));
+                $message = MessageBox::success(_('Der Nutzer wird auch im Falle lï¿½ngerer Inaktivitï¿½t nicht gelï¿½scht.'));
                 PageLayout::postMessage($message);
             }
         } else {
             $mp = MultiPersonSearch::load('unset_user');
-            # User der Gruppe hinzufügen
+            # User der Gruppe hinzufï¿½gen
             foreach ($mp->getAddedUsers() as $user_id) {
                 $status_info = UsermanagementAccountStatus::find($user_id);
                 if ($status_info){
@@ -209,7 +227,7 @@ class IndexController extends StudipController {
                     $status_info->account_status = 0;
                     UserConfig::get($user_id)->store("EXPIRATION_DATE", NULL);
                     if ($status_info->store() !== false) {
-                        $message = MessageBox::success(_('Der Nutzer wird auch im Falle längerer Inaktivität nicht gelöscht.'));
+                        $message = MessageBox::success(_('Der Nutzer wird auch im Falle lï¿½ngerer Inaktivitï¿½t nicht gelï¿½scht.'));
                         PageLayout::postMessage($message);
                     }
                 } else {
@@ -219,7 +237,7 @@ class IndexController extends StudipController {
                     $status_info->delete_mode = 'nie loeschen'; //wenn nichts anderes bekannt ist das der default delete_mode
                     $status_info->chdate = time();
                     if ($status_info->store() !== false) {
-                        $message = MessageBox::success(_('Der Nutzer wird auch im Falle längerer Inaktivität nicht gelöscht.'));
+                        $message = MessageBox::success(_('Der Nutzer wird auch im Falle lï¿½ngerer Inaktivitï¿½t nicht gelï¿½scht.'));
                         PageLayout::postMessage($message);
                     }
                 }
@@ -236,7 +254,7 @@ class IndexController extends StudipController {
         $status_info->delete_mode = 'aktivitaet';
         $status_info->account_status = 0;
         if ($status_info->store() !== false) {
-            $message = MessageBox::success(_('Der Nutzer wird im Falle von Inaktivitaet gelöscht werden.'));
+            $message = MessageBox::success(_('Der Nutzer wird im Falle von Inaktivitaet gelï¿½scht werden.'));
             PageLayout::postMessage($message);
         }
         $this->redirect($this::url_for('/index'));

@@ -39,9 +39,7 @@ class DoktorandenEntry extends \SimpleORMap
             return '03';
         };
         $config['additional_fields']['ef002']['get'] = function ($item) {
-            if ($entry->mkdate > 0){
-                return date('Y', $entry->mkdate);
-            } else return false;
+            return date('Y', time());
         };
         $config['additional_fields']['ef003']['get'] = function ($item) {
             return '0530';

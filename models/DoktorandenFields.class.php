@@ -22,8 +22,7 @@ class DoktorandenFields extends \SimpleORMap
         
         
         $config['additional_fields']['search_object']['get'] = function ($item) {
-
-            if (DoktorandenFieldValue::findOneBySQL("field_id LIKE ?", array($item->id))){
+            if (DoktorandenFieldValue::findOneBySQL("field_id LIKE ?", array($item->getIdOfValues()))){
                 if ($item->value_key != NULL){
                     return new SQLSearch("SELECT " .$item->value_key. ", CONCAT(defaulttext, ' (' , uniquename, ')') as title " .
                     "FROM doktorandenverwaltung_field_values WHERE `field_id` LIKE '" . $item->id . "' " .
@@ -41,16 +40,24 @@ class DoktorandenFields extends \SimpleORMap
         return self::findBySQL('overview_position > 0 ORDER BY overview_position ASC');
     }
     
-    public function getValueTextByKey($key) {
-        if($this->value_key != NULL){
-            $value = DoktorandenFieldValue::findOneBySQL('field_id = ? AND ' . $this->value_key . ' = ' . $key, array($this->id));
+    public static function getExportHeaderArray(){
+        $fields = self::findBySQL('export = 1');
+        $array = array();
+        foreach($fields as $field){
+            $array[] = $field['id'];
+        }return $array;    
+    }
+    
+    public function getValueTextByKey($key = null) {
+        if($this->value_key != NULL && $key){
+            $value = DoktorandenFieldValue::findOneBySQL('field_id = ? AND ' . $this->value_key . ' = ' . $key, array($this->getIdOfValues()));
             return $value['defaulttext'];
         } else return false;
     }
     
-    public function getValueAstatByKey($key){
-        if($this->value_key != NULL){
-            $value = DoktorandenFieldValue::findOneBySQL('field_id = ? AND ' . $this->value_key . ' = ' . $key, array($this->id));
+    public function getValueAstatByKey($key = null){
+        if($this->value_key != NULL && $key){
+            $value = DoktorandenFieldValue::findOneBySQL('field_id = ? AND ' . $this->value_key . ' = ' . $key, array($this->getIdOfValues()));
             return $value['astat_bund'];
         } else return false;
     }
@@ -58,4 +65,9 @@ class DoktorandenFields extends \SimpleORMap
     public static function getRequiredFields() {
         return self::findBySQL("fill = 'manual_req'" );
     }
+    
+    public function getIdOfValues(){
+      return $this->value_id ? $this->value_id : $this->id;
+    }
+       
 }

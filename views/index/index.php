@@ -2,24 +2,22 @@
 
 <body>
     <div>
-<h1></h1>
+<h1><?= sizeof($entries) ?> Einträge</h1>
 
 <table id='doktoranden-entries' class="tablesorter default">
     <thead>
 		<tr>
-            <th style='width:10%'>Aktionen</th>
-            <th style='width:10%'>Status</th>
             <?php foreach($fields as $field): ?>
                 <th><span><?= $field['title'] ?></span></th>   
             <?php endforeach ?>
-        <!--<th>Courseware besucht?</th>-->
+            <th style='width:10%'>Status</th>    
+            <th style='width:10%'>Aktionen</th>
         </tr>
     </thead>
     <tbody>
     <?php foreach ($entries as $entry): ?>
     <tr>
-        <td><a href='<?=$this->controller->url_for('index/edit/' . $entry['id']) ?>' title='Eintrag editieren' data-dialog="size=auto;reload-on-close"><?=Icon::create('edit')?></a><br/></td>
-        <td title='Noch <?= $number_required_fields-$entry->completeProgress() ?> fehlende Einträge'><?= round($entry->completeProgress()/$number_required_fields, 2)*100 ?>%</td>
+        <a href='<?=$this->controller->url_for('index/edit/' . $entry['id']) ?>' title='Eintrag editieren' data-dialog="size=big">
         <?php foreach($fields as $field): ?>
             
             <?php if ($field->value_key) : ?>
@@ -29,7 +27,9 @@
             <?php endif ?>
 
         <?php endforeach ?>
-
+        <td title='Noch <?= $number_required_fields-$entry->completeProgress() ?> fehlende Einträge'><?= round($entry->completeProgress()/$number_required_fields, 2)*100 ?>%</td>
+        <td><a href='<?=$this->controller->url_for('index/edit/' . $entry['id']) ?>' title='Eintrag editieren' data-dialog="size=big"><?=Icon::create('edit')?></a><br/></td>
+        </a>
     </tr>
     <?php endforeach ?>
     </tbody>

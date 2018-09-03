@@ -7,7 +7,7 @@ use Studip\Button, Studip\LinkButton;
 
 <h1>Eintrag bearbeiten</h1>
 
-<form data-dialog="size=auto;reload-on-close" style="width:1000px" name="course-settings" name="settings" method="post" action="<?= $controller->url_for('index/save', $entry->id) ?>" <?= $dialog_attr ?> class="default collapsable">
+<form name="course-settings" name="settings" method="post" action="<?= $controller->url_for('index/save', $entry->id) ?>" <?= $dialog_attr ?> class="default collapsable">
     <?= CSRFProtection::tokenTag() ?>
     <input id="open_variable" type="hidden" name="open" value="<?= $flash['open'] ?>">
     
@@ -18,12 +18,12 @@ use Studip\Button, Studip\LinkButton;
             <?php foreach ($group['entries'] as $field_entry): ?>
             <? ($entry[$field_entry->id])? $value = $field_entry->getValueTextByKey($entry[$field_entry->id]): $value = NULL; ?>
             
-            <tr> 
+            <tr>
                 <td style="width:500px" <? if ($entry->req($field_entry->id)): ?> class='required' <? endif ?> >
                     <?=$field_entry->title?>: 
                 </td>
-                <td>
-                    <?php if(sizeof($field_entry->values) > 11) : ?>
+                <td style="width:700px">
+                    <?php if(sizeof($field_entry->values) > 1104) : ?>
                     
                     <?= QuickSearch::get($field_entry->id, $field_entry->search_object)
                         ->setInputStyle("width: 240px")
@@ -33,7 +33,7 @@ use Studip\Button, Studip\LinkButton;
                         ->render();?>
                     
                     <?php elseif (sizeof($field_entry->values) > 1) : ?>
-                    <select name ='<?=$field_entry->id?>'>
+                    <select class='nested-select' name ='<?=$field_entry->id?>'>
                         <option value="">-- bitte auswählen --</option>
                         <?php foreach ($field_entry->values as $entry_value): ?>
                         <? $key = $field_entry->value_key; ?>
@@ -63,12 +63,6 @@ use Studip\Button, Studip\LinkButton;
 
 
 <script>
-
-    jQuery('.quicksearch_frame').autocomplete({ minLength: 1 });
-    function doktoranden_select(){
-        //alert($('#abschluss_1').val());
-        //$('.abschluss').val($('#abschluss_1').val);
-    }
     
     $(function() {
             $('.mydate-picker').datepicker( {

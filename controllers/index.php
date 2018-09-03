@@ -12,42 +12,12 @@ class IndexController extends StudipController {
         $navcreate->addLink("Übersicht", 'index' );
         $navcreate->addLink(_('Neuer Eintrag'),
                               $this->url_for('index/new'),
-                              Icon::create('seminar+add', 'clickable'))->asDialog('size=50%');
+                              Icon::create('seminar+add', 'clickable'))->asDialog('size=70%');
         $navcreate->addLink(_('Exportieren'),
                               $this->url_for('index/export'),
                               Icon::create('seminar+add', 'clickable'));
         $sidebar->addWidget($navcreate);
         
-//        $navcreate = new LinksWidget();
-//        $navcreate->setTitle('Aktionen');
-//        //$attr = array("onclick"=>"showModalNewSupervisorGroupAction()");
-//        //$navcreate->addLink("Ausnahme hinzufï¿½gen", $this::url_for('/index'), Icon::create('add'), $attr);
-//        // add "add dozent" to infobox
-//        $search_obj = new SQLSearch("SELECT auth_user_md5.user_id, CONCAT(auth_user_md5.nachname, ', ', auth_user_md5.vorname, ' (' , auth_user_md5.email, ')' ) as fullname, username, perms "
-//                            . "FROM auth_user_md5 "
-//                            . "WHERE (CONCAT(auth_user_md5.Vorname, \" \", auth_user_md5.Nachname) LIKE :input "
-//                            . "OR CONCAT(auth_user_md5.Nachname, \" \", auth_user_md5.Vorname) LIKE :input "
-//                            . "OR auth_user_md5.username LIKE :input)"
-//                            //. "AND auth_user_md5.user_id NOT IN "
-//                            //. "(SELECT supervisor_group_user.user_id FROM supervisor_group_user WHERE supervisor_group_user.supervisor_group_id = '". $supervisorgroupid ."')  "
-//                            . "ORDER BY Vorname, Nachname ",
-//                _("Ausnahme hinzufï¿½gen"), "username");
-//        
-//        $mp = MultiPersonSearch::get('unset_user')
-//            ->setLinkText(sprintf(_('Ausnahme hinzufï¿½gen')))
-//            //->setDefaultSelectedUser($filtered_members['dozent']->pluck('user_id'))
-//            ->setLinkIconPath("")
-//            ->setTitle(sprintf(_('Ausnahme hinzufï¿½gen')))
-//            ->setExecuteURL($this::url_for('/index/unset'))
-//            ->setSearchObject($search_obj)
-//            //->addQuickfilter(sprintf(_('%s der Einrichtung'), $this->status_groups['dozent']), $membersOfInstitute)
-//            //->setNavigationItem('/')
-//            ->render();
-//        $element = LinkElement::fromHTML($mp, Icon::create('community+add', 'clickable'));
-//        $navcreate->addElement($element);
-//        
-//        $sidebar = Sidebar::Get();
-//        $sidebar->addWidget($navcreate);
     }
 
     public function before_filter(&$action, &$args)
@@ -211,9 +181,9 @@ class IndexController extends StudipController {
         }
         
        
-        $this->response->add_header('X-Dialog-Close', '1');
-        $this->render_nothing();
-        //$this->redirect($this::url_for('/index'));
+        //$this->response->add_header('X-Dialog-Close', '1');
+        //$this->render_nothing();
+        $this->redirect('index');
           
     }
     

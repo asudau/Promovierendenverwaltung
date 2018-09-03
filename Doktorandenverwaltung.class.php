@@ -1,8 +1,5 @@
 <?php
-require_once 'lib/bootstrap.php';
-require 'models/DoktorandenEntry.class.php';
 
-define('DOKTORANDEN_ADMIN_ROLE', 'Doktorandenverwaltung');
 /**
  * Doktorandenverwaltung.class.php
  *
@@ -13,17 +10,19 @@ define('DOKTORANDEN_ADMIN_ROLE', 'Doktorandenverwaltung');
  */
 
 
-class Doktorandenverwaltung extends StudipPlugin implements AdministrationPlugin, SystemPlugin 
+class Doktorandenverwaltung extends StudipPlugin implements SystemPlugin 
 {
 
+    const DOKTORANDEN_ADMIN_ROLE = 'Doktorandenverwaltung';
+    
     public function __construct()
     {
         parent::__construct();
         global $perm;
 
         if(RolePersistence::isAssignedRole($GLOBALS['user']->user_id,
-                                                            DOKTORANDEN_ADMIN_ROLE)){
-            $navigation = new AutoNavigation($this->getDisplayName());
+                                                            self::DOKTORANDEN_ADMIN_ROLE)){
+            $navigation = new Navigation($this->getPluginName());
             $navigation->setImage(Icon::create('edit', 'navigation'));
             $navigation->setURL(PluginEngine::getURL($this, array(), 'index'));
             
@@ -33,31 +32,12 @@ class Doktorandenverwaltung extends StudipPlugin implements AdministrationPlugin
             $navigation->addSubNavigation('index_admin', $item);
             
             Navigation::addItem('/doktorandenverwaltung', $navigation);  
-        }
-        
+        }    
     }
 
     public function initialize ()
     {
-        PageLayout::addStylesheet($this->getPluginURL().'/assets/style.css');
-        PageLayout::addScript($this->getPluginURL().'/assets/jquery.tablesorter.js');
         
-    }
-
-
-    public function getNotificationObjects($course_id, $since, $user_id)
-    {
-        return array();
-    }
-
-    public function getIconNavigation($course_id, $last_visit, $user_id)
-    {
-        // ...
-    }
-
-    public function getInfoTemplate($course_id)
-    {
-        // ...
     }
 
     public function perform($unconsumed_path)
@@ -83,15 +63,4 @@ class Doktorandenverwaltung extends StudipPlugin implements AdministrationPlugin
             });
         }
     }
-    
-    /**
-     * Plugin name to show in navigation.
-     */
-    public function getDisplayName() {
-        return 'Doktorandenverwaltung';
-    }
-    
-     
-
-    
 }

@@ -15,17 +15,15 @@ class DoktorandenFields extends \SimpleORMap
     {
         $config['db_table'] = 'doktorandenverwaltung_fields';
         
-        $config['has_many']['values'] = array(
-            'class_name' => 'DoktorandenFieldValue',
-            'assoc_foreign_key' => 'field_id',
-        );
-        
+        $config['additional_fields']['values']['get'] = function ($item){
+            return DoktorandenFieldValue::findBySQL("field_id LIKE ?", array($item->getIdOfValues()) );
+        };
         
         $config['additional_fields']['search_object']['get'] = function ($item) {
             if (DoktorandenFieldValue::findOneBySQL("field_id LIKE ?", array($item->getIdOfValues()))){
                 if ($item->value_key != NULL){
-                    return new SQLSearch("SELECT " .$item->value_key. ", CONCAT(defaulttext, ' (' , uniquename, ')') as title " .
-                    "FROM doktorandenverwaltung_field_values WHERE `field_id` LIKE '" . $item->id . "' " .
+                    return new SQLSearch("SELECT " . $item->value_key . ", CONCAT(defaulttext, ' (' , uniquename, ')') as title " .
+                    "FROM doktorandenverwaltung_field_values WHERE `field_id` LIKE '" . $item->getIdOfValues() . "' " .
                     "AND (`defaulttext` LIKE :input OR `uniquename` LIKE :input)", _($item->title), "field_id");
                 }
             } else return NULL;

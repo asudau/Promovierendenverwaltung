@@ -27,7 +27,7 @@ class DoktorandenverwaltungAddTable extends Migration
             `ef006u3` varchar(11) NULL,
             `nachname` varchar(100) NULL,
             `vorname` varchar(100) NULL,
-            `ef007` varchar(11) NULL,
+            `name` varchar(11) NULL,
             `ef008` varchar(11) NULL,
             `ef009` varchar(11) NULL,
             `art_promotion` varchar(11) NULL,

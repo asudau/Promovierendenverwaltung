@@ -46,6 +46,17 @@ class DoktorandenEntry extends \SimpleORMap
         $config['additional_fields']['ef003']['get'] = function ($item) {
             return '0530';
         };
+        $config['additional_fields']['ef007']['get'] = function ($item) {
+            if ($item->name){
+                return $item->name;
+            } else
+            if (strlen($item->vorname) > 3){
+                return self::clear_string($item->vorname);
+            } else if (strlen($item->nachname) > 3){
+                return self::clear_string($item->nachname);
+            }
+            return '';
+        };
         $config['additional_fields']['ef010']['get'] = function ($item) {
             if($item['art_promotion']){
                 $field = DoktorandenFields::find('art_promotion');
@@ -146,5 +157,15 @@ class DoktorandenEntry extends \SimpleORMap
         $next_id = $max_id_entry->id + 1;
         return $next_id;
     }
+    
+    private static function clear_string($str){
+        $search = array("ä", "ö", "ü", "ß", "Ä", "Ö",
+                "Ü", "-", "é", "á", "ó", "ç", "â", "ê");
+        $replace = array("ae", "oe", "ue", "ss", "Ae", "Oe",
+                 "Ue", " ", "e", "a", "o", "c", "a", "e");
+        $str = str_replace($search, $replace, $str);
+        //$str = strtolower(preg_replace("/[^a-zA-Z0-9]+/", trim($how), $str));
+        return substr($str, 0, 4);
+}
     
 }

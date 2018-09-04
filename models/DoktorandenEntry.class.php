@@ -50,9 +50,9 @@ class DoktorandenEntry extends \SimpleORMap
             if ($item->name){
                 return $item->name;
             } else
-            if (strlen($item->vorname) > 3){
+            if (strlen($item->vorname) > 0){
                 return self::clear_string($item->vorname);
-            } else if (strlen($item->nachname) > 3){
+            } else if (strlen($item->nachname) > 0){
                 return self::clear_string($item->nachname);
             }
             return '';

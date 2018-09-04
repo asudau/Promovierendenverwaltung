@@ -13,7 +13,7 @@ class DoktorandenverwaltungFieldValues extends Migration
 
         // add db-table
         $db->exec("CREATE TABLE IF NOT EXISTS `doktorandenverwaltung_field_values` (
-            `id` int(11) NOT NULL,
+            `id` int(11) NOT NULL auto_increment,
             `field_id` varchar(32) NOT NULL,
             `his_id` varchar(32) NOT NULL,
             `lid` varchar(32) NULL,
@@ -22,15 +22,7 @@ class DoktorandenverwaltungFieldValues extends Migration
             `astat_bund` varchar(32) NULL,
             PRIMARY KEY (id)
         ) ");
-
-//        $query = "INSERT INTO `doktorandenverwaltung_fieldsVvalues` (`id`, `title`, `default`, `overview_position`, `group`, `group_position`, `fill`, `values`, `export`) 
-//           VALUES 
-//           ('berichtseinheitid', 'BerichtseinheitID', '5300000', NULL, '', NULL, 'auto', NULL, '1'),
-//            ";
-//        
-//        $db->exec($query);
-        
-        
+      
         SimpleORMap::expireTableScheme();
     }
 

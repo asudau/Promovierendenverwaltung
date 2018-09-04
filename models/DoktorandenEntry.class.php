@@ -9,10 +9,12 @@
 class DoktorandenEntry extends \SimpleORMap
 {
     private static $groups = array(
-        'promotionsdaten' => 'Daten zur Promotion',
         'doktorandendaten'=> 'Doktorandendaten',
-        'ersteinschreibung'=> 'Daten zur Ersteinschreibung & HZB',
-        'abschlusspruefung'=> 'Daten zur Promotion berechtigenden Abschlussprüfung');
+        'promotionsdaten' => 'Daten zur Promotion',
+        'ersteinschreibung'=> 'Daten zur Ersteinschreibung',
+        'abschlusspruefung'=> 'Daten zur Prom. ber. Abschlussprüfung',
+        'hzb' => 'Daten zur Hochschulzugangsberechtigung (HZB)'
+        );
     
     protected static function configure($config = array())
     {
@@ -70,6 +72,18 @@ class DoktorandenEntry extends \SimpleORMap
                 $field = DoktorandenFields::find('abschluss_studienfach');
                 $astat = $field->getValueAstatByKey($item['abschluss_studienfach']);
                 return substr($astat,1);
+            } else return NULL;
+        };
+        
+        $config['additional_fields']['ef033u2']['get'] = function ($item) {
+            if($item['HZB_Kreis']){
+                $field = DoktorandenFields::find('HZB_Kreis');
+                $astat = $field->getValueAstatByKey($item['HZB_Kreis']);
+                return $astat;
+            } else if($item['HZB_Land']){
+                $field = DoktorandenFields::find('HZB_Land');
+                $astat = $field->getValueAstatByKey($item['HZB_Land']);
+                return $astat;
             } else return NULL;
         };
 

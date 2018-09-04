@@ -6,6 +6,17 @@ class IndexController extends StudipController {
         parent::__construct($dispatcher);
         $this->plugin = $dispatcher->plugin;
         
+    }
+
+    public function before_filter(&$action, &$args)
+    {
+        parent::before_filter($action, $args);
+        PageLayout::setTitle(_("Doktorandenverwaltung - Übersicht"));
+        
+        PageLayout::addStylesheet($this->plugin->getPluginURL().'/assets/style.css');
+        //PageLayout::addScript($this->plugin->getPluginURL().'/assets/jquery.tablesorter.js');
+        PageLayout::addSqueezePackage('tablesorter');
+        
         $sidebar = Sidebar::Get();
 
         $navcreate = new ActionsWidget();
@@ -17,14 +28,6 @@ class IndexController extends StudipController {
                               $this->url_for('index/export'),
                               Icon::create('seminar+add', 'clickable'));
         $sidebar->addWidget($navcreate);
-        
-    }
-
-    public function before_filter(&$action, &$args)
-    {
-        parent::before_filter($action, $args);
-        PageLayout::setTitle(_("Doktorandenverwaltung - Übersicht"));
-
     }
 
     public function index_action()
@@ -111,11 +114,10 @@ class IndexController extends StudipController {
             $widget->addElement($option);
         }
         $sidebar->insertWidget($widget, 'pdb_actions');
-        
                 
     }
     
-     public function edit_action($entry_id)
+    public function edit_action($entry_id)
     {
         $this->entry = DoktorandenEntry::findOneBySQL('id = ' . $entry_id);
         $this->groupedFields = DoktorandenEntry::getGroupedFields();
@@ -206,7 +208,7 @@ class IndexController extends StudipController {
         $this->render_nothing();
     }
     
-     static function handleSingleRow($entry)
+    static function handleSingleRow($entry)
     {
         $rowData = array();
         $fields = DoktorandenFields::getExportHeaderArray();

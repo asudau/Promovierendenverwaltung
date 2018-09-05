@@ -39,8 +39,17 @@ class DoktorandenFields extends \SimpleORMap
     }
     
     public static function getExportHeaderArray(){
-        $fields = self::findBySQL('export = 1');
+        $fields = self::findBySQL("export_name != '0'");
         $array = array();
+        foreach($fields as $field){
+            $array[] = $field['export_name'];
+        }return $array;    
+    }
+    
+    public static function getExportFieldsArray(){
+        $fields = self::findBySQL("export_name != '0'");
+        $array = array();
+        //var_dump($fields[0]['export_name']);die();
         foreach($fields as $field){
             $array[] = $field['id'];
         }return $array;    
@@ -48,14 +57,14 @@ class DoktorandenFields extends \SimpleORMap
     
     public function getValueTextByKey($key = null) {
         if($this->value_key != NULL && $key){
-            $value = DoktorandenFieldValue::findOneBySQL('field_id = ? AND ' . $this->value_key . ' = ' . $key, array($this->getIdOfValues()));
+            $value = DoktorandenFieldValue::findOneBySQL("field_id = ? AND " . $this->value_key . " = '" . $key . "'", array($this->getIdOfValues()));
             return $value['defaulttext'];
         } else return false;
     }
     
     public function getValueAstatByKey($key = null){
         if($this->value_key != NULL && $key){
-            $value = DoktorandenFieldValue::findOneBySQL('field_id = ? AND ' . $this->value_key . ' = ' . $key, array($this->getIdOfValues()));
+            $value = DoktorandenFieldValue::findOneBySQL("field_id = ? AND " . $this->value_key . " = '" . $key . "'", array($this->getIdOfValues()));
             return $value['astat_bund'];
         } else return false;
     }

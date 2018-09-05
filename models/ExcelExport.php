@@ -28,11 +28,11 @@ class ExcelExport {
    }
 
    function writeCell($value,$row,$col) {
-      if(is_numeric($value)) {
-         $this->__writeNum($row,$col,$value);
-      }elseif(is_string($value)) {
+//      if(is_numeric($value)) {
+//         $this->__writeNum($row,$col,$value);
+//      }elseif(is_string($value)) {
          $this->__writeString($row,$col,$value);
-      }
+//      }
    }
 
    function addRow($data,$row=null) {

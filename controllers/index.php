@@ -11,7 +11,7 @@ class IndexController extends StudipController {
     public function before_filter(&$action, &$args)
     {
         parent::before_filter($action, $args);
-        PageLayout::setTitle(_("Doktorandenverwaltung - Übersicht"));
+        PageLayout::setTitle(_("Doktorandenverwaltung - Ãœbersicht"));
         
         PageLayout::addStylesheet($this->plugin->getPluginURL().'/assets/style.css');
         //PageLayout::addScript($this->plugin->getPluginURL().'/assets/jquery.tablesorter.js');
@@ -20,7 +20,7 @@ class IndexController extends StudipController {
         $sidebar = Sidebar::Get();
 
         $navcreate = new ActionsWidget();
-        $navcreate->addLink("Übersicht", 'index' );
+        $navcreate->addLink("Ãœbersicht", 'index' );
         $navcreate->addLink(_('Neuer Eintrag'),
                               $this->url_for('index/new'),
                               Icon::create('seminar+add', 'clickable'))->asDialog('size=70%');
@@ -167,7 +167,7 @@ class IndexController extends StudipController {
             
             if ($entry->store() !== false) {
                 $entry->setup();
-                $message = MessageBox::success(_('Die Änderungen wurden übernommen.'));
+                $message = MessageBox::success(_('Die Ã„nderungen wurden Ãœbernommen.'));
                 PageLayout::postMessage($message);
             } else if ($entry->id != $entry->getNextId()){
                 $entry->id = $entry->getNextId();
@@ -211,8 +211,13 @@ class IndexController extends StudipController {
     static function handleSingleRow($entry)
     {
         $rowData = array();
-        $fields = DoktorandenFields::getExportHeaderArray();
+        $fields = DoktorandenFields::getExportFieldsArray();
         foreach($fields as $field){
+            //get related astat_bund val of $entry->$field
+            $field_obj = DoktorandenFields::find($field);
+            if ($field_obj->getValueAstatByKey($entry->$field)){
+                $rowData[] = $field_obj->getValueAstatByKey($entry->$field);
+            } else
             $rowData[] = $entry->$field;
         }
 

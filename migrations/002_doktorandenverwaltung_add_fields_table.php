@@ -22,11 +22,11 @@ class DoktorandenverwaltungAddFieldsTable extends Migration
             `fill` varchar(11) NOT NULL,
             `value_id` varchar(32) NULL,
             `value_key` varchar(32) NULL,
-            `export` boolean NULL,
+            `export_name` varchar(250) NULL,
             PRIMARY KEY (id)
         ) ");
         
-        $query = "INSERT INTO `doktorandenverwaltung_fields` (`id`, `title`, `default`, `overview_position`, `group`, `group_position`, `fill`, `value_id`, `value_key`, `export`) 
+        $query = "INSERT INTO `doktorandenverwaltung_fields` (`id`, `title`, `default`, `overview_position`, `group`, `group_position`, `fill`, `value_id`, `value_key`, `export_name`) 
            VALUES 
            ('berichtseinheitid', 'BerichtseinheitID', '5300000', NULL, '', NULL, 'auto', NULL, NULL, '1'),
            ('berichtsland', 'Berichtsland', '03', NULL, NULL, NULL, 'auto', 'bundeslaender', 'his_id', 'ef001'),

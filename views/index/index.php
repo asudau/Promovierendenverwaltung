@@ -2,7 +2,7 @@
 
 <body>
     <div>
-<h1><?= sizeof($entries) ?> Eintr‰ge</h1>
+<h1><?= sizeof($entries) ?> Eintr√§ge</h1>
 
 <table id='doktoranden-entries' class="tablesorter default">
     <thead>
@@ -27,7 +27,7 @@
             <?php endif ?>
 
         <?php endforeach ?>
-        <td title='Noch <?= $number_required_fields-$entry->completeProgress() ?> fehlende Eintr‰ge'><?= round($entry->completeProgress()/$number_required_fields, 2)*100 ?>%</td>
+        <td title='Noch <?= $number_required_fields-$entry->completeProgress() ?> fehlende EintrÔøΩge'><?= round($entry->completeProgress()/$number_required_fields, 2)*100 ?>%</td>
         <td><a href='<?=$this->controller->url_for('index/edit/' . $entry['id']) ?>' title='Eintrag editieren' data-dialog="size=big"><?=Icon::create('edit')?></a><br/></td>
         </a>
     </tr>

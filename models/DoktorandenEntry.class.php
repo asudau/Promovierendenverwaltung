@@ -12,7 +12,7 @@ class DoktorandenEntry extends \SimpleORMap
         'doktorandendaten'=> 'Doktorandendaten',
         'promotionsdaten' => 'Daten zur Promotion',
         'ersteinschreibung'=> 'Daten zur Ersteinschreibung',
-        'abschlusspruefung'=> 'Daten zur Prom. ber. Abschlusspr�fung',
+        'abschlusspruefung'=> 'Daten zur Prom. ber. Abschlussprüfung',
         'hzb' => 'Daten zur Hochschulzugangsberechtigung (HZB)'
         );
     
@@ -39,6 +39,9 @@ class DoktorandenEntry extends \SimpleORMap
         };
         $config['additional_fields']['berichtsland']['get'] = function ($item) {
             return '03';
+        };
+         $config['additional_fields']['paginiernummer']['get'] = function ($item) {
+            return '1';
         };
         $config['additional_fields']['berichtsjahr']['get'] = function ($item) {
             return date('Y', time());
@@ -89,7 +92,7 @@ class DoktorandenEntry extends \SimpleORMap
         parent::configure($config);
     }
     
-    //f�r neu erzeugte Eintr�ge m�ssen einige Werte initialisiert werden
+    //fï¿½r neu erzeugte Eintrï¿½ge mï¿½ssen einige Werte initialisiert werden
     public function setup(){
         //Paginierung ist ein String-Wert der aus der id erzeugt wird weil fortlaufend
         $this->ef004 = str_pad($this->id, 6 ,'0', STR_PAD_LEFT);
@@ -107,7 +110,7 @@ class DoktorandenEntry extends \SimpleORMap
     public static function getGroupedFields() {
         $group_array = array();
         foreach(self::$groups as $group => $title){
-            $group_array[$group]['entries'] = DoktorandenFields::findBySQL("`group` LIKE :group", array(':group' => $group));
+            $group_array[$group]['entries'] = DoktorandenFields::findBySQL("`group` LIKE :group ORDER BY `group_position` ASC", array(':group' => $group));
             $group_array[$group]['title'] = $title;
         }
         //return DoktorandenEntry::$groupedFields;
@@ -147,8 +150,8 @@ class DoktorandenEntry extends \SimpleORMap
     }
     
     private static function clear_string($str){
-        $search = array("�", "�", "�", "�", "�", "�",
-                "�", "-", "�", "�", "�", "�", "�", "�");
+        $search = array("ä", "ö", "ü", "ß", "Ä", "Ö",
+                "Ü", "-", "é", "á", "ú", "c", "â", "ê");
         $replace = array("ae", "oe", "ue", "ss", "Ae", "Oe",
                  "Ue", " ", "e", "a", "o", "c", "a", "e");
         $str = str_replace($search, $replace, $str);

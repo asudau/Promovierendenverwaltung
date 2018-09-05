@@ -12,7 +12,7 @@ class DoktorandenEntry extends \SimpleORMap
         'doktorandendaten'=> 'Doktorandendaten',
         'promotionsdaten' => 'Daten zur Promotion',
         'ersteinschreibung'=> 'Daten zur Ersteinschreibung',
-        'abschlusspruefung'=> 'Daten zur Prom. ber. Abschlussprüfung',
+        'abschlusspruefung'=> 'Daten zur Prom. ber. Abschlussprï¿½fung',
         'hzb' => 'Daten zur Hochschulzugangsberechtigung (HZB)'
         );
     
@@ -101,7 +101,7 @@ class DoktorandenEntry extends \SimpleORMap
         parent::configure($config);
     }
     
-    //für neu erzeugte Einträge müssen einige Werte initialisiert werden
+    //fï¿½r neu erzeugte Eintrï¿½ge mï¿½ssen einige Werte initialisiert werden
     public function setup(){
         //Paginierung ist ein String-Wert der aus der id erzeugt wird weil fortlaufend
         $this->ef004 = str_pad($this->id, 6 ,'0', STR_PAD_LEFT);
@@ -146,7 +146,7 @@ class DoktorandenEntry extends \SimpleORMap
 
     public function req($field){
         if (DoktorandenFields::find($field)->fill == 'manual_req'){
-            if ($this->$field == NULL){
+            if ($this->$field == NULL || strlen($this->$field) < 1){
                 return true;
             }
         } return false;
@@ -159,8 +159,8 @@ class DoktorandenEntry extends \SimpleORMap
     }
     
     private static function clear_string($str){
-        $search = array("ä", "ö", "ü", "ß", "Ä", "Ö",
-                "Ü", "-", "é", "á", "ó", "ç", "â", "ê");
+        $search = array("ï¿½", "ï¿½", "ï¿½", "ï¿½", "ï¿½", "ï¿½",
+                "ï¿½", "-", "ï¿½", "ï¿½", "ï¿½", "ï¿½", "ï¿½", "ï¿½");
         $replace = array("ae", "oe", "ue", "ss", "Ae", "Oe",
                  "Ue", " ", "e", "a", "o", "c", "a", "e");
         $str = str_replace($search, $replace, $str);

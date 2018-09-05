@@ -23,7 +23,7 @@ class IndexController extends StudipController {
         $navcreate->addLink("Übersicht", 'index' );
         $navcreate->addLink(_('Neuer Eintrag'),
                               $this->url_for('index/new'),
-                              Icon::create('seminar+add', 'clickable'))->asDialog('size=70%');
+                              Icon::create('seminar+add', 'clickable'))->asDialog('size=big');
         $navcreate->addLink(_('Exportieren'),
                               $this->url_for('index/export'),
                               Icon::create('seminar+add', 'clickable'));

@@ -34,7 +34,7 @@ use Studip\Button, Studip\LinkButton;
                     
                     <?php elseif (sizeof($field_entry->values) > 1) : ?>
                     <select class='nested-select' name ='<?=$field_entry->id?>'>
-                        <option value="">-- bitte ausw‰hlen --</option>
+                        <option value="">-- ggf. ausw√§hlen --</option>
                         <?php foreach ($field_entry->values as $entry_value): ?>
                         <? $key = $field_entry->value_key; ?>
                             <option <? if ($entry[$field_entry->id] == $entry_value->$key) :?> selected <? endif ?> value="<?= $entry_value->$key ?>"><?= $entry_value->defaulttext?></option>
@@ -57,7 +57,7 @@ use Studip\Button, Studip\LinkButton;
 
     
     <footer data-dialog-button>
-        <?= Button::create(_('‹bernehmen')) ?>
+        <?= Button::create(_('√úbernehmen')) ?>
     </footer>
 </form>
 

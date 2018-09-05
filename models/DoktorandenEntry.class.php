@@ -12,7 +12,7 @@ class DoktorandenEntry extends \SimpleORMap
         'doktorandendaten'=> 'Doktorandendaten',
         'promotionsdaten' => 'Daten zur Promotion',
         'ersteinschreibung'=> 'Daten zur Ersteinschreibung',
-        'abschlusspruefung'=> 'Daten zur Prom. ber. Abschlussprï¿½fung',
+        'abschlusspruefung'=> 'Daten zur Prom. ber. Abschlussprüfung',
         'hzb' => 'Daten zur Hochschulzugangsberechtigung (HZB)'
         );
     
@@ -21,32 +21,32 @@ class DoktorandenEntry extends \SimpleORMap
         $config['db_table'] = 'doktorandenverwaltung';
         
         $config['additional_fields']['geburtstag']['get'] = function ($item) {
-        if (!$item->ef006u1){
+        if (!$item->geburtsdatum_tag){
             return '';
-        } else return date('d.m.Y', mktime(0, 0, 0, $item->ef006u2, $item->ef006u1, $item->ef006u3));
+        } else return date('d.m.Y', mktime(0, 0, 0, $item->geburtsdatum_monat, $item->geburtsdatum_tag, $item->geburtsdatum_jahr));
         };
         $config['additional_fields']['geburtstag']['set'] = function ($item, $field, $data) {
             $time = strtotime ($data);
-            $item->ef006u1 = date("d", $time);
-            $item->ef006u2 = date("m", $time);
-            $item->ef006u3 = date("Y", $time);
+            $item->geburtsdatum_tag = date("d", $time);
+            $item->geburtsdatum_monat = date("m", $time);
+            $item->geburtsdatum_jahr = date("Y", $time);
         };
         $config['additional_fields']['geburtstag_time']['get'] = function ($item) {
-            return mktime(0, 0, 0, $item->ef006u2, $item->ef006u1, $item->ef006u3);
+            return mktime(0, 0, 0, $item->geburtsdatum_monat, $item->geburtsdatum_tag, $item->geburtsdatum_jahr);
         };
         $config['additional_fields']['berichtseinheitid']['get'] = function ($item) {
             return '05300000';
         };
-        $config['additional_fields']['ef001']['get'] = function ($item) {
+        $config['additional_fields']['berichtsland']['get'] = function ($item) {
             return '03';
         };
-        $config['additional_fields']['ef002']['get'] = function ($item) {
+        $config['additional_fields']['berichtsjahr']['get'] = function ($item) {
             return date('Y', time());
         };
-        $config['additional_fields']['ef003']['get'] = function ($item) {
+        $config['additional_fields']['hochschule_prom']['get'] = function ($item) {
             return '0530';
         };
-        $config['additional_fields']['ef007']['get'] = function ($item) {
+        $config['additional_fields']['name_short']['get'] = function ($item) {
             if ($item->name){
                 return $item->name;
             } else
@@ -57,43 +57,31 @@ class DoktorandenEntry extends \SimpleORMap
             }
             return '';
         };
-        $config['additional_fields']['ef010']['get'] = function ($item) {
-            if($item['art_promotion']){
-                $field = DoktorandenFields::find('art_promotion');
-                return $field->getValueAstatByKey($item['art_promotion']);
-            } else return NULL;
-        };
-        $config['additional_fields']['ef011']['get'] = function ($item) {
-            if($item['promotionsfach']){
-                $field = DoktorandenFields::find('promotionsfach');
-                return $field->getValueAstatByKey($item['promotionsfach']);
-            } else return NULL;
-        };
         $config['additional_fields']['ef026']['get'] = function ($item) {
-            if($item['studienform'] && $item['abschluss']){
-                $field = DoktorandenFields::find('studienform');
-                $studienform = $field->getValueAstatByKey($item['studienform']);
-                $field = DoktorandenFields::find('abschluss');
-                $abschluss = $field->getValueAstatByKey($item['abschluss']);
+            if($item['studienform_abschluss'] && $item['abschlusspruefung_abschluss']){
+                $field = DoktorandenFields::find('studienform_abschluss');
+                $studienform = $field->getValueAstatByKey($item['studienform_abschluss']);
+                $field = DoktorandenFields::find('abschlusspruefung_abschluss');
+                $abschluss = $field->getValueAstatByKey($item['abschlusspruefung_abschluss']);
                 return $studienform . $abschluss;
             } else return NULL;
         };
         $config['additional_fields']['ef027']['get'] = function ($item) {
-            if($item['abschluss_studienfach']){
-                $field = DoktorandenFields::find('abschluss_studienfach');
-                $astat = $field->getValueAstatByKey($item['abschluss_studienfach']);
+            if($item['studienfach_abschluss']){
+                $field = DoktorandenFields::find('studienfach_abschluss');
+                $astat = $field->getValueAstatByKey($item['studienfach_abschluss']);
                 return substr($astat,1);
             } else return NULL;
         };
         
         $config['additional_fields']['ef033u2']['get'] = function ($item) {
-            if($item['HZB_Kreis']){
-                $field = DoktorandenFields::find('HZB_Kreis');
-                $astat = $field->getValueAstatByKey($item['HZB_Kreis']);
+            if($item['hzb_kreis']){
+                $field = DoktorandenFields::find('hzb_kreis');
+                $astat = $field->getValueAstatByKey($item['hzb_kreis']);
                 return $astat;
-            } else if($item['HZB_Land']){
-                $field = DoktorandenFields::find('HZB_Land');
-                $astat = $field->getValueAstatByKey($item['HZB_Land']);
+            } else if($item['hzb_staat']){
+                $field = DoktorandenFields::find('hzb_staat');
+                $astat = $field->getValueAstatByKey($item['hzb_staat']);
                 return $astat;
             } else return NULL;
         };

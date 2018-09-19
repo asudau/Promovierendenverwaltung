@@ -32,7 +32,7 @@ class DoktorandenverwaltungAddFieldsTable extends Migration
            ('berichtsland', 'Berichtsland', '03', NULL, NULL, NULL, 'auto', 'bundeslaender', 'his_id', 'ef001'),
            ('berichtsjahr', 'Berichtsjahr', NULL, NULL, NULL, NULL, 'auto', NULL, NULL, 'ef002'),
            ('hisinone_person_id', 'HISinOne Person.ID', NULL, NULL, NULL, NULL, 'ext', NULL, NULL, '0'),
-           ('hochschule_prom', 'Hochschule der Promotion', '0530', NULL, 'promotionsdaten', '1', 'auto', 'university', 'astat_bund', 'ef003'),
+           ('hochschule_prom', 'Hochschule der Promotion', '0530', NULL, NULL, NULL, 'auto', 'university', 'astat_bund', 'ef003'),
            ('paginiernummer', 'Paginiernummer', NULL, NULL, NULL, NULL, 'auto', NULL, NULL, 'ef004'),
            ('id', 'Paginiernummer_int', NULL, NULL, NULL, NULL, 'auto', NULL, NULL, '1'),
            ('geschlecht', 'Geschlecht', NULL, '3', 'doktorandendaten', '1', 'manual_req', NULL, 'his_id', 'ef005'),

@@ -21,6 +21,7 @@ class IndexController extends StudipController {
 
         $navcreate = new ActionsWidget();
         $navcreate->addLink("Übersicht", 'index' );
+        $navcreate->addLink("FAQ", 'index/faq' );
         $navcreate->addLink(_('Neuer Eintrag'),
                               $this->url_for('index/new'),
                               Icon::create('seminar+add', 'clickable'))->asDialog('size=big');
@@ -43,8 +44,10 @@ class IndexController extends StudipController {
         } else $_SESSION['Doktorandenverwaltung_vars']['abschlussjahr'] = 0;
         
         $query = '';
-        foreach($search_query as $query_part) {
-            $query .= $query_part;
+        if($search_query){ 
+            foreach($search_query as $query_part) {
+                $query .= $query_part;
+            }
         }
         if ($query == '') $query = 'true';
         
@@ -121,6 +124,11 @@ class IndexController extends StudipController {
     {
         $this->entry = DoktorandenEntry::findOneBySQL('id = ' . $entry_id);
         $this->groupedFields = DoktorandenEntry::getGroupedFields();
+
+    }
+    
+    public function faq_action()
+    {
 
     }
 

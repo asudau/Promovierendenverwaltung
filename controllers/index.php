@@ -28,6 +28,9 @@ class IndexController extends StudipController {
         $navcreate->addLink(_('Exportieren'),
                               $this->url_for('index/export'),
                               Icon::create('seminar+add', 'clickable'));
+         $navcreate->addLink(_('Vollständiger Export'),
+                              $this->url_for('index/full_export'),
+                              Icon::create('seminar+add', 'clickable'));
         $sidebar->addWidget($navcreate);
     }
 
@@ -202,31 +205,92 @@ class IndexController extends StudipController {
         
         $doktoranden_entries = DoktorandenEntry::findBySQL('true');
         
-        if (!empty($doktoranden_entries)) {
-            $xls = new ExcelExport();
-
-            $xls->addRow(DoktorandenFields::getExportHeaderArray());
-
-            foreach ($doktoranden_entries as $entry) {
-                $xls->addRow(self::handleSingleRow($entry));
-            }
-            $xls->download('Export_'
-                    . date("d-m-y") . '.xls');
+        $export_fields = DoktorandenFields::getExportFieldsArray();
+        
+        $header = array();
+        $export = array();
+        
+        foreach ($export_fields as $field){
+            $header[] = $field->export_name;
         }
-        $this->render_nothing();
+        
+        $export[] = $header;
+        
+        foreach ($doktoranden_entries as $entry){
+            $export[] = self::handleSingleRow($entry, $export_fields);
+        }
+        
+        $this->render_csv($export, 'bericht_promovierendendaten.csv');
+        
+//      old version for excel        
+//        if (!empty($doktoranden_entries)) {
+//            $xls = new ExcelExport();
+//
+//            $xls->addRow(DoktorandenFields::getExportHeaderArray());
+//
+//            foreach ($doktoranden_entries as $entry) {
+//                $xls->addRow(self::handleSingleRow($entry));
+//            }
+//            $xls->download('Export_'
+//                    . date("d-m-y") . '.xls');
+//        }
+//        $this->render_nothing();
     }
     
-    static function handleSingleRow($entry)
+    public function full_export_action(){
+        $doktoranden_entries = DoktorandenEntry::findBySQL('true');
+        
+        $export_fields = DoktorandenFields::getFullExportFieldsArray();
+        
+        $header = array();
+        $export = array();
+        
+        foreach ($export_fields as $field){
+            $header[] = $field->id;
+            if ($field->export_name){
+                $header[] = $field->export_name;
+            }
+        }
+        
+        $export[] = $header;
+        
+        foreach ($doktoranden_entries as $entry){
+            $export[] = self::handleFullSingleRow($entry, $export_fields);
+        }
+        
+        $this->render_csv($export, 'bericht_promovierendendaten.csv');
+    }
+    
+    static function handleSingleRow($entry, $fields)
     {
         $rowData = array();
-        $fields = DoktorandenFields::getExportFieldsArray();
         foreach($fields as $field){
             //get related astat_bund val of $entry->$field
-            $field_obj = DoktorandenFields::find($field);
-            if ($field_obj->getValueAstatByKey($entry->$field)){
-                $rowData[] = $field_obj->getValueAstatByKey($entry->$field);
+            $field_id = $field->id;
+            if ($field->getValueAstatByKey($entry->$field_id)){
+                $rowData[] = $field->getValueAstatByKey($entry->$field_id);
             } else
-            $rowData[] = $entry->$field;
+            $rowData[] = $entry->$field_id;
+        }
+
+        return $rowData;
+    }
+    
+    static function handleFullSingleRow($entry, $fields)
+    {
+        $rowData = array();
+        foreach($fields as $field){
+            
+            $field_id = $field->id;
+            //intern db-value
+            $rowData[] = $entry->$field_id;
+            //if exportfield: get related astat_bund val of $entry->$field
+            if ($field->export_name){
+                if ($field->getValueAstatByKey($entry->$field_id)){
+                    $rowData[] = $field->getValueAstatByKey($entry->$field_id);
+                } else
+                $rowData[] = $entry->$field_id;
+            }
         }
 
         return $rowData;

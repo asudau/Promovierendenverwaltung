@@ -50,9 +50,6 @@ class DoktorandenEntry extends \SimpleORMap
             return '0530';
         };
         $config['additional_fields']['name_short']['get'] = function ($item) {
-            if ($item->name){
-                return $item->name;
-            } else
             if (strlen($item->vorname) > 0){
                 return self::clear_string($item->vorname);
             } else if (strlen($item->nachname) > 0){
@@ -104,7 +101,7 @@ class DoktorandenEntry extends \SimpleORMap
         parent::configure($config);
     }
     
-    //fï¿½r neu erzeugte Eintrï¿½ge mï¿½ssen einige Werte initialisiert werden
+    //für neu erzeugte Einträge müssen einige Werte initialisiert werden
     public function setup(){
         //Paginierung ist ein String-Wert der aus der id erzeugt wird weil fortlaufend
         $this->ef004 = str_pad($this->id, 6 ,'0', STR_PAD_LEFT);

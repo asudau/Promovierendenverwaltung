@@ -38,21 +38,14 @@ class DoktorandenFields extends \SimpleORMap
         return self::findBySQL('overview_position > 0 ORDER BY overview_position ASC');
     }
     
-    public static function getExportHeaderArray(){
-        $fields = self::findBySQL("export_name != '0'");
-        $array = array();
-        foreach($fields as $field){
-            $array[] = $field['export_name'];
-        }return $array;    
+    public static function getExportFieldsArray(){
+        $fields = self::findBySQL("export_name != '0' ORDER BY export_name ASC");
+        return $fields;
     }
     
-    public static function getExportFieldsArray(){
-        $fields = self::findBySQL("export_name != '0'");
-        $array = array();
-        //var_dump($fields[0]['export_name']);die();
-        foreach($fields as $field){
-            $array[] = $field['id'];
-        }return $array;    
+    public static function getFullExportFieldsArray(){
+        $fields = self::findBySQL("true ORDER BY export_name ASC");
+        return $fields;
     }
     
     public function getValueTextByKey($key = null) {

@@ -81,11 +81,23 @@ class DoktorandenEntry extends \SimpleORMap
             if($item['hzb_kreis']){
                 $field = DoktorandenFields::find('hzb_kreis');
                 $astat = $field->getValueAstatByKey($item['hzb_kreis']);
-                return $astat;
+                return substr($astat, -3);
             } else if($item['hzb_staat']){
                 $field = DoktorandenFields::find('hzb_staat');
                 $astat = $field->getValueAstatByKey($item['hzb_staat']);
                 return $astat;
+            } else return NULL;
+        };
+        
+         $config['additional_fields']['hzb_land']['get'] = function ($item) {
+            if($item['hzb_kreis']){
+                $field = DoktorandenFields::find('hzb_kreis');
+                $astat = $field->getValueAstatByKey($item['hzb_kreis']);
+                return substr($astat, 0, 2);
+//            } else if($item['hzb_staat']){
+//                $field = DoktorandenFields::find('hzb_staat');
+//                $astat = $field->getValueAstatByKey($item['hzb_staat']);
+//                return $astat;
             } else return NULL;
         };
 

@@ -58,6 +58,9 @@ class DoktorandenFields extends \SimpleORMap
     public function getValueAstatByKey($key = null){
         if($this->value_key != NULL && $key){
             $value = DoktorandenFieldValue::findOneBySQL("field_id = ? AND " . $this->value_key . " = '" . $key . "'", array($this->getIdOfValues()));
+            if($this->id == 'promotionsfach'){
+                return substr($value['astat_bund'], -3);
+            }
             return $value['astat_bund'];
         } else return false;
     }

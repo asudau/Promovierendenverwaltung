@@ -144,12 +144,19 @@ class DoktorandenEntry extends \SimpleORMap
         return $this->complete_progress;
     }
 
-    public function req($field){
-        if (DoktorandenFields::find($field)->fill == 'manual_req'){
-            if ($this->$field == NULL || strlen($this->$field) < 1){
+    public function req($field_id){
+       
+        //sonderregelung für Ende der Promotion
+        if ($field_id == 'promotionsende_monat' || $field_id == 'promotionsende_jahr'){
+            if($this->art_reg_prom == '3' || $this->art_reg_prom == '2' ){
                 return true;
             }
-        } return false;
+        } else  if (DoktorandenFields::find($field_id)->fill == 'manual_req'){
+            if ($this->$field_id == NULL || strlen($this->$field_id) < 1){
+                return true;
+            }
+        }
+        return false;
     }
     
     public function getNextId(){

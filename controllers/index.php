@@ -159,8 +159,19 @@ class IndexController extends StudipController {
             foreach ($groupedFields as $group){
                 foreach ($group['entries'] as $field_entry){
                     $field = $field_entry->id;
+                    
                     if(Request::get($field)){
-                        $entry->$field = studip_utf8decode(Request::get($field));
+                        if (strpos($field, 'jahr') !== false){
+                            $input = (int)htmlReady(Request::get($field));
+                            if($input>1000 && $input<2100){
+                                $entry->$field = htmlReady(Request::get($field));
+                            } else {
+                                $message = MessageBox::error(_('Falsches Datumsformat: ' . $field_entry->title . ' wurde nicht übernommen'));
+                                PageLayout::postMessage($message);
+                            }
+                        } else {
+                            $entry->$field = htmlReady(Request::get($field));
+                        }
                     }
                 }
             }

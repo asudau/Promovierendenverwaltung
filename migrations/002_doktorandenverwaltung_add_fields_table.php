@@ -28,13 +28,13 @@ class DoktorandenverwaltungAddFieldsTable extends Migration
         
         $query = "INSERT INTO `doktorandenverwaltung_fields` (`id`, `title`, `default`, `overview_position`, `group`, `group_position`, `fill`, `value_id`, `value_key`, `export_name`) 
            VALUES 
-           ('berichtseinheitid', 'BerichtseinheitID', '5300000', NULL, '', NULL, 'auto', NULL, NULL, '1'),
+           ('berichtseinheitid', 'BerichtseinheitID', '5300000', NULL, '', NULL, 'auto', NULL, NULL, 'berichtseinheitid'),
            ('berichtsland', 'Berichtsland', '03', NULL, NULL, NULL, 'auto', 'bundeslaender', 'his_id', 'ef001'),
            ('berichtsjahr', 'Berichtsjahr', NULL, NULL, NULL, NULL, 'auto', NULL, NULL, 'ef002'),
            ('hisinone_person_id', 'PersonID', NULL, NULL, NULL, NULL, 'ext', NULL, NULL, '0'),
            ('hochschule_prom', 'Hochschule der Promotion', '0530', NULL, NULL, NULL, 'auto', 'university', 'lid', 'ef003'),
            ('paginiernummer', 'Paginiernummer', NULL, NULL, NULL, NULL, 'auto', NULL, NULL, 'ef004'),
-           ('id', 'Paginiernummer_int', NULL, NULL, NULL, NULL, 'auto', NULL, NULL, '1'),
+           ('id', 'Paginiernummer_int', NULL, NULL, NULL, NULL, 'auto', NULL, NULL, 'Paginiernummer_int'),
            ('geschlecht', 'Geschlecht', NULL, '3', 'doktorandendaten', '1', 'manual_req', NULL, 'his_id', 'ef005'),
            ('geburtsdatum_tag', 'Geburtsdatum - Tag', NULL, NULL, NULL, NULL, 'manual_req', NULL, NULL, 'ef006u1'),
            ('geburtsdatum_monat', 'Geburtsdatum - Monat', NULL, NULL, NULL, NULL, 'manual_req', NULL, NULL, 'ef006u2'),
@@ -76,7 +76,7 @@ class DoktorandenverwaltungAddFieldsTable extends Migration
            ('hzb_land', 'Bundesland', NULL, NULL, 'NULL, NULL, 'auto', 'bundeslaender', 'astat_bund', 'ef033u1'),
            ('hzb_kreis', 'Kreis (bei Erwerb in Deutschland)', NULL, NULL, 'hzb', '4', 'manual_req', 'landkreise', 'his_id', '0'),
            ('hzb_staat', 'Staat (bei Erwerb im Ausland)', NULL, NULL, 'hzb', '5', 'manual_req', 'country', 'his_id', '0'),
-           ('ef033u2', 'Kreis (bei Erwerb in Deutschland) bzw. Staat (bei Erwerb im Ausland)', NULL, NULL, NULL, NULL, 'auto', NULL, NULL, '1'),
+           ('ef033u2', 'Kreis (bei Erwerb in Deutschland) bzw. Staat (bei Erwerb im Ausland)', NULL, NULL, NULL, NULL, 'auto', NULL, NULL, 'ef033u2'),
            ('ef034', 'frei für landesinterne Angaben', NULL, NULL, NULL, NULL, 'manual_opt', NULL, NULL, '1'),
            ('ef035', 'frei für landesinterne Angaben', NULL, NULL, NULL, NULL, 'manual_opt', NULL, NULL, '1'),
            ('ef036', 'frei für landesinterne Angaben', NULL, NULL, NULL, NULL, 'manual_opt', NULL, NULL, '1'),

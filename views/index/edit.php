@@ -21,6 +21,9 @@ use Studip\Button, Studip\LinkButton;
             <tr>
                 <td style="width:500px" <? if ($entry->req($field_entry->id)): ?> class='required' <? endif ?> >
                     <?=$field_entry->title?>: 
+                    <? if ($field_entry->helptext): ?>
+                        <span class="info" title="<?=$field_entry->helptext ?>"><?= Icon::create('info-circle', 'info'); ?></span>
+                    <? endif ?>
                 </td>
                 <td style="width:700px">
                     <?php if(sizeof($field_entry->values) > 1104) : ?>

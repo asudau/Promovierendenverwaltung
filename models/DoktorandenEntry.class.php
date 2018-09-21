@@ -12,7 +12,7 @@ class DoktorandenEntry extends \SimpleORMap
         'doktorandendaten'=> 'Doktorandendaten',
         'promotionsdaten' => 'Daten zur Promotion',
         'ersteinschreibung'=> 'Daten zur Ersteinschreibung',
-        'abschlusspruefung'=> 'Daten zur Prom. ber. Abschlussprüfung',
+        'abschlusspruefung'=> 'Daten zur Promotion berechtigenden Abschlussprüfung',
         'hzb' => 'Daten zur Hochschulzugangsberechtigung (HZB)'
         );
     

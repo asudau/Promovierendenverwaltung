@@ -75,11 +75,13 @@ class DoktorandenEntry extends \SimpleORMap
         };
         
         $config['additional_fields']['ef033u2']['get'] = function ($item) {
+            $field = DoktorandenFields::find('hzb_art');
+            $hzb_art_astat = $field->getValueAstatByKey($item['hzb_art']);
             if($item['hzb_kreis']){
                 $field = DoktorandenFields::find('hzb_kreis');
                 $astat = $field->getValueAstatByKey($item['hzb_kreis']);
                 return substr($astat, -3);
-            } else if(in_array($item['hzb_art'], array('17', '39', '47', '59', '67', '79')) && $item['hzb_staat']){
+            } else if(in_array($hzb_art_astat, array('17', '39', '47', '59', '67', '79')) && $item['hzb_staat']){
                 $field = DoktorandenFields::find('hzb_staat');
                 $astat = $field->getValueAstatByKey($item['hzb_staat']);
                 return $astat;
@@ -87,14 +89,14 @@ class DoktorandenEntry extends \SimpleORMap
         };
         
          $config['additional_fields']['hzb_land']['get'] = function ($item) {
+            $field = DoktorandenFields::find('hzb_art');
+            $hzb_art_astat = $field->getValueAstatByKey($item['hzb_art']);
             if($item['hzb_kreis']){
                 $field = DoktorandenFields::find('hzb_kreis');
                 $astat = $field->getValueAstatByKey($item['hzb_kreis']);
                 return substr($astat, 0, 2);
-//            } else if($item['hzb_staat']){
-//                $field = DoktorandenFields::find('hzb_staat');
-//                $astat = $field->getValueAstatByKey($item['hzb_staat']);
-//                return $astat;
+            } else if(in_array($hzb_art_astat, array('17', '39', '47', '59', '67', '79')) ){
+                return '99'; 
             } else return NULL;
         };
 

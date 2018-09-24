@@ -79,7 +79,7 @@ class DoktorandenEntry extends \SimpleORMap
                 $field = DoktorandenFields::find('hzb_kreis');
                 $astat = $field->getValueAstatByKey($item['hzb_kreis']);
                 return substr($astat, -3);
-            } else if($item['hzb_staat']){
+            } else if(in_array($item['hzb_art'], array('17', '39', '47', '59', '67', '79')) && $item['hzb_staat']){
                 $field = DoktorandenFields::find('hzb_staat');
                 $astat = $field->getValueAstatByKey($item['hzb_staat']);
                 return $astat;

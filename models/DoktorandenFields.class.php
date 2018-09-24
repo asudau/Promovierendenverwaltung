@@ -58,11 +58,20 @@ class DoktorandenFields extends \SimpleORMap
     public function getValueAstatByKey($key = null){
         if($this->value_key != NULL && $key){
             $value = DoktorandenFieldValue::findOneBySQL("field_id = ? AND " . $this->value_key . " = '" . $key . "'", array($this->getIdOfValues()));
+            
+            //Sonderfälle
             if($this->id == 'promotionsfach'){
                 return substr($value['astat_bund'], -3);
-            }
+            } 
+            
             return $value['astat_bund'];
-        } else return false;
+    
+        //Sonderfälle bei fehlenden Einträgen
+        } else if($key == NULL && ($this->id == 'staatsangehoerigkeit' || $this->id == 'weitere_staatsangehoerigkeit')){
+            return '999';
+        }
+        
+        return false;
     }
     
     public static function getRequiredFields() {

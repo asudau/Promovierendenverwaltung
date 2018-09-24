@@ -64,7 +64,7 @@ class DoktorandenverwaltungAddFieldsTable extends Migration
            ('hochschule_abschlusspruefung', 'Hochschule der Abschlussprüfung', NULL, NULL, 'abschlusspruefung', '2', 'manual_req', 'university', 'lid', 'ef024'),
            ('staat_abschlusspruefung', 'Staat', NULL, NULL, 'abschlusspruefung', '3', 'manual_req', 'country', 'his_id', 'ef025'),
            ('studienform_abschluss', 'Studienform', NULL, NULL, 'abschlusspruefung', '4', 'manual_req', 'studienform', 'his_id', '0'),
-           ('abschlusspruefung_abschluss', 'Abschluss', NULL, NULL, 'abschlusspruefung', '5', 'manual_req', 'abschluss', 'lid', '0'),
+           ('abschlusspruefung_abschluss', 'Abschluss', NULL, NULL, 'abschlusspruefung', '5', 'manual_req', 'degree', 'lid', '0'),
            ('ef026', 'Art der Prüfung', NULL, NULL, NULL, NULL, 'auto', NULL, NULL, 'ef026'),
            ('studienfach_abschluss', 'Erstes Studienfach', NULL, NULL, 'abschlusspruefung', '6', 'manual_req', 'promotionsfach', 'lid', '0'),
            ('ef027', 'Erstes Studienfach', NULL, NULL, NULL, NULL, 'auto', NULL, NULL, 'ef027'),

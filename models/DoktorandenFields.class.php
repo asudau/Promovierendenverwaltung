@@ -55,6 +55,7 @@ class DoktorandenFields extends \SimpleORMap
         } else return false;
     }
     
+    //Astat-Werte für Berichtsexport zusammenstellen (inklusive weiterer Randbedingungen)
     public function getValueAstatByKey($key = null){
         if($this->value_key != NULL && $key){
             $value = DoktorandenFieldValue::findOneBySQL("field_id = ? AND " . $this->value_key . " = '" . $key . "'", array($this->getIdOfValues()));
@@ -67,10 +68,19 @@ class DoktorandenFields extends \SimpleORMap
             return $value['astat_bund'];
     
         //Sonderfälle bei fehlenden Einträgen
-        } else if($key == NULL && ($this->id == 'staatsangehoerigkeit' || $this->id == 'weitere_staatsangehoerigkeit')){
-            return '999';
+        } else if($key == NULL) {
+            switch($this->id){
+                case 'staatsangehoerigkeit':
+                    return '999';
+                case 'weitere_staatsangehoerigkeit':
+                    return '999';
+                case 'promotionsende_monat':
+                    return '12';
+                case 'promotionsende_jahr':
+                    return date("Y");
+            }
         }
-        
+
         return false;
     }
     

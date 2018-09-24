@@ -89,6 +89,7 @@ class DoktorandenEntry extends \SimpleORMap
         };
         
          $config['additional_fields']['hzb_land']['get'] = function ($item) {
+             //ef032 = hzb_art
             $field = DoktorandenFields::find('hzb_art');
             $hzb_art_astat = $field->getValueAstatByKey($item['hzb_art']);
             if($item['hzb_kreis']){
@@ -147,12 +148,20 @@ class DoktorandenEntry extends \SimpleORMap
     }
 
     public function req($field_id){
+        
+        $ef032 = DoktorandenFields::find('hzb_art');
+        $hzb_art_astat = $ef032->getValueAstatByKey($this->hzb_art);
        
-        //sonderregelung für Ende der Promotion
+        //sonderregelung für Ende der Promotion: falls beendet, abschlussjahr/Monat Pflichtfeld
         if ($field_id == 'promotionsende_monat' || $field_id == 'promotionsende_jahr'){
             if($this->art_reg_prom == '3' || $this->art_reg_prom == '2' ){
                 return true;
             }
+        //Abschluss im Ausland: Staat Pflichtfeld
+        }else if (in_array($hzb_art_astat, array('17', '39', '47', '59', '67', '79')) &&
+                ($field_id == 'hzb_staat' ) ){
+            return true;
+
         } else  if (DoktorandenFields::find($field_id)->fill == 'manual_req'){
             if ($this->$field_id == NULL || strlen($this->$field_id) < 1){
                 return true;

@@ -17,6 +17,10 @@ class IndexController extends StudipController {
         //PageLayout::addScript($this->plugin->getPluginURL().'/assets/jquery.tablesorter.js');
         PageLayout::addSqueezePackage('tablesorter');
         
+        if (Request::get('set_showactive') == 1){
+            $_SESSION['Doktorandenverwaltung_vars']['show_active'] = 0;
+        } else $_SESSION['Doktorandenverwaltung_vars']['show_active'] = 1;
+        
         $sidebar = Sidebar::Get();
 
         $navcreate = new ActionsWidget();
@@ -38,19 +42,17 @@ class IndexController extends StudipController {
     {
         Navigation::activateItem('doktorandenverwaltung/index');
         
-        if($_SESSION['Doktorandenverwaltung_vars']['abschlussjahr'] != '0' && isset($_SESSION['Doktorandenverwaltung_vars']['abschlussjahr'])){
-            //$search_query['abschlussjahr'] = ' `ef014u2` = ' . $_SESSION['Doktorandenverwaltung_vars']['abschlussjahr'];
+        if($_SESSION['Doktorandenverwaltung_vars']['show_active'] == '1' ){
+            $search_query[] = '`promotionsende_jahr` IS NULL OR `promotionsende_jahr` = \'\'';
         }
         if(Request::option('abschlussjahrSelector')){
             $_SESSION['Doktorandenverwaltung_vars']['abschlussjahr'] = Request::option('abschlussjahrSelector');
-            $search_query['abschlussjahr'] = ' `ef014u2` = ' . Request::option('abschlussjahrSelector');
+            $search_query[] = '`promotionsende_jahr` = ' . Request::option('abschlussjahrSelector');
         } else $_SESSION['Doktorandenverwaltung_vars']['abschlussjahr'] = 0;
         
         $query = '';
         if($search_query){ 
-            foreach($search_query as $query_part) {
-                $query .= $query_part;
-            }
+            $query = implode(" AND ",$search_query);
         }
         if ($query == '') $query = 'true';
         
@@ -60,6 +62,7 @@ class IndexController extends StudipController {
         
         $sidebar = Sidebar::get();
         
+        //promotionsende_jahr
         
         $this->abschlussjahre = array('2016', '2017');
         $widget = new SelectWidget('Ende der Promotion (Jahr)', PluginEngine::GetURL('doktorandenverwaltung/index'), 'abschlussjahrSelector');
@@ -77,7 +80,20 @@ class IndexController extends StudipController {
         }
         $sidebar->insertWidget($widget, 'pdb_actions');
         
+        $actions = new OptionsWidget();
+        $actions->addCheckbox(
+                _('Nur aktive Promotionen anzeigen'),
+                $_SESSION['Doktorandenverwaltung_vars']['show_active'],
+                $this->url_for('index?set_showactive=' . $_SESSION['Doktorandenverwaltung_vars']['show_active'])
+            );
+
+            $sidebar->addWidget($actions);
+        
                 
+    }
+    
+    public function showactive_action(){
+        $this->render_nothing();
     }
     
     public function admin_action()
@@ -105,7 +121,11 @@ class IndexController extends StudipController {
         $sidebar = Sidebar::get();
         
         
-        $this->abschlussjahre = array('2016', '2017');
+        $stm = DBManager::get()->prepare('SELECT promotionsende_jahr FROM doktorandenverwaltung GROUP BY promotionsende_jahr');
+        $stm->execute();
+        $this->abschlussjahre = $stm->fetchAll(PDO::FETCH_ASSOC);
+                
+        //array('2016', '2017');
         $widget = new SelectWidget('Ende der Promotion (Jahr)', PluginEngine::GetURL('doktorandenverwaltung/index'), 'abschlussjahrSelector');
         $option = new SelectElement('0', _('Alle Abschlussjahre anzeigen'));
         if (('' ==  $_SESSION['Doktorandenverwaltung_vars']['abschlussjahr']) || ('0' ==  $_SESSION['Doktorandenverwaltung_vars']['abschlussjahr'])) {
@@ -214,7 +234,7 @@ class IndexController extends StudipController {
     public function export_action()
     {
         
-        $doktoranden_entries = DoktorandenEntry::findBySQL('true');
+        $doktoranden_entries = DoktorandenEntry::findBySQL('true LIMIT 500');
         
         $export_fields = DoktorandenFields::getExportFieldsArray();
         
@@ -249,7 +269,7 @@ class IndexController extends StudipController {
     }
     
     public function full_export_action(){
-        $doktoranden_entries = DoktorandenEntry::findBySQL('true');
+        $doktoranden_entries = DoktorandenEntry::findBySQL('true LIMIT 500');
         
         $export_fields = DoktorandenFields::getFullExportFieldsArray();
         

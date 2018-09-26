@@ -17,9 +17,9 @@ class IndexController extends StudipController {
         //PageLayout::addScript($this->plugin->getPluginURL().'/assets/jquery.tablesorter.js');
         PageLayout::addSqueezePackage('tablesorter');
         
-        if (Request::get('set_showactive') == 1){
-            $_SESSION['Doktorandenverwaltung_vars']['show_active'] = 0;
-        } else $_SESSION['Doktorandenverwaltung_vars']['show_active'] = 1;
+        if (Request::get('berichtsjahrSelector') == 1){
+            $_SESSION['Doktorandenverwaltung_vars']['berichtsjahr'] = 1;
+        } else $_SESSION['Doktorandenverwaltung_vars']['berichtsjahr'] = 0;
         
         $sidebar = Sidebar::Get();
 
@@ -42,17 +42,19 @@ class IndexController extends StudipController {
     {
         Navigation::activateItem('doktorandenverwaltung/index');
         
-        if($_SESSION['Doktorandenverwaltung_vars']['show_active'] == '1' ){
-            $search_query[] = '`promotionsende_jahr` IS NULL OR `promotionsende_jahr` = \'\'';
+        $search_query = array();
+        if($_SESSION['Doktorandenverwaltung_vars']['berichtsjahr'] == '1' ){
+            //noch ein enddatum
+            $search_query[] = '`promotionsende_jahr` IS NULL';
+            $search_query[] = '`promotionsende_jahr` = \'\'';
+            //oder ab 01.12.2017
+            $search_query[] = '`promotionsende_jahr` = 2018';
+            $search_query[] = '(`promotionsende_jahr` = 2017 AND `promotionsende_monat` = 11)';
         }
-        if(Request::option('abschlussjahrSelector')){
-            $_SESSION['Doktorandenverwaltung_vars']['abschlussjahr'] = Request::option('abschlussjahrSelector');
-            $search_query[] = '`promotionsende_jahr` = ' . Request::option('abschlussjahrSelector');
-        } else $_SESSION['Doktorandenverwaltung_vars']['abschlussjahr'] = 0;
         
         $query = '';
         if($search_query){ 
-            $query = implode(" AND ",$search_query);
+            $query = implode(" OR ",$search_query);
         }
         if ($query == '') $query = 'true';
         
@@ -62,32 +64,30 @@ class IndexController extends StudipController {
         
         $sidebar = Sidebar::get();
         
-        //promotionsende_jahr
+        //promotionsende_monat promotionsende_jahr 
         
-        $this->abschlussjahre = array('2016', '2017');
-        $widget = new SelectWidget('Ende der Promotion (Jahr)', PluginEngine::GetURL('doktorandenverwaltung/index'), 'abschlussjahrSelector');
-        $option = new SelectElement('0', _('Alle Abschlussjahre anzeigen'));
-        if (('' ==  $_SESSION['Doktorandenverwaltung_vars']['abschlussjahr']) || ('0' ==  $_SESSION['Doktorandenverwaltung_vars']['abschlussjahr'])) {
+        $widget = new SelectWidget('Berichtsjahr', PluginEngine::GetURL('doktorandenverwaltung/index'), 'berichtsjahrSelector');
+        $option = new SelectElement('0', _('Alle Einträge'));
+        if (('' ==  $_SESSION['Doktorandenverwaltung_vars']['berichtsjahr']) || ('0' ==  $_SESSION['Doktorandenverwaltung_vars']['berichtsjahr'])) {
             $option->setActive();
         }
         $widget->addElement($option);
-        foreach ($this->abschlussjahre as $aj) {
-            $option = new SelectElement($aj, $aj);
-            if ($aj == $_SESSION['Doktorandenverwaltung_vars']['abschlussjahr']) {
-                $option->setActive();
-            }
-            $widget->addElement($option);
+        $option = new SelectElement('1', _('aktuelles Berichtsjahr 12/17-11/18'));
+        if ('1' ==  $_SESSION['Doktorandenverwaltung_vars']['berichtsjahr'] ) {
+            $option->setActive();
         }
+        $widget->addElement($option);
+        
         $sidebar->insertWidget($widget, 'pdb_actions');
         
-        $actions = new OptionsWidget();
-        $actions->addCheckbox(
-                _('Nur aktive Promotionen anzeigen'),
-                $_SESSION['Doktorandenverwaltung_vars']['show_active'],
-                $this->url_for('index?set_showactive=' . $_SESSION['Doktorandenverwaltung_vars']['show_active'])
-            );
-
-            $sidebar->addWidget($actions);
+//        $actions = new OptionsWidget();
+//        $actions->addCheckbox(
+//                _('Nur aktive Promotionen anzeigen'),
+//                $_SESSION['Doktorandenverwaltung_vars']['show_active'],
+//                $this->url_for('index?set_showactive=' . $_SESSION['Doktorandenverwaltung_vars']['show_active'])
+//            );
+//
+//            $sidebar->addWidget($actions);
         
                 
     }

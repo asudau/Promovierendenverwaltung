@@ -72,7 +72,7 @@ class IndexController extends StudipController {
             $option->setActive();
         }
         $widget->addElement($option);
-        $option = new SelectElement('1', _('aktuelles Berichtsjahr 12/17-11/18'));
+        $option = new SelectElement('1', _('Berichtsjahr 2018'));
         if ('1' ==  $_SESSION['Doktorandenverwaltung_vars']['berichtsjahr'] ) {
             $option->setActive();
         }

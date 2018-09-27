@@ -49,7 +49,7 @@ class IndexController extends StudipController {
         
         $search_query = array();
         if($_SESSION['Doktorandenverwaltung_vars']['berichtsjahr'] == '1' ){
-            //noch ein enddatum
+            //noch kein enddatum
             $search_query[] = '`promotionsende_jahr` IS NULL';
             $search_query[] = '`promotionsende_jahr` = \'\'';
             //oder ab 01.12.2017
@@ -242,10 +242,19 @@ class IndexController extends StudipController {
           
     }
     
+    //Bericht für 2018 erstellen
     public function export_action()
     {
+        $search_query = array();
+        //noch kein enddatum
+        $search_query[] = '`promotionsende_jahr` IS NULL';
+        $search_query[] = '`promotionsende_jahr` = \'\'';
+        //oder ab 01.12.2017
+        $search_query[] = '`promotionsende_jahr` = 2018';
+        $search_query[] = '(`promotionsende_jahr` = 2017 AND `promotionsende_monat` = 11)';
+        $query = implode(" OR ",$search_query);
         
-        $doktoranden_entries = DoktorandenEntry::findBySQL('true LIMIT 500');
+        $doktoranden_entries = DoktorandenEntry::findBySQL($query);
         
         $export_fields = DoktorandenFields::getExportFieldsArray();
         
@@ -342,17 +351,19 @@ class IndexController extends StudipController {
         //zugehörige Fächer für aktuellen User
         
         $this->inst_id = RolePersistence::getAssignedRoleInstitutes($GLOBALS['user']->user_id, $this->role_id);
-        $stmt = DBManager::get()->prepare("SELECT fach_id FROM mvv_fach_inst WHERE Institut_id IN (?)");
-        $stmt->execute(array($this->inst_id));
-        $faecher = $stmt->fetchAll(PDO::FETCH_ASSOC); 
-        $faecher_array = array();
-        $field = DoktorandenFields::find('promotionsfach');
-        foreach($faecher as $fach){
-            $faecher_array[] = $field->getValueLIDByUniquename($fach['fach_id']);
-        }
-        if(sizeof($faecher_array) >0){
-            return $faecher_array;
-        } else return false;
+        if($this->inst_id[1]){
+            $stmt = DBManager::get()->prepare("SELECT fach_id FROM mvv_fach_inst WHERE Institut_id IN (?)");
+            $stmt->execute(array($this->inst_id));
+            $faecher = $stmt->fetchAll(PDO::FETCH_ASSOC); 
+            $faecher_array = array();
+            $field = DoktorandenFields::find('promotionsfach');
+            foreach($faecher as $fach){
+                $faecher_array[] = $field->getValueLIDByUniquename($fach['fach_id']);
+            }
+            if(sizeof($faecher_array) >0){
+                return $faecher_array;
+            } else return false;
+        }else return false;
     }
     
     

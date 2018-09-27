@@ -36,7 +36,8 @@ use Studip\Button, Studip\LinkButton;
                         ->render();?>
                     
                     <?php elseif (sizeof($field_entry->values) > 1) : ?>
-                    <select class='nested-select' name ='<?=$field_entry->id?>'>
+                    <select <? if ($entry->disabled($field_entry->id)): ?> disabled <? endif ?>
+                        class='nested-select' name ='<?=$field_entry->id?>'>
                         <option value="">-- ggf. auswählen --</option>
                         <?php foreach ($field_entry->values as $entry_value): ?>
                         <? $key = $field_entry->value_key; ?>

@@ -55,6 +55,16 @@ class DoktorandenFields extends \SimpleORMap
         } else return false;
     }
     
+     public function getValueLIDByUniquename($key = null) {
+        if($this->value_key != NULL && $key){
+            if (strlen($key) > 3){
+                $key = substr($key, -3);
+            }
+            $value = DoktorandenFieldValue::findOneBySQL("field_id = ? AND uniquename = '" . $key . "'", array($this->getIdOfValues()));
+            return $value['lid'];
+        } else return false;
+    }
+    
     //Astat-Werte für Berichtsexport zusammenstellen (inklusive weiterer Randbedingungen)
     public function getValueAstatByKey($key = null){
         if($this->value_key != NULL && $key){

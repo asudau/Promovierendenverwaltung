@@ -21,6 +21,10 @@ class IndexController extends StudipController {
             $_SESSION['Doktorandenverwaltung_vars']['berichtsjahr'] = 1;
         } else $_SESSION['Doktorandenverwaltung_vars']['berichtsjahr'] = 0;
         
+        $stmt = DBManager::get()->prepare("SELECT roleid FROM roles WHERE rolename = ?");
+        $stmt->execute(array('Doktorandenverwaltung'));
+        $this->role_id = $stmt->fetch()[0];
+        
         $sidebar = Sidebar::Get();
 
         $navcreate = new ActionsWidget();
@@ -36,6 +40,7 @@ class IndexController extends StudipController {
                               $this->url_for('index/full_export'),
                               Icon::create('seminar+add', 'clickable'));
         $sidebar->addWidget($navcreate);
+
     }
 
     public function index_action()
@@ -58,15 +63,21 @@ class IndexController extends StudipController {
         }
         if ($query == '') $query = 'true';
         
+        $this->faecher = $this::getFaecherIDsForUser();
         $this->fields = DoktorandenFields::getHeaderFields();
-        $this->entries = DoktorandenEntry::findBySQL($query); 
+        
+        if ($this->faecher){
+            $this->entries = DoktorandenEntry::findBySQL("(" . $query . ") AND promotionsfach IN ('" . implode($this->faecher, '\' ,\'') . "')" ); 
+        } else {
+            $this->entries = DoktorandenEntry::findBySQL($query);
+        }
         $this->number_required_fields = sizeof(DoktorandenFields::getRequiredFields());
         
         $sidebar = Sidebar::get();
         
         //promotionsende_monat promotionsende_jahr 
         
-        $widget = new SelectWidget('Berichtsjahr', PluginEngine::GetURL('doktorandenverwaltung/index'), 'berichtsjahrSelector');
+        $widget = new SelectWidget('Berichtsjahr', PluginEngine::GetURL('doktorandenverwaltung/index/'), 'berichtsjahrSelector');
         $option = new SelectElement('0', _('Alle Einträge'));
         if (('' ==  $_SESSION['Doktorandenverwaltung_vars']['berichtsjahr']) || ('0' ==  $_SESSION['Doktorandenverwaltung_vars']['berichtsjahr'])) {
             $option->setActive();
@@ -327,6 +338,23 @@ class IndexController extends StudipController {
         return $rowData;
     }
 
+    private function getFaecherIDsForUser(){
+        //zugehörige Fächer für aktuellen User
+        
+        $this->inst_id = RolePersistence::getAssignedRoleInstitutes($GLOBALS['user']->user_id, $this->role_id);
+        $stmt = DBManager::get()->prepare("SELECT fach_id FROM mvv_fach_inst WHERE Institut_id IN (?)");
+        $stmt->execute(array($this->inst_id));
+        $faecher = $stmt->fetchAll(PDO::FETCH_ASSOC); 
+        $faecher_array = array();
+        $field = DoktorandenFields::find('promotionsfach');
+        foreach($faecher as $fach){
+            $faecher_array[] = $field->getValueLIDByUniquename($fach['fach_id']);
+        }
+        if(sizeof($faecher_array) >0){
+            return $faecher_array;
+        } else return false;
+    }
+    
     
     // customized #url_for for plugins
     public function url_for($to = '')

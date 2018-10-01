@@ -13,15 +13,13 @@ class DoktorandenverwaltungFieldValueEntries extends Migration
 
         $query = "INSERT INTO `doktorandenverwaltung_field_values` (`field_id`, `his_id`, `lid`, `uniquename`, `defaulttext`, `astat_bund`) 
             VALUES 
-            ('geschlecht', '1', NULL, '1', 'männlich', NULL), 
-            ('geschlecht', '2', NULL, '2', 'weiblich', NULL),
-            ('art_reg_prom', '1', NULL, '1', 'Erstregistrierung', NULL),
-            ('art_reg_prom', '2', NULL, '2', 'Neuregistrierung', NULL),
-            ('ja_nein', '1', NULL, '1', 'Ja', '1'),
-            ('ja_nein', '0', NULL, '0', 'Nein', '0'),
-            ('art_dissertation', '128', NULL, '1', 'Monografie', '1'),
-            ('art_dissertation', '129', NULL, '2', 'publikationsbasierte/kumulative Dissertation', '2'),
-            ('art_dissertation', '99', NULL, '0', 'undefiniert (von Migration)', NULL),
+            ('geschlecht', '1', NULL, NULL, 'männlich', NULL), 
+            ('geschlecht', '2', NULL, NULL, 'weiblich', NULL),
+            ('ja_nein', '1', NULL, NULL, 'Ja', '1'),
+            ('ja_nein', '0', NULL, NULL, 'Nein', '0'),
+            ('art_dissertation', '128', NULL, NULL, 'Monografie', '1'),
+            ('art_dissertation', '129', NULL, NULL, 'publikationsbasierte/kumulative Dissertation', '2'),
+            ('art_dissertation', '99', NULL, NULL, 'undefiniert (von Migration)', NULL),
             ('semester', '1', NULL, 'SoSe', 'Sommersemester', NULL),
             ('semester', '2', NULL, 'WiSe', 'Wintersemester', NULL),
             ('status_abschlusspruefung', '0', NULL, NULL, 'wurde noch nicht abgelegt', '0'),

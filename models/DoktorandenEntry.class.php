@@ -9,7 +9,7 @@
 class DoktorandenEntry extends \SimpleORMap
 {
     private static $groups = array(
-        'doktorandendaten'=> 'Doktorandendaten',
+        'doktorandendaten'=> 'Persönliche Daten',
         'promotionsdaten' => 'Daten zur Promotion',
         'ersteinschreibung'=> 'Daten zur Ersteinschreibung',
         'abschlusspruefung'=> 'Daten zur Promotion berechtigenden Abschlussprüfung',

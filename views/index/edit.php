@@ -5,7 +5,6 @@ use Studip\Button, Studip\LinkButton;
 
 <html>
 
-<h1>Eintrag bearbeiten</h1>
 
 <form name="course-settings" name="settings" method="post" action="<?= $controller->url_for('index/save', $entry->id) ?>" <?= $dialog_attr ?> class="default collapsable">
     <?= CSRFProtection::tokenTag() ?>

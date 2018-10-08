@@ -20,8 +20,8 @@ class DoktorandenverwaltungFieldValueEntries extends Migration
             ('art_dissertation', '128', NULL, NULL, 'Monografie', '1'),
             ('art_dissertation', '129', NULL, NULL, 'publikationsbasierte/kumulative Dissertation', '2'),
             ('art_dissertation', '99', NULL, NULL, 'undefiniert (von Migration)', NULL),
-            ('semester', '1', NULL, 'SoSe', 'Sommersemester', NULL),
-            ('semester', '2', NULL, 'WiSe', 'Wintersemester', NULL),
+            ('semester', '1', NULL, NULL, 'Sommersemester', NULL),
+            ('semester', '2', NULL, NULL, 'Wintersemester', NULL),
             ('status_abschlusspruefung', '0', NULL, NULL, 'wurde noch nicht abgelegt', '0'),
             ('status_abschlusspruefung', '1', NULL, NULL, 'wurde abgelegt und bestanden', '1'),
             ('status_abschlusspruefung', '18', NULL, '18', 'Nicht angeboten / Keine Angabe', NULL)

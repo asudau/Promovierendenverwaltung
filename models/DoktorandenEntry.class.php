@@ -157,14 +157,17 @@ class DoktorandenEntry extends \SimpleORMap
             if($this->art_reg_prom == '3' || $this->art_reg_prom == '2' ){
                 return true;
             }
-        //Abschluss im Ausland: Staat Pflichtfeld
+        //Abschluss(HZB) im Ausland: Staat Pflichtfeld
         }else if (in_array($hzb_art_astat, array('17', '39', '47', '59', '67', '79')) &&
                 ($field_id == 'hzb_staat' ) ){
             return true;
-        //Abschluss im Inland: Staat ausgegraut, Bundesland und Kreis Pflichtfeld
+        //Abschluss(HZB) im Inland: Staat ausgegraut, Bundesland und Kreis Pflichtfeld
         } else if (($field_id == 'hzb_land' || $field_id == 'hzb_kreis') && $hzb_art_astat ){
             return true;
-            
+        //Abschlusshochschule keine Auslandshochschulen, dann Staat kein Pflichtfeld    
+        }else if ($this->hochschule_abschlusspruefung == '2' &&
+                ($field_id == 'staat_abschlusspruefung' ) ){
+            return true;  
         }else  if (DoktorandenFields::find($field_id)->fill == 'manual_req'){
             if ($this->$field_id == NULL || strlen($this->$field_id) < 1){
                 return true;
@@ -174,11 +177,14 @@ class DoktorandenEntry extends \SimpleORMap
     }
     
     public function disabled($field_id){
-        //Abschluss im Ausland: Staat Pflichtfeld, Bundesland und Kreis ausgegraut
+        //Abschluss (HZB) im Ausland: Staat Pflichtfeld, Bundesland und Kreis ausgegraut
         if (($field_id == 'hzb_land' || $field_id =='hzb_kreis') && $this->req('hzb_staat')){
             return true;
-        //Abschluss im Inland: Staat ausgegraut, Bundesland und Kreis Pflichtfeld
+        //Abschluss (HZB) im Inland: Staat ausgegraut, Bundesland und Kreis Pflichtfeld
         } else if (($field_id == 'hzb_staat') && $this->req('hzb_land')){
+            return true;
+        //Abschlusshochschule keine Auslandshochschulen, -> Staat kein Pflichtfeld dann ausgegraut 
+        } else if (($field_id == 'staat_abschlusspruefung' ) && !$this->req('staat_abschlusspruefung')){
             return true;
         }
         return false;

@@ -17,3 +17,7 @@ table.tablesorter thead tr .headerSortDown {
 .quicksearch_frame input[type=submit] {
     background-image: url("../assets/images/icons/grey/search.svg"); 
 }
+
+form.default input[type="date"]{
+    max-width: 10em !important;
+}

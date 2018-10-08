@@ -164,10 +164,15 @@ class DoktorandenEntry extends \SimpleORMap
         //Abschluss(HZB) im Inland: Staat ausgegraut, Bundesland und Kreis Pflichtfeld
         } else if (($field_id == 'hzb_land' || $field_id == 'hzb_kreis') && $hzb_art_astat ){
             return true;
-        //Abschlusshochschule keine Auslandshochschulen, dann Staat kein Pflichtfeld    
+        //Abschlusshochschule Auslandshochschulen, dann Staat Pflichtfeld    
         }else if ($this->hochschule_abschlusspruefung == '2' &&
                 ($field_id == 'staat_abschlusspruefung' ) ){
-            return true;  
+            return true; 
+        //Ersteinschreibung Auslandshochschulen, dann Staat Pflichtfeld 
+        }else if ($this->hochschule_erst == '2' &&
+                ($field_id == 'staat_hochschule_erst' ) ){
+            return true; 
+        //generelle Pflichtfelder
         }else  if (DoktorandenFields::find($field_id)->fill == 'manual_req'){
             if ($this->$field_id == NULL || strlen($this->$field_id) < 1){
                 return true;
@@ -186,8 +191,20 @@ class DoktorandenEntry extends \SimpleORMap
         //Abschlusshochschule keine Auslandshochschulen, -> Staat kein Pflichtfeld dann ausgegraut 
         } else if (($field_id == 'staat_abschlusspruefung' ) && !$this->req('staat_abschlusspruefung')){
             return true;
+        //Ersteinschreibung keine Auslandshochschulen, -> Staat kein Pflichtfeld dann ausgegraut 
+        } else if (($field_id == 'staat_hochschule_erst' ) && !$this->req('staat_hochschule_erst')){
+            return true;
         }
         return false;
+    }
+    
+    public function getDefaultOption($field_id){
+        if($this->req($field_id)){
+            return '-- bitte auswählen --';
+        } if ($this->disabled($field_id)){
+            return '-- nicht erforderlich --';
+        } 
+        return '-- ggf. auswählen --';
     }
     
     public function getNextId(){
@@ -204,6 +221,6 @@ class DoktorandenEntry extends \SimpleORMap
         $str = str_replace($search, $replace, $str);
         //$str = strtolower(preg_replace("/[^a-zA-Z0-9]+/", trim($how), $str));
         return substr($str, 0, 4);
-}
+    }
     
 }

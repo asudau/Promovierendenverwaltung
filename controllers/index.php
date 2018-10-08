@@ -28,8 +28,8 @@ class IndexController extends StudipController {
         $sidebar = Sidebar::Get();
 
         $navcreate = new ActionsWidget();
-        $navcreate->addLink("Übersicht", 'index' );
-        $navcreate->addLink("FAQ", 'index/faq' );
+        $navcreate->addLink("Übersicht", $this->url_for('index'));
+        $navcreate->addLink("FAQ", $this->url_for('index/faq') );
         $navcreate->addLink(_('Neuer Eintrag'),
                               $this->url_for('index/new'),
                               Icon::create('seminar+add', 'clickable'))->asDialog('size=big');
@@ -289,7 +289,7 @@ class IndexController extends StudipController {
     }
     
     public function full_export_action(){
-        $doktoranden_entries = DoktorandenEntry::findBySQL('true LIMIT 500');
+        $doktoranden_entries = DoktorandenEntry::findBySQL('true');
         
         $export_fields = DoktorandenFields::getFullExportFieldsArray();
         

@@ -107,7 +107,7 @@ class DoktorandenEntry extends \SimpleORMap
     //für neu erzeugte Einträge müssen einige Werte initialisiert werden
     public function setup(){
         //Paginierung ist ein String-Wert der aus der id erzeugt wird weil fortlaufend
-        $this->ef004 = str_pad($this->id, 6 ,'0', STR_PAD_LEFT);
+//        $this->ef004 = str_pad($this->id, 6 ,'0', STR_PAD_LEFT);
         $this->store();
     }
     

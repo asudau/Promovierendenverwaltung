@@ -23,8 +23,7 @@ class DoktorandenverwaltungFieldValueEntries extends Migration
             ('semester', '1', NULL, NULL, 'Sommersemester', NULL),
             ('semester', '2', NULL, NULL, 'Wintersemester', NULL),
             ('status_abschlusspruefung', '0', NULL, NULL, 'wurde noch nicht abgelegt', '0'),
-            ('status_abschlusspruefung', '1', NULL, NULL, 'wurde abgelegt und bestanden', '1'),
-            ('status_abschlusspruefung', '18', NULL, '18', 'Nicht angeboten / Keine Angabe', NULL)
+            ('status_abschlusspruefung', '1', NULL, NULL, 'wurde abgelegt und bestanden', '1')
             ";
         
         $db->exec($query);

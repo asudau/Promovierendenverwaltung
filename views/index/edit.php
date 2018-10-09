@@ -46,7 +46,9 @@ use Studip\Button, Studip\LinkButton;
                     <?php elseif ($field_entry->id == 'geburtstag') : ?>
                     <input type='date' id ='<?=$field_entry->id?>' name ='<?=$field_entry->id?>' value='<?= $entry['geburtstag_time'] ? date('Y-m-d', $entry['geburtstag_time']) : ''?>'>
                     <?php else : ?>
-                    <input type='text' id ='<?=$field_entry->id?>' name ='<?=$field_entry->id?>' value ='<?= $entry[$field_entry->id]?>'> 
+                    <input type='text' id ='<?=$field_entry->id?>' name ='<?=$field_entry->id?>' 
+                           <? if ($entry->disabled($field_entry->id)): ?> disabled placeholder=''<? else: ?>
+                           value ='<?= $entry[$field_entry->id]?>' <? endif ?>> 
                     <?php endif ?>
                 </td>
             </tr>

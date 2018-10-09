@@ -17,7 +17,7 @@ use Studip\Button, Studip\LinkButton;
             <?php foreach ($group['entries'] as $field_entry): ?>
             <? ($entry[$field_entry->id])? $value = $field_entry->getValueTextByKey($entry[$field_entry->id]): $value = NULL; ?>
             
-            <tr>
+            <tr name ='<?=$field_entry->id?>'>
                 <td style="width:500px" <? if ($entry->req($field_entry->id)): ?> class='required' <? endif ?> >
                     <?=$field_entry->title?>: 
                     <? if ($field_entry->helptext): ?>
@@ -37,17 +37,16 @@ use Studip\Button, Studip\LinkButton;
                     <?php elseif (sizeof($field_entry->values) > 1) : ?>
                     <select <? if ($entry->disabled($field_entry->id)): ?> disabled <? endif ?>
                         class='nested-select' name ='<?=$field_entry->id?>'>
-                        <option value=""> <?= $entry->getDefaultOption($field_entry->id) ?> </option>
+                        <option value="NULL"> <?= $entry->getDefaultOption($field_entry->id) ?> </option>
                         <?php foreach ($field_entry->values as $entry_value): ?>
                         <? $key = $field_entry->value_key; ?>
                             <option <? if ($entry[$field_entry->id] == $entry_value->$key) :?> selected <? endif ?> value="<?= $entry_value->$key ?>"><?= $entry_value->defaulttext . (($entry_value->uniquename)? ' ' . $entry_value->uniquename: '') ?></option>
                         <?php endforeach ?>
                     </select>
-                    
                     <?php elseif ($field_entry->id == 'geburtstag') : ?>
-                    <input type='date' name ='<?=$field_entry->id?>' value='<?= $entry['geburtstag_time'] ? date('Y-m-d', $entry['geburtstag_time']) : ''?>'>
+                    <input type='date' id ='<?=$field_entry->id?>' name ='<?=$field_entry->id?>' value='<?= $entry['geburtstag_time'] ? date('Y-m-d', $entry['geburtstag_time']) : ''?>'>
                     <?php else : ?>
-                    <input type='text' name ='<?=$field_entry->id?>' value ='<?= $entry[$field_entry->id]?>'> 
+                    <input type='text' id ='<?=$field_entry->id?>' name ='<?=$field_entry->id?>' value ='<?= $entry[$field_entry->id]?>'> 
                     <?php endif ?>
                 </td>
             </tr>
@@ -66,6 +65,58 @@ use Studip\Button, Studip\LinkButton;
 
 
 <script>
+    
+    //Ersteinschreibung Auslandshochschulen, dann Staat Pflichtfeld
+    document.getElementsByName("hochschule_erst")[1].onchange = function () {
+        if (this.value == '2'){
+            document.getElementsByName("staat_hochschule_erst")[1].removeAttribute("disabled");
+            //document.getElementsByName("staat_hochschule_erst")[0].style.display = "";
+        } else {
+            //document.getElementsByName("staat_hochschule_erst")[1].value = "-- nicht erforderlich --"; 
+            document.getElementsByName("staat_hochschule_erst")[1].setAttribute("disabled", true); 
+            //$("tr[staat_hochschule_erst]").hide();//.removeClass( "required");
+            //document.getElementsByName("staat_hochschule_erst")[0].style.display = "none";//.removeAttribute("class");
+        }
+    };
+    
+    document.getElementsByName("art_reg_prom")[1].onchange = function () {
+        if (this.value == '3' || this.value == '2' ){
+            document.getElementsByName("promotionsende_monat")[1].removeAttribute("disabled");
+            document.getElementsByName("promotionsende_jahr")[1].removeAttribute("disabled");
+            //document.getElementsByName("staat_hochschule_erst")[0].style.display = "";
+        } else {
+            //document.getElementsByName("promotionsende_monat")[1].value = "-- nicht erforderlich --"; 
+            document.getElementsByName("promotionsende_monat")[1].setAttribute("disabled", true); 
+            document.getElementsByName("promotionsende_jahr")[1].setAttribute("disabled", true);
+            //$("tr[staat_hochschule_erst]").hide();//.removeClass( "required");
+            //document.getElementsByName("staat_hochschule_erst")[0].style.display = "none";//.removeAttribute("class");
+        }
+    };
+    
+    //Abschluss(HZB) im Ausland: Staat Pflichtfeld
+    //Abschluss(HZB) im Inland: Staat ausgegraut, Bundesland und Kreis Pflichtfeld
+    //TODO, astatwerte aus tabelle kramen
+    var hzb_art_ids = new Array("41", "52", "15", "56", "25", "58");
+    document.getElementsByName("hzb_art")[1].onchange = function () {
+        if (hzb_art_ids.indexOf(this.value) != -1) {
+            document.getElementsByName("hzb_staat")[1].removeAttribute("disabled");
+            document.getElementsByName("hzb_land")[1].setAttribute("disabled", true);
+            document.getElementsByName("hzb_kreis")[1].setAttribute("disabled", true);
+        } else {
+            document.getElementsByName("hzb_staat")[1].setAttribute("disabled", true); 
+            document.getElementsByName("hzb_land")[1].removeAttribute("disabled");
+            document.getElementsByName("hzb_kreis")[1].removeAttribute("disabled");
+        }
+    };
+    
+    //Abschlusshochschule Auslandshochschulen, dann Staat Pflichtfeld
+    document.getElementsByName("hochschule_abschlusspruefung")[1].onchange = function () {
+        if (this.value == '2'){
+            document.getElementsByName("staat_abschlusspruefung")[1].removeAttribute("disabled");
+        } else {
+            document.getElementsByName("staat_abschlusspruefung")[1].setAttribute("disabled", true); 
+        }
+    };
     
     $(function() {
             $('.mydate-picker').datepicker( {

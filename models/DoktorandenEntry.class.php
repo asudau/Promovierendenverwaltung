@@ -32,7 +32,9 @@ class DoktorandenEntry extends \SimpleORMap
             $item->geburtsdatum_jahr = date("Y", $time);
         };
         $config['additional_fields']['geburtstag_time']['get'] = function ($item) {
-            return mktime(0, 0, 0, $item->geburtsdatum_monat, $item->geburtsdatum_tag, $item->geburtsdatum_jahr);
+            if ($item->geburtsdatum_monat){
+                return mktime(0, 0, 0, $item->geburtsdatum_monat, $item->geburtsdatum_tag, $item->geburtsdatum_jahr);
+            } else return false;
         };
         $config['additional_fields']['berichtseinheitid']['get'] = function ($item) {
             return '05300000';
@@ -205,7 +207,7 @@ class DoktorandenEntry extends \SimpleORMap
         if($this->req($field_id)){
             return '-- bitte auswählen --';
         } if ($this->disabled($field_id)){
-            return '-- nicht erforderlich --';
+            return '-- ggf. auswählen --';
         } 
         return '-- ggf. auswählen --';
     }

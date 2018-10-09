@@ -157,8 +157,8 @@ class DoktorandenEntry extends \SimpleORMap
             if($this->art_reg_prom == '3' || $this->art_reg_prom == '2' ){
                 return true;
             }
-        //Abschluss(HZB) im Ausland: Staat Pflichtfeld
-        }else if (in_array($hzb_art_astat, array('17', '39', '47', '59', '67', '79')) &&
+        //Abschluss(HZB) im Ausland oder nicht angegeben: Staat Pflichtfeld
+        }else if (in_array($hzb_art_astat, array('17', '39', '47', '59', '67', '79', false)) &&
                 ($field_id == 'hzb_staat' ) ){
             return true;
         //Abschluss(HZB) im Inland: Staat ausgegraut, Bundesland und Kreis Pflichtfeld
@@ -183,16 +183,19 @@ class DoktorandenEntry extends \SimpleORMap
     
     public function disabled($field_id){
         //Abschluss (HZB) im Ausland: Staat Pflichtfeld, Bundesland und Kreis ausgegraut
-        if (($field_id == 'hzb_land' || $field_id =='hzb_kreis') && $this->req('hzb_staat')){
+        if (($field_id == 'hzb_land' || $field_id =='hzb_kreis') && $this->req('hzb_staat') && $this->hzb_art){
             return true;
         //Abschluss (HZB) im Inland: Staat ausgegraut, Bundesland und Kreis Pflichtfeld
-        } else if (($field_id == 'hzb_staat') && $this->req('hzb_land')){
+        } else if (($field_id == 'hzb_staat') && $this->req('hzb_land') && $this->hzb_art){
             return true;
-        //Abschlusshochschule keine Auslandshochschulen, -> Staat kein Pflichtfeld dann ausgegraut 
-        } else if (($field_id == 'staat_abschlusspruefung' ) && !$this->req('staat_abschlusspruefung')){
+        //Abschlusshochschule keine Auslandshochschulen -> Staat kein Pflichtfeld dann ausgegraut 
+        } else if (($field_id == 'staat_abschlusspruefung' ) && !$this->req('staat_abschlusspruefung') && $this->hochschule_abschlusspruefung){
             return true;
         //Ersteinschreibung keine Auslandshochschulen, -> Staat kein Pflichtfeld dann ausgegraut 
-        } else if (($field_id == 'staat_hochschule_erst' ) && !$this->req('staat_hochschule_erst')){
+        } else if (($field_id == 'staat_hochschule_erst' ) && !$this->req('staat_hochschule_erst') && $this->hochschule_erst){
+            return true;
+        //sonderregelung für Ende der Promotion: abschlussjahr/Monat Pflichtfeld falls beendet
+        } else if (($field_id == 'promotionsende_monat' || $field_id == 'promotionsende_jahr' ) && !$this->req('promotionsende_jahr')){
             return true;
         }
         return false;

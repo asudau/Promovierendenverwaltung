@@ -109,52 +109,6 @@ class IndexController extends StudipController {
         $this->render_nothing();
     }
     
-    public function admin_action()
-    {
-        Navigation::activateItem('doktorandenverwaltung/index_admin');
-        if($_SESSION['Doktorandenverwaltung_vars']['abschlussjahr'] != '0' && isset($_SESSION['Doktorandenverwaltung_vars']['abschlussjahr'])){
-            //$search_query['abschlussjahr'] = ' `ef014u2` = ' . $_SESSION['Doktorandenverwaltung_vars']['abschlussjahr'];
-        }
-        if(Request::option('abschlussjahrSelector')){
-            $_SESSION['Doktorandenverwaltung_vars']['abschlussjahr'] = Request::option('abschlussjahrSelector');
-            $search_query['abschlussjahr'] = ' `ef014u2` = ' . Request::option('abschlussjahrSelector');
-        } else $_SESSION['Doktorandenverwaltung_vars']['abschlussjahr'] = 0;
-        
-        $query = '';
-        foreach($search_query as $query_part) {
-            $query .= $query_part;
-        }
-        if ($query == '') $query = 'true';
-        
-        $field = DoktorandenEntry::findOneBySQL('true');
-        $this->fields = $field->getFields();
-        $this->additionalfields = $field->getAdditionalFields();
-        $this->entries = DoktorandenEntry::findBySQL($query); 
-        
-        $sidebar = Sidebar::get();
-        
-        
-        $stm = DBManager::get()->prepare('SELECT promotionsende_jahr FROM doktorandenverwaltung GROUP BY promotionsende_jahr');
-        $stm->execute();
-        $this->abschlussjahre = $stm->fetchAll(PDO::FETCH_ASSOC);
-                
-        //array('2016', '2017');
-        $widget = new SelectWidget('Ende der Promotion (Jahr)', PluginEngine::GetURL('doktorandenverwaltung/index'), 'abschlussjahrSelector');
-        $option = new SelectElement('0', _('Alle Abschlussjahre anzeigen'));
-        if (('' ==  $_SESSION['Doktorandenverwaltung_vars']['abschlussjahr']) || ('0' ==  $_SESSION['Doktorandenverwaltung_vars']['abschlussjahr'])) {
-            $option->setActive();
-        }
-        $widget->addElement($option);
-        foreach ($this->abschlussjahre as $aj) {
-            $option = new SelectElement($aj, $aj);
-            if ($aj == $_SESSION['Doktorandenverwaltung_vars']['abschlussjahr']) {
-                $option->setActive();
-            }
-            $widget->addElement($option);
-        }
-        $sidebar->insertWidget($widget, 'pdb_actions');
-                
-    }
     
     public function edit_action($entry_id)
     {
@@ -184,7 +138,6 @@ class IndexController extends StudipController {
             $entry = DoktorandenEntry::findOneBySQL('id = ' . $entry_id);
         } else {
             $entry = new DoktorandenEntry();
-            $entry->id = $entry->getNextId();
         }
         $groupedFields = DoktorandenEntry::getGroupedFields();
         
@@ -192,20 +145,21 @@ class IndexController extends StudipController {
             foreach ($groupedFields as $group){
                 foreach ($group['entries'] as $field_entry){
                     $field = $field_entry->id;
-                    
-                    if(Request::get($field)){
+                    //if(Request::option($field)){
                         if (strpos($field, 'jahr') !== false){
-                            $input = (int)htmlReady(Request::get($field));
-                            if($input>1000 && $input<2100){
-                                $entry->$field = htmlReady(Request::get($field));
+                            if (Request::get($field)){
+                                $input = (int)htmlReady(Request::get($field));
+                                if($input>1000 && $input<2100){
+                                    $entry->$field = htmlReady(Request::get($field));
+                                } else {
+                                    $message = MessageBox::error(_('Falsches Datumsformat: ' . $field_entry->title . ' wurde nicht übernommen'));
+                                    PageLayout::postMessage($message);
+                                }
                             } else {
-                                $message = MessageBox::error(_('Falsches Datumsformat: ' . $field_entry->title . ' wurde nicht übernommen'));
-                                PageLayout::postMessage($message);
+                                $entry->$field = htmlReady(Request::get($field));
                             }
-                        } else {
-                            $entry->$field = htmlReady(Request::get($field));
                         }
-                    }
+                    //}
                 }
             }
             //$entry->store();
@@ -248,71 +202,75 @@ class IndexController extends StudipController {
     //Bericht für 2018 erstellen
     public function export_action()
     {
-        $search_query = array();
-        //noch kein enddatum
-        $search_query[] = '`promotionsende_jahr` IS NULL';
-        $search_query[] = '`promotionsende_jahr` = \'\'';
-        //oder ab 01.12.2017
-        $search_query[] = '`promotionsende_jahr` = 2018';
-        $search_query[] = '(`promotionsende_jahr` = 2017 AND `promotionsende_monat` = 11)';
-        $query = implode(" OR ",$search_query);
-        
-        $doktoranden_entries = DoktorandenEntry::findBySQL($query);
-        
-        $export_fields = DoktorandenFields::getExportFieldsArray();
-        
-        $header = array();
-        $export = array();
-        
-        foreach ($export_fields as $field){
-            $header[] = $field->export_name;
+        if ($GLOBALS['user']->id == 'a6ae5527b023413df94080acd0878620' || $GLOBALS['user']->id == '818c1ecee5de3d4f0d169fdaf9c6e068' ){
+            $search_query = array();
+            //noch kein enddatum
+            $search_query[] = '`promotionsende_jahr` IS NULL';
+            $search_query[] = '`promotionsende_jahr` = \'\'';
+            //oder ab 01.12.2017
+            $search_query[] = '`promotionsende_jahr` = 2018';
+            $search_query[] = '(`promotionsende_jahr` = 2017 AND `promotionsende_monat` = 11)';
+            $query = implode(" OR ",$search_query);
+
+            $doktoranden_entries = DoktorandenEntry::findBySQL($query);
+
+            $export_fields = DoktorandenFields::getExportFieldsArray();
+
+            $header = array();
+            $export = array();
+
+            foreach ($export_fields as $field){
+                $header[] = $field->export_name;
+            }
+
+            $export[] = $header;
+
+            foreach ($doktoranden_entries as $entry){
+                $export[] = self::handleSingleRow($entry, $export_fields);
+            }
+
+            $this->render_csv($export, 'bericht_promovierendendaten.csv');
+
+    //      old version for excel        
+    //        if (!empty($doktoranden_entries)) {
+    //            $xls = new ExcelExport();
+    //
+    //            $xls->addRow(DoktorandenFields::getExportHeaderArray());
+    //
+    //            foreach ($doktoranden_entries as $entry) {
+    //                $xls->addRow(self::handleSingleRow($entry));
+    //            }
+    //            $xls->download('Export_'
+    //                    . date("d-m-y") . '.xls');
+    //        }
+    //        $this->render_nothing();
         }
-        
-        $export[] = $header;
-        
-        foreach ($doktoranden_entries as $entry){
-            $export[] = self::handleSingleRow($entry, $export_fields);
-        }
-        
-        $this->render_csv($export, 'bericht_promovierendendaten.csv');
-        
-//      old version for excel        
-//        if (!empty($doktoranden_entries)) {
-//            $xls = new ExcelExport();
-//
-//            $xls->addRow(DoktorandenFields::getExportHeaderArray());
-//
-//            foreach ($doktoranden_entries as $entry) {
-//                $xls->addRow(self::handleSingleRow($entry));
-//            }
-//            $xls->download('Export_'
-//                    . date("d-m-y") . '.xls');
-//        }
-//        $this->render_nothing();
     }
     
     public function full_export_action(){
-        $doktoranden_entries = DoktorandenEntry::findBySQL('true');
-        
-        $export_fields = DoktorandenFields::getFullExportFieldsArray();
-        
-        $header = array();
-        $export = array();
-        
-        foreach ($export_fields as $field){
-            $header[] = $field->id;
-            if ($field->export_name){
-                $header[] = $field->export_name;
+        if ($GLOBALS['user']->id == 'a6ae5527b023413df94080acd0878620' || $GLOBALS['user']->id == '818c1ecee5de3d4f0d169fdaf9c6e068' ){
+            $doktoranden_entries = DoktorandenEntry::findBySQL('true');
+
+            $export_fields = DoktorandenFields::getFullExportFieldsArray();
+
+            $header = array();
+            $export = array();
+
+            foreach ($export_fields as $field){
+                $header[] = $field->id;
+                if ($field->export_name){
+                    $header[] = $field->export_name;
+                }
             }
+
+            $export[] = $header;
+
+            foreach ($doktoranden_entries as $entry){
+                $export[] = self::handleFullSingleRow($entry, $export_fields);
+            }
+
+            $this->render_csv($export, 'bericht_promovierendendaten.csv');
         }
-        
-        $export[] = $header;
-        
-        foreach ($doktoranden_entries as $entry){
-            $export[] = self::handleFullSingleRow($entry, $export_fields);
-        }
-        
-        $this->render_csv($export, 'bericht_promovierendendaten.csv');
     }
     
     static function handleSingleRow($entry, $fields)

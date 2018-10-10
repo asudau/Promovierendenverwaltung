@@ -33,12 +33,14 @@ class IndexController extends StudipController {
         $navcreate->addLink(_('Neuer Eintrag'),
                               $this->url_for('index/new'),
                               Icon::create('seminar+add', 'clickable'))->asDialog('size=big');
-        $navcreate->addLink(_('Exportieren'),
-                              $this->url_for('index/export'),
-                              Icon::create('seminar+add', 'clickable'));
-         $navcreate->addLink(_('Vollständiger Export'),
-                              $this->url_for('index/full_export'),
-                              Icon::create('seminar+add', 'clickable'));
+        if ($GLOBALS['user']->id == 'a6ae5527b023413df94080acd0878620' || $GLOBALS['user']->id == '818c1ecee5de3d4f0d169fdaf9c6e068' ){
+            $navcreate->addLink(_('Exportieren'),
+                                  $this->url_for('index/export'),
+                                  Icon::create('seminar+add', 'clickable'));
+             $navcreate->addLink(_('Vollständiger Export'),
+                                  $this->url_for('index/full_export'),
+                                  Icon::create('seminar+add', 'clickable'));
+        }
         $sidebar->addWidget($navcreate);
 
     }

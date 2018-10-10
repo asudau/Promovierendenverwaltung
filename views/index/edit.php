@@ -68,6 +68,29 @@ use Studip\Button, Studip\LinkButton;
 
 <script>
     
+    var inputs, index;
+
+    inputs = document.getElementsByTagName('select');
+    for (index = 0; index < inputs.length; ++index) {
+        // deal with inputs[index] element.
+        inputs[index].onchange = function () {
+            if (this.value != ''){
+                document.getElementsByName(this.getAttribute("name"))[0].classList.remove("needs_fill");
+            } 
+        };
+    }
+    
+    inputs = document.getElementsByTagName('input');
+    for (index = 0; index < inputs.length; ++index) {
+        // deal with inputs[index] element.
+        inputs[index].onkeyup = function () {
+            if (this.value != ''){
+                document.getElementsByName(this.getAttribute("name"))[0].classList.remove("needs_fill");
+            }
+        };
+    }
+    
+    
     //Ersteinschreibung Auslandshochschulen, dann Staat Pflichtfeld
     document.getElementsByName("hochschule_erst")[1].onchange = function () {
         if (this.value == '2'){

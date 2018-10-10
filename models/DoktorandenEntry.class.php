@@ -131,15 +131,37 @@ class DoktorandenEntry extends \SimpleORMap
         return $group_array;
     }
     
+    public function numberRequiredFields(){
+        if ($this->number_required_fields > 0){
+            return $this->number_required_fields;
+        } else {
+            $this->number_required_fields = sizeof($this->requiredFields());
+            $this->store();
+            return $this->number_required_fields;
+        }
+        
+    }
+    
+    public function requiredFields(){
+        
+        $fields = DoktorandenFields::getManualFields();
+        $required_fields = array();
+        foreach ($fields as $field){
+            if ($this->req($field->id)){
+                $required_fields[] = $field->id;
+            }
+        }
+        return $required_fields;  
+    }
+    
     public function completeProgress(){
         if ($this->complete_progress > 0){
             return $this->complete_progress;
         } else {
             $filled = 0;
-            $req_fields = DoktorandenFields::getRequiredFields();
-            foreach($req_fields as $field){
-                $field_id = $field->id;
-                if ($this->$field_id != NULL){
+            $req_fields = $this->requiredFields();
+            foreach($req_fields as $field_id){
+                if ($this->$field_id != NULL && $this->$field_id != ''){
                     $filled ++;
                 } 
             }
@@ -176,9 +198,9 @@ class DoktorandenEntry extends \SimpleORMap
             return true; 
         //generelle Pflichtfelder
         }else  if (DoktorandenFields::find($field_id)->fill == 'manual_req'){
-            if ($this->$field_id == NULL || strlen($this->$field_id) < 1){
-                return true;
-            }
+            //if ($this->$field_id == NULL || strlen($this->$field_id) < 1){
+            return true;
+            //}
         }
         return false;
     }

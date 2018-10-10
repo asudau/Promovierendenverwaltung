@@ -98,6 +98,10 @@ class DoktorandenFields extends \SimpleORMap
         return self::findBySQL("fill = 'manual_req'" );
     }
     
+    public static function getManualFields() {
+        return self::findBySQL("fill IN ('manual_req', 'manual_opt')" );
+    }
+    
     public function getIdOfValues(){
       return $this->value_id ? $this->value_id : $this->id;
     }

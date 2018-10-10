@@ -27,7 +27,7 @@
             <?php endif ?>
 
         <?php endforeach ?>
-        <td title='Noch <?= $number_required_fields-$entry->completeProgress() ?> fehlende Einträge'><?= round($entry->completeProgress()/$number_required_fields, 2)*100 ?>%</td>
+        <td title='Noch <?= $entry->numberRequiredFields()-$entry->completeProgress() ?> fehlende Einträge'><?= round($entry->completeProgress()/$entry->numberRequiredFields(), 2)*100 ?>%</td>
         <td><a href='<?=$this->controller->url_for('index/edit/' . $entry['id']) ?>' title='Eintrag editieren' data-dialog="size=big"><?=Icon::create('edit')?></a><br/></td>
         </a>
     </tr>

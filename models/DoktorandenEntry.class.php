@@ -179,23 +179,20 @@ class DoktorandenEntry extends \SimpleORMap
 
     public function req($field_id){
         
-        $ef032 = DoktorandenFields::find('hzb_art');
-        $hzb_art_astat = $ef032->getValueAstatByKey($this->hzb_art);
-       
         //sonderregelung für Ende der Promotion: falls beendet, abschlussjahr/Monat Pflichtfeld
         if ($field_id == 'promotionsende_monat' || $field_id == 'promotionsende_jahr'){
             if($this->art_reg_prom == '3' || $this->art_reg_prom == '2' ){
                 return true;
             }
         //Abschluss(HZB) im Ausland oder nicht angegeben: Staat Pflichtfeld
-        }else if (in_array($hzb_art_astat, array('17', '39', '47', '59', '67', '79', false)) &&
+        }else if ($this->isValueSet('hzb_art') && $this->hzb_art_abroad() &&
                 ($field_id == 'hzb_staat' ) ){
             return true;
         //Abschluss(HZB) im Inland: Staat ausgegraut, Bundesland und Kreis Pflichtfeld
-        } else if (($field_id == 'hzb_land' || $field_id == 'hzb_kreis') && $hzb_art_astat ){
+        } else if (($field_id == 'hzb_land' || $field_id == 'hzb_kreis') && $this->isValueSet('hzb_art') && !$this->hzb_art_abroad() ){
             return true;
         //Abschlusshochschule Auslandshochschulen, dann Staat Pflichtfeld    
-        }else if ($this->hochschule_abschlusspruefung == '2' &&
+        } else if ($this->hochschule_abschlusspruefung == '2' &&
                 ($field_id == 'staat_abschlusspruefung' ) ){
             return true; 
         //Ersteinschreibung Auslandshochschulen, dann Staat Pflichtfeld 
@@ -213,16 +210,16 @@ class DoktorandenEntry extends \SimpleORMap
     
     public function disabled($field_id){
         //Abschluss (HZB) im Ausland: Staat Pflichtfeld, Bundesland und Kreis ausgegraut
-        if (($field_id == 'hzb_land' || $field_id =='hzb_kreis') && $this->req('hzb_staat') && $this->hzb_art){
+        if (($field_id == 'hzb_land' || $field_id =='hzb_kreis') && $this->req('hzb_staat') && $this->isValueSet('hzb_art')){
             return true;
         //Abschluss (HZB) im Inland: Staat ausgegraut, Bundesland und Kreis Pflichtfeld
-        } else if (($field_id == 'hzb_staat') && $this->req('hzb_land') && $this->hzb_art){
+        } else if (($field_id == 'hzb_staat') && $this->req('hzb_land') && $this->isValueSet('hzb_art')){
             return true;
         //Abschlusshochschule keine Auslandshochschulen -> Staat kein Pflichtfeld dann ausgegraut 
-        } else if (($field_id == 'staat_abschlusspruefung' ) && !$this->req('staat_abschlusspruefung') && $this->hochschule_abschlusspruefung){
+        } else if (($field_id == 'staat_abschlusspruefung' ) && !$this->req('staat_abschlusspruefung') && $this->isValueSet('hochschule_abschlusspruefung')){
             return true;
         //Ersteinschreibung keine Auslandshochschulen, -> Staat kein Pflichtfeld dann ausgegraut 
-        } else if (($field_id == 'staat_hochschule_erst' ) && !$this->req('staat_hochschule_erst') && $this->hochschule_erst){
+        } else if (($field_id == 'staat_hochschule_erst' ) && !$this->req('staat_hochschule_erst') && $this->isValueSet('hochschule_erst')){
             return true;
         //sonderregelung für Ende der Promotion: abschlussjahr/Monat Pflichtfeld falls beendet
         } else if (($field_id == 'promotionsende_monat' || $field_id == 'promotionsende_jahr' ) && !$this->req('promotionsende_jahr')){
@@ -254,6 +251,16 @@ class DoktorandenEntry extends \SimpleORMap
         $str = str_replace($search, $replace, $str);
         //$str = strtolower(preg_replace("/[^a-zA-Z0-9]+/", trim($how), $str));
         return substr($str, 0, 4);
+    }
+    
+    public function hzb_art_abroad(){
+        $ef032 = DoktorandenFields::find('hzb_art');
+        $hzb_art_astat = $ef032->getValueAstatByKey($this->hzb_art);
+        
+        if (in_array($hzb_art_astat, array('17', '39', '47', '59', '67', '79'))){
+            return true;
+        } else return false;
+        
     }
     
 }

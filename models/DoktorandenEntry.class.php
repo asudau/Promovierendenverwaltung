@@ -142,6 +142,12 @@ class DoktorandenEntry extends \SimpleORMap
         
     }
     
+    public function isValueSet($field_id){
+        if ((!is_null($this->$field_id)) && $this->$field_id != '' && $this->$field_id != 'NULL'){
+            return true;
+        } else return false;
+    }
+    
     public function requiredFields(){
         
         $fields = DoktorandenFields::getManualFields();
@@ -161,7 +167,7 @@ class DoktorandenEntry extends \SimpleORMap
             $filled = 0;
             $req_fields = $this->requiredFields();
             foreach($req_fields as $field_id){
-                if ($this->$field_id != NULL && $this->$field_id != ''){
+                if ($this->isValueSet($field_id)){
                     $filled ++;
                 } 
             }

@@ -17,7 +17,7 @@ use Studip\Button, Studip\LinkButton;
             <?php foreach ($group['entries'] as $field_entry): ?>
             <? ($entry[$field_entry->id])? $value = $field_entry->getValueTextByKey($entry[$field_entry->id]): $value = NULL; ?>
             
-            <tr name ='<?=$field_entry->id?>'>
+            <tr name ='<?=$field_entry->id?>' <? if ($entry->req($field_entry->id) && (!$entry->isValueSet($field_entry->id))): ?> class='needs_fill' <? endif ?>  >
                 <td style="width:500px" <? if ($entry->req($field_entry->id)): ?> class='required' <? endif ?> >
                     <?=$field_entry->title?>: 
                     <? if ($field_entry->helptext): ?>
@@ -84,12 +84,16 @@ use Studip\Button, Studip\LinkButton;
     document.getElementsByName("art_reg_prom")[1].onchange = function () {
         if (this.value == '3' || this.value == '2' ){
             document.getElementsByName("promotionsende_monat")[1].removeAttribute("disabled");
+            document.getElementsByName("promotionsende_monat")[0].classList.add("needs_fill");
             document.getElementsByName("promotionsende_jahr")[1].removeAttribute("disabled");
+            document.getElementsByName("promotionsende_jahr")[0].classList.add("needs_fill");
             //document.getElementsByName("staat_hochschule_erst")[0].style.display = "";
         } else {
             //document.getElementsByName("promotionsende_monat")[1].value = "-- nicht erforderlich --"; 
             document.getElementsByName("promotionsende_monat")[1].setAttribute("disabled", true); 
+            document.getElementsByName("promotionsende_monat")[0].classList.remove("needs_fill");
             document.getElementsByName("promotionsende_jahr")[1].setAttribute("disabled", true);
+            document.getElementsByName("promotionsende_jahr")[0].classList.remove("needs_fill");
             //$("tr[staat_hochschule_erst]").hide();//.removeClass( "required");
             //document.getElementsByName("staat_hochschule_erst")[0].style.display = "none";//.removeAttribute("class");
         }
@@ -102,12 +106,18 @@ use Studip\Button, Studip\LinkButton;
     document.getElementsByName("hzb_art")[1].onchange = function () {
         if (hzb_art_ids.indexOf(this.value) != -1) {
             document.getElementsByName("hzb_staat")[1].removeAttribute("disabled");
+            document.getElementsByName("hzb_staat")[0].classList.add("needs_fill");
             document.getElementsByName("hzb_land")[1].setAttribute("disabled", true);
+            document.getElementsByName("hzb_land")[0].classList.remove("needs_fill");
             document.getElementsByName("hzb_kreis")[1].setAttribute("disabled", true);
+            document.getElementsByName("hzb_kreis")[0].classList.remove("needs_fill");
         } else {
             document.getElementsByName("hzb_staat")[1].setAttribute("disabled", true); 
+            document.getElementsByName("hzb_staat")[0].classList.remove("needs_fill");
             document.getElementsByName("hzb_land")[1].removeAttribute("disabled");
+            document.getElementsByName("hzb_land")[0].classList.add("needs_fill");
             document.getElementsByName("hzb_kreis")[1].removeAttribute("disabled");
+            document.getElementsByName("hzb_kreis")[0].classList.add("needs_fill");
         }
     };
     

@@ -206,13 +206,13 @@ class IndexController extends StudipController {
                     }
                 }
             }
-            $entry->store();
+            //$entry->store();
             
             //anzahl required fields aktualisieren
             $filled = 0;
             $req_fields = $entry->requiredFields();
             foreach($req_fields as $field_id){
-                if ($entry->$field_id != NULL && $entry->$field_id != ''){
+                if ($entry->isValueSet($field_id)){
                     $filled ++;
                 } 
             }

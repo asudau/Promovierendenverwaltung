@@ -102,6 +102,9 @@ use Studip\Button, Studip\LinkButton;
             //$("tr[staat_hochschule_erst]").hide();//.removeClass( "required");
             //document.getElementsByName("staat_hochschule_erst")[0].style.display = "none";//.removeAttribute("class");
         }
+        if (this.value != ''){
+            document.getElementsByName(this.getAttribute("name"))[0].classList.remove("needs_fill");
+        } 
     };
     
     document.getElementsByName("art_reg_prom")[1].onchange = function () {
@@ -120,6 +123,9 @@ use Studip\Button, Studip\LinkButton;
             //$("tr[staat_hochschule_erst]").hide();//.removeClass( "required");
             //document.getElementsByName("staat_hochschule_erst")[0].style.display = "none";//.removeAttribute("class");
         }
+        if (this.value != ''){
+            document.getElementsByName(this.getAttribute("name"))[0].classList.remove("needs_fill");
+        } 
     };
     
     //Abschluss(HZB) im Ausland: Staat Pflichtfeld
@@ -142,6 +148,9 @@ use Studip\Button, Studip\LinkButton;
             document.getElementsByName("hzb_kreis")[1].removeAttribute("disabled");
             document.getElementsByName("hzb_kreis")[0].classList.add("needs_fill");
         }
+        if (this.value != ''){
+            document.getElementsByName(this.getAttribute("name"))[0].classList.remove("needs_fill");
+        } 
     };
     
     //Abschlusshochschule Auslandshochschulen, dann Staat Pflichtfeld
@@ -149,8 +158,12 @@ use Studip\Button, Studip\LinkButton;
         if (this.value == '2'){
             document.getElementsByName("staat_abschlusspruefung")[1].removeAttribute("disabled");
         } else {
-            document.getElementsByName("staat_abschlusspruefung")[1].setAttribute("disabled", true); 
-        }
+            document.getElementsByName("staat_abschlusspruefung")[1].setAttribute("disabled", true);
+            document.getElementsByName("hzb_staat")[0].classList.remove("needs_fill");
+        } 
+        if (this.value != ''){
+            document.getElementsByName(this.getAttribute("name"))[0].classList.remove("needs_fill");
+        } 
     };
     
     $(function() {

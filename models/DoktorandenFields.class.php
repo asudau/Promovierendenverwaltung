@@ -84,10 +84,10 @@ class DoktorandenFields extends \SimpleORMap
                     return '999';
                 case 'weitere_staatsangehoerigkeit':
                     return '999';
-                case 'promotionsende_monat':
-                    return '12';
-                case 'promotionsende_jahr':
-                    return date("Y");
+//                case 'promotionsende_monat':
+//                    return '12';
+//                case 'promotionsende_jahr':
+//                    return date("Y");
             }
         }
 

@@ -14,8 +14,11 @@
 <h3>Müssen auch Daten für Promovierende eingetragen werden, die noch immatrikulieren oder sich bereits immatrikuliert haben? </h3>
     <p>Ja, sowohl für die immatrikulierten als auch nicht immatrikulierten Promovierenden müssen die Daten vollständig eingetragen werden, da es noch keinen automatisierten Abgleich der Daten aus dem Campus Management System gibt. </p>
 <h3>Wo finde ich weitere Hinweise zur Promovierendenstatistik? </h3>
-<p>Das Landesamt für Statistik Niedersachsen stellt aktuelle Schlüsselverzeichnisse, Datensatzbeschreibungen und Zuordnungstabellen unter folgendem <a href="https://www.statistik.niedersachsen.de/themenbereiche/bildung/hochschulen/themenbereich-bildung---hochschulstatistik-hochschulfinanzstatistik-132143.html">Link</a> bereit. </p>
-
+    <p>Das Landesamt für Statistik Niedersachsen stellt aktuelle Schlüsselverzeichnisse, Datensatzbeschreibungen und Zuordnungstabellen unter folgendem <a href="https://www.statistik.niedersachsen.de/themenbereiche/bildung/hochschulen/themenbereich-bildung---hochschulstatistik-hochschulfinanzstatistik-132143.html">Link</a> bereit. </p>
+<h3>Wie können fehlerhafte oder doppelte Datensätze komplett gelöscht werden?</h3>
+    <p>Sollte es einmal notwendig sein einen Datensatz vollständig zu löschen, schreiben Sie bitte eine E-Mail an die untenstehende Kontaktadresse.</p>
+    
+    
 <h2>Ansprechpartner </h2>
 Bei Fragen … <br>
 … zur Registrierung in Stud.IP: <br>

@@ -155,10 +155,11 @@ class IndexController extends StudipController {
                                     $message = MessageBox::error(_('Falsches Datumsformat: ' . $field_entry->title . ' wurde nicht übernommen'));
                                     PageLayout::postMessage($message);
                                 }
-                            } else {
+                            } 
+                        }
+                        else {
                                 $entry->$field = htmlReady(Request::get($field));
                             }
-                        }
                     //}
                 }
             }

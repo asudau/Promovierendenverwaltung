@@ -129,7 +129,6 @@ class IndexController extends StudipController {
         //$this->new = true;
         
         $this->groupedFields = DoktorandenEntry::getGroupedFields();
-        $this->render_action('edit');
     }
 
     public function save_action($entry_id){
@@ -180,10 +179,6 @@ class IndexController extends StudipController {
                 $entry->setup();
                 $message = MessageBox::success(_('Die Änderungen wurden Übernommen.'));
                 PageLayout::postMessage($message);
-            } else if ($entry->id != $entry->getNextId()){
-                $entry->id = $entry->getNextId();
-                $entry->store();
-                $entry->setup();
             } 
                 
         } else {

@@ -15,7 +15,7 @@ class IndexController extends StudipController {
         
         PageLayout::addStylesheet($this->plugin->getPluginURL().'/assets/style.css');
         //PageLayout::addScript($this->plugin->getPluginURL().'/assets/jquery.tablesorter.js');
-        PageLayout::addSqueezePackage('tablesorter');
+        //PageLayout::addSqueezePackage('tablesorter');
         
         if (Request::get('berichtsjahrSelector') == 1){
             $_SESSION['Doktorandenverwaltung_vars']['berichtsjahr'] = 1;

@@ -4,14 +4,14 @@
     <div>
 <h1><?= sizeof($entries) ?> Einträge <?= $inst_id[1] ? Institute::find($inst_id[1])->name : ''?> </h1>
 
-<table id='doktoranden-entries' class="tablesorter default">
+<table id='doktoranden-entries' class="sortable-table default">
     <thead>
 		<tr>
             <?php foreach($fields as $field): ?>
-                <th><span><?= $field['title'] ?></span></th>   
+                <th data-sort="text"><span><?= $field['title'] ?></span></th>   
             <?php endforeach ?>
-            <th style='width:10%'>Status</th>    
-            <th style='width:10%'>Aktionen</th>
+            <th data-sort="text" style='width:10%'>Status</th>    
+            <th data-sort="false" style='width:10%'>Aktionen</th>
         </tr>
     </thead>
     <tbody>
@@ -43,9 +43,9 @@
 <script type="text/javascript">
 
     
-$(function(){
-  $('#doktoranden-entries').tablesorter(); 
-});
+//$(function(){
+//  $('#doktoranden-entries').tablesorter(); 
+//});
 
 
 </script>

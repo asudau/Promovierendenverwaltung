@@ -177,7 +177,12 @@ class IndexController extends StudipController {
             
             if ($entry->store() !== false) {
                 $entry->setup();
-                $message = MessageBox::success(_('Die Änderungen wurden Übernommen.'));
+                $messagetext = 'Die Änderungen wurden Übernommen.';
+                if ($entry->complete_progress < $entry->number_required_fields){
+                    $number_missing_fields = $entry->number_required_fields - $entry->complete_progress;
+                    $messagetext .= ' Für diesen Eintrag fehlen noch ' . $number_missing_fields . ' Angaben';
+                }
+                $message = MessageBox::success($messagetext);
                 PageLayout::postMessage($message);
             } 
                 

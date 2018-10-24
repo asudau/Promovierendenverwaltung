@@ -23,5 +23,5 @@ form.default input[type="date"]{
 }
 
 tr.needs_fill {
-    background-color: red;
+    background-color: lightblue;
 }

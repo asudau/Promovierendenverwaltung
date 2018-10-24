@@ -155,6 +155,15 @@ class IndexController extends StudipController {
                                     PageLayout::postMessage($message);
                                 }
                             } 
+                        } if ($field == 'geburtstag'){
+                            if (Request::get($field)){
+                                if($this->validateDate(Request::get($field))){
+                                    $entry->$field = htmlReady(Request::get($field));
+                                } else {
+                                    $message = MessageBox::error(_('Falsches Datumsformat: ' . $field_entry->title . ' wurde nicht übernommen'));
+                                    PageLayout::postMessage($message);
+                                }
+                            } 
                         }
                         else {
                                 $entry->$field = htmlReady(Request::get($field));
@@ -176,7 +185,6 @@ class IndexController extends StudipController {
             $entry->number_required_fields = sizeof($req_fields);
             
             if ($entry->store() !== false) {
-                $entry->setup();
                 $messagetext = 'Die Änderungen wurden Übernommen.';
                 if ($entry->complete_progress < $entry->number_required_fields){
                     $number_missing_fields = $entry->number_required_fields - $entry->complete_progress;
@@ -313,7 +321,7 @@ class IndexController extends StudipController {
         //zugehörige Fächer für aktuellen User
         
         $this->inst_id = RolePersistence::getAssignedRoleInstitutes($GLOBALS['user']->user_id, $this->role_id);
-        if($this->inst_id[1]){
+        if ($this->inst_id[1]){
             $stmt = DBManager::get()->prepare("SELECT fach_id FROM mvv_fach_inst WHERE Institut_id IN (?)");
             $stmt->execute(array($this->inst_id));
             $faecher = $stmt->fetchAll(PDO::FETCH_ASSOC); 
@@ -322,10 +330,20 @@ class IndexController extends StudipController {
             foreach($faecher as $fach){
                 $faecher_array[] = $field->getValueLIDByUniquename($fach['fach_id']);
             }
-            if(sizeof($faecher_array) >0){
+            if (sizeof($faecher_array) >0){
                 return $faecher_array;
             } else return false;
-        }else return false;
+        } else return false;
+    }
+    
+    private function validateDate($date, $format = 'Y-m-d')
+    {
+        $d = DateTime::createFromFormat($format, $date);
+        $earliest_birthday = DateTime::createFromFormat($format, '1910-01-01');
+        $latest_birthday = new DateTime(date($format)); //today
+        if(!$d || ($d->format($format) != $date) || ($d < $earliest_birthday) || ($d > $latest_birthday)){
+            return false;
+        } else return true;
     }
     
     

@@ -83,7 +83,8 @@ class DoktorandenverwaltungAddFieldsTable extends Migration
            ('ef036', 'frei für landesinterne Angaben', NULL, NULL, NULL, NULL, 'manual_opt', NULL, NULL, '1'),
            ('ef037', 'frei für landesinterne Angaben', NULL, NULL, NULL, NULL, 'manual_opt', NULL, NULL, '1'),
            ('ef038', 'frei für landesinterne Angaben', NULL, NULL, NULL, NULL, 'manual_opt', NULL, NULL, '1'),
-           ('geburtstag', 'Geburtsdatum', NULL, '3', 'doktorandendaten', '2', 'manual_req', NULL, NULL, '0')
+           ('geburtstag', 'Geburtsdatum', NULL, '3', 'doktorandendaten', '2', 'manual_req', NULL, NULL, '0'),
+           ('betreuer', 'Zuständiger Betreuer', NULL, NULL, 'promotionsdaten', '14', 'manual_opt', NULL, NULL, '0')
            ";
         
         $db->exec($query);

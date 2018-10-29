@@ -65,6 +65,7 @@ class DoktorandenverwaltungAddTable extends Migration
             `ef038` varchar(11) NULL,
             `complete_progress` int(11) NULL,
             `chdate` int(11) NULL,
+            `betreuer` varchar(255) NULL,
             PRIMARY KEY (id)
         ) ");
 

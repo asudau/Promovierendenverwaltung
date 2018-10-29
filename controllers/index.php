@@ -51,13 +51,13 @@ class IndexController extends StudipController {
         Navigation::activateItem('doktorandenverwaltung/index');
         
         $search_query = array();
-        if($_SESSION['Doktorandenverwaltung_vars']['berichtsjahr'] == '1' ){
+        if($_SESSION['Doktorandenverwaltung_vars']['berichtsjahr'] == '0' ){
             //noch kein enddatum
             $search_query[] = '`promotionsende_jahr` IS NULL';
             $search_query[] = '`promotionsende_jahr` = \'\'';
             //oder ab 01.12.2017
             $search_query[] = '`promotionsende_jahr` = 2018';
-            $search_query[] = '(`promotionsende_jahr` = 2017 AND `promotionsende_monat` = 11)';
+            $search_query[] = '(`promotionsende_jahr` = 2017 AND `promotionsende_monat` = 12)';
         }
         
         $query = '';
@@ -81,13 +81,13 @@ class IndexController extends StudipController {
         //promotionsende_monat promotionsende_jahr 
         
         $widget = new SelectWidget('Berichtsjahr', PluginEngine::GetURL('doktorandenverwaltung/index/'), 'berichtsjahrSelector');
-        $option = new SelectElement('0', _('Alle Einträge'));
-        if (('' ==  $_SESSION['Doktorandenverwaltung_vars']['berichtsjahr']) || ('0' ==  $_SESSION['Doktorandenverwaltung_vars']['berichtsjahr'])) {
+        $option = new SelectElement('1', _('Alle Einträge'));
+                if ('1' ==  $_SESSION['Doktorandenverwaltung_vars']['berichtsjahr'] ) {
             $option->setActive();
         }
         $widget->addElement($option);
-        $option = new SelectElement('1', _('Berichtsjahr 2018'));
-        if ('1' ==  $_SESSION['Doktorandenverwaltung_vars']['berichtsjahr'] ) {
+        $option = new SelectElement('0', _('Berichtsjahr 2018'));
+        if (('' ==  $_SESSION['Doktorandenverwaltung_vars']['berichtsjahr']) || ('0' ==  $_SESSION['Doktorandenverwaltung_vars']['berichtsjahr'])) {
             $option->setActive();
         }
         $widget->addElement($option);

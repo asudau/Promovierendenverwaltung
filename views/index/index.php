@@ -28,7 +28,11 @@
 
         <?php endforeach ?>
         <td title='Noch <?= $entry->numberRequiredFields()-$entry->completeProgress() ?> fehlende Einträge'><?= round($entry->completeProgress()/$entry->numberRequiredFields(), 2)*100 ?>%</td>
-        <td><a href='<?=$this->controller->url_for('index/edit/' . $entry['id']) ?>' title='Eintrag editieren' data-dialog="size=big"><?=Icon::create('edit')?></a><br/></td>
+        <td><a href='<?=$this->controller->url_for('index/edit/' . $entry['id']) ?>' title='Eintrag editieren' data-dialog="size=big"><?=Icon::create('edit')?></a>
+        <?php if (in_array($GLOBALS['user']->id, $this->admin_ids ) ): ?>
+            <a href='<?=$this->controller->url_for('index/delete/' . $entry['id']) ?>' title='Eintrag löschen' ><?=Icon::create('trash')?></a>
+        <?php endif ?>    
+        <br/></td>
         </a>
     </tr>
     <?php endforeach ?>

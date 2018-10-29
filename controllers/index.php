@@ -33,8 +33,8 @@ class IndexController extends StudipController {
         $navcreate->addLink(_('Neuer Eintrag'),
                               $this->url_for('index/new'),
                               Icon::create('seminar+add', 'clickable'))->asDialog('size=big');
-        $ids = array('799d6973234dbc71c0af942d4ac0503f', 'ee4b2abaa1c75bff75e165eb512d12e0', 'da7183d006fd9dc3a9f7f8531a717ebc', 'a6ae5527b023413df94080acd0878620', '818c1ecee5de3d4f0d169fdaf9c6e068');
-        if (in_array($GLOBALS['user']->id, $ids )){
+        $this->admin_ids = array('799d6973234dbc71c0af942d4ac0503f', 'ee4b2abaa1c75bff75e165eb512d12e0', 'da7183d006fd9dc3a9f7f8531a717ebc', 'a6ae5527b023413df94080acd0878620', '818c1ecee5de3d4f0d169fdaf9c6e068');
+        if (in_array($GLOBALS['user']->id, $this->admin_ids )){
             $navcreate->addLink(_('Exportieren'),
                                   $this->url_for('index/export'),
                                   Icon::create('seminar+add', 'clickable'));
@@ -132,6 +132,18 @@ class IndexController extends StudipController {
         $this->groupedFields = DoktorandenEntry::getGroupedFields();
     }
 
+    public function delete_action($entry_id){
+        if(in_array($GLOBALS['user']->id, $this->admin_ids )){
+            $entry = DoktorandenEntry::findOneBySQL('id = ' . $entry_id);
+            if ($entry){
+                $message = MessageBox::success(_('Eintrag wurde gelöscht: ' . $entry->vorname . ' ' . $entry->nachname));
+                $entry->delete();
+            } else $message = MessageBox::success(_('Kein Eintrag mit dieser ID vorhanden'));
+            PageLayout::postMessage($message);
+        }
+        $this->redirect('index');
+    }
+    
     public function save_action($entry_id){
 
         if ($entry_id){
@@ -212,7 +224,7 @@ class IndexController extends StudipController {
     //Bericht für 2018 erstellen
     public function export_action()
     {
-        if ($GLOBALS['user']->id == 'a6ae5527b023413df94080acd0878620' || $GLOBALS['user']->id == '818c1ecee5de3d4f0d169fdaf9c6e068' ){
+        if (in_array($GLOBALS['user']->id, $this->admin_ids ) ){
             $search_query = array();
             //noch kein enddatum
             $search_query[] = '`promotionsende_jahr` IS NULL';
@@ -258,7 +270,7 @@ class IndexController extends StudipController {
     }
     
     public function full_export_action(){
-        if ($GLOBALS['user']->id == 'a6ae5527b023413df94080acd0878620' || $GLOBALS['user']->id == '818c1ecee5de3d4f0d169fdaf9c6e068' ){
+        if (in_array($GLOBALS['user']->id, $this->admin_ids ) ){
             $doktoranden_entries = DoktorandenEntry::findBySQL('true');
 
             $export_fields = DoktorandenFields::getFullExportFieldsArray();

@@ -33,7 +33,8 @@ class IndexController extends StudipController {
         $navcreate->addLink(_('Neuer Eintrag'),
                               $this->url_for('index/new'),
                               Icon::create('seminar+add', 'clickable'))->asDialog('size=big');
-        if ($GLOBALS['user']->id == 'a6ae5527b023413df94080acd0878620' || $GLOBALS['user']->id == '818c1ecee5de3d4f0d169fdaf9c6e068' ){
+        $ids = array('799d6973234dbc71c0af942d4ac0503f', 'ee4b2abaa1c75bff75e165eb512d12e0', 'da7183d006fd9dc3a9f7f8531a717ebc', 'a6ae5527b023413df94080acd0878620', '818c1ecee5de3d4f0d169fdaf9c6e068');
+        if (in_array($GLOBALS['user']->id, $ids )){
             $navcreate->addLink(_('Exportieren'),
                                   $this->url_for('index/export'),
                                   Icon::create('seminar+add', 'clickable'));

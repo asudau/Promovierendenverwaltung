@@ -186,7 +186,7 @@ class IndexController extends StudipController {
             $entry->number_required_fields = sizeof($req_fields);
             
             if ($entry->store() !== false) {
-                $messagetext = 'Die Änderungen wurden Übernommen.';
+                $messagetext = 'Die Änderungen wurden übernommen.';
                 if ($entry->complete_progress < $entry->number_required_fields){
                     $number_missing_fields = $entry->number_required_fields - $entry->complete_progress;
                     $messagetext .= ' Für diesen Eintrag fehlen noch ' . $number_missing_fields . ' Angaben';

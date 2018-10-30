@@ -247,8 +247,10 @@ class IndexController extends StudipController {
 
             $export[] = $header;
 
+            $i = 0;
             foreach ($doktoranden_entries as $entry){
-                $export[] = self::handleSingleRow($entry, $export_fields);
+                $export[] = self::handleSingleRow($entry, $export_fields, $i);
+                $i++;
             }
 
             $this->render_csv($export, 'bericht_promovierendendaten.csv');
@@ -295,16 +297,20 @@ class IndexController extends StudipController {
         }
     }
     
-    static function handleSingleRow($entry, $fields)
+    static function handleSingleRow($entry, $fields, $number)
     {
         $rowData = array();
         foreach($fields as $field){
+            if($field->id == 'paginiernummer'){
+                $rowData[] = $number;
+            } else {
             //get related astat_bund val of $entry->$field
-            $field_id = $field->id;
-            if ($field->getValueAstatByKey($entry->$field_id)){
-                $rowData[] = $field->getValueAstatByKey($entry->$field_id);
-            } else
-            $rowData[] = $entry->$field_id;
+                $field_id = $field->id;
+                if ($field->getValueAstatByKey($entry->$field_id)){
+                    $rowData[] = $field->getValueAstatByKey($entry->$field_id);
+                } else
+                $rowData[] = $entry->$field_id;
+            }
         }
 
         return $rowData;

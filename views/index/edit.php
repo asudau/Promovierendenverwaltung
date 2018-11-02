@@ -6,7 +6,7 @@ use Studip\Button, Studip\LinkButton;
 <html>
 
 
-<form name="course-settings" name="settings" method="post" action="<?= $controller->url_for('index/save', $entry->id) ?>" <?= $dialog_attr ?> class="default collapsable">
+<form name="entry" method="post" onsubmit="return validateForm()" action="<?= $controller->url_for('index/save', $entry->id) ?>" <?= $dialog_attr ?> class="default collapsable">
     <?= CSRFProtection::tokenTag() ?>
     <input id="open_variable" type="hidden" name="open" value="<?= $flash['open'] ?>">
     
@@ -68,6 +68,14 @@ use Studip\Button, Studip\LinkButton;
 
 <script>
     
+    function validateForm() {
+    var x = document.getElementsByName("promotionsfach")[1].childNodes[1].value;
+        if (x == "NULL") {
+        alert("Promotionsfach muss angegeben werden!");
+        return false;
+    }
+} 
+    
     var inputs, index;
 
     inputs = document.getElementsByTagName('select');
@@ -116,8 +124,10 @@ use Studip\Button, Studip\LinkButton;
             //document.getElementsByName("staat_hochschule_erst")[0].style.display = "";
         } else {
             //document.getElementsByName("promotionsende_monat")[1].value = "-- nicht erforderlich --"; 
+            document.getElementsByName("promotionsende_monat")[1].childNodes[1].value = 'NULL';
             document.getElementsByName("promotionsende_monat")[1].setAttribute("disabled", true); 
             document.getElementsByName("promotionsende_monat")[0].classList.remove("needs_fill");
+            document.getElementsByName("promotionsende_jahr")[1].value = '';
             document.getElementsByName("promotionsende_jahr")[1].setAttribute("disabled", true);
             document.getElementsByName("promotionsende_jahr")[0].classList.remove("needs_fill");
             //$("tr[staat_hochschule_erst]").hide();//.removeClass( "required");

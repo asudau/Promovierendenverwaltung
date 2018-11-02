@@ -69,9 +69,10 @@ use Studip\Button, Studip\LinkButton;
 <script>
     
     function validateForm() {
-    var x = document.getElementsByName("promotionsfach")[1].childNodes[1].value;
-        if (x == "NULL") {
-        alert("Promotionsfach muss angegeben werden!");
+    var e = document.getElementsByName("promotionsfach")[1];
+    var value = e.options[e.selectedIndex].value;
+        if (value == "NULL") {
+        alert("Promotionsfach muss angegeben werdenff!");
         return false;
     }
 } 

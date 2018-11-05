@@ -5,18 +5,18 @@ class IndexController extends StudipController {
     {
         parent::__construct($dispatcher);
         $this->plugin = $dispatcher->plugin;
-        
+
     }
 
     public function before_filter(&$action, &$args)
     {
         parent::before_filter($action, $args);
         PageLayout::setTitle(_("Doktorandenverwaltung - Übersicht"));
-        
+
         PageLayout::addStylesheet($this->plugin->getPluginURL().'/assets/style.css');
         //PageLayout::addScript($this->plugin->getPluginURL().'/assets/jquery.tablesorter.js');
         //PageLayout::addSqueezePackage('tablesorter');
-        
+
         if (Request::get('berichtsjahrSelector') == 1){
             $_SESSION['Doktorandenverwaltung_vars']['berichtsjahr'] = 1;
         } else $_SESSION['Doktorandenverwaltung_vars']['berichtsjahr'] = 0;
@@ -24,7 +24,7 @@ class IndexController extends StudipController {
         $stmt = DBManager::get()->prepare("SELECT roleid FROM roles WHERE rolename = ?");
         $stmt->execute(array('Doktorandenverwaltung'));
         $this->role_id = $stmt->fetch()[0];
-        
+
         $sidebar = Sidebar::Get();
 
         $navcreate = new ActionsWidget();
@@ -41,7 +41,7 @@ class IndexController extends StudipController {
              $navcreate->addLink(_('Vollständiger Export'),
                                   $this->url_for('index/full_export'),
                                   Icon::create('seminar+add', 'clickable'));
-        }
+
         $sidebar->addWidget($navcreate);
 
     }
@@ -59,16 +59,16 @@ class IndexController extends StudipController {
             $search_query[] = '`promotionsende_jahr` = 2018';
             $search_query[] = '(`promotionsende_jahr` = 2017 AND `promotionsende_monat` = 12)';
         }
-        
+
         $query = '';
         if($search_query){ 
             $query = implode(" OR ",$search_query);
         }
         if ($query == '') $query = 'true';
-        
+
         $this->faecher = $this::getFaecherIDsForUser();
         $this->fields = DoktorandenFields::getHeaderFields();
-        
+
         if ($this->faecher){
             $this->entries = DoktorandenEntry::findBySQL("(" . $query . ") AND promotionsfach IN ('" . implode($this->faecher, '\' ,\'') . "')" ); 
         } else {
@@ -185,7 +185,7 @@ class IndexController extends StudipController {
                 }
             }
             //$entry->store();
-            
+
             //anzahl required fields aktualisieren
             $filled = 0;
             $req_fields = $entry->requiredFields();
@@ -213,8 +213,7 @@ class IndexController extends StudipController {
             PageLayout::postMessage($message);
             
         }
-        
-       
+
         //$this->response->add_header('X-Dialog-Close', '1');
         //$this->render_nothing();
         $this->redirect('index');
@@ -255,19 +254,6 @@ class IndexController extends StudipController {
 
             $this->render_csv($export, 'bericht_promovierendendaten.csv');
 
-    //      old version for excel        
-    //        if (!empty($doktoranden_entries)) {
-    //            $xls = new ExcelExport();
-    //
-    //            $xls->addRow(DoktorandenFields::getExportHeaderArray());
-    //
-    //            foreach ($doktoranden_entries as $entry) {
-    //                $xls->addRow(self::handleSingleRow($entry));
-    //            }
-    //            $xls->download('Export_'
-    //                    . date("d-m-y") . '.xls');
-    //        }
-    //        $this->render_nothing();
         }
     }
     
@@ -303,6 +289,14 @@ class IndexController extends StudipController {
         foreach($fields as $field){
             if($field->id == 'paginiernummer'){
                 $rowData[] = $number;
+            } else if($field_id == 'promotionsende_monat' ){
+                if($this->art_reg_prom == '3' || $this->art_reg_prom == '2' ){
+                    return '12';
+                }
+            }  else if($field_id == 'promotionsende_jahr' ){
+                if($this->art_reg_prom == '3' || $this->art_reg_prom == '2' ){
+                    return '2018';
+                }
             } else {
             //get related astat_bund val of $entry->$field
                 $field_id = $field->id;

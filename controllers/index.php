@@ -28,7 +28,6 @@ class IndexController extends StudipController {
         $sidebar = Sidebar::Get();
 
         $navcreate = new ActionsWidget();
-        $navcreate->addLink("Übersicht", $this->url_for('index'));
         $navcreate->addLink("FAQ", $this->url_for('index/faq') );
         $navcreate->addLink(_('Neuer Eintrag'),
                               $this->url_for('index/new'),

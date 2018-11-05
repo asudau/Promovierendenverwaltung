@@ -31,7 +31,7 @@ class Doktorandenverwaltung extends StudipPlugin implements SystemPlugin
             $item = new Navigation(_('Admin-Übersicht'), PluginEngine::getURL($this, array(), 'index/admin'));
             $navigation->addSubNavigation('index_admin', $item);
             
-            Navigation::addItem('/doktorandenverwaltung', $navigation);  
+            Navigation::addItem('tools/doktorandenverwaltung', $navigation);  
         }    
     }
 

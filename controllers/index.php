@@ -48,7 +48,7 @@ class IndexController extends StudipController {
 
     public function index_action()
     {
-        Navigation::activateItem('doktorandenverwaltung/index');
+        Navigation::activateItem('tools/doktorandenverwaltung/index');
         
         $search_query = array();
         if($_SESSION['Doktorandenverwaltung_vars']['berichtsjahr'] == '0' ){

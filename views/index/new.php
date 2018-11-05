@@ -6,7 +6,7 @@ use Studip\Button, Studip\LinkButton;
 <html>
 
 
-<form name="course-settings" name="settings" method="post" action="<?= $controller->url_for('index/save', $entry->id) ?>" <?= $dialog_attr ?> class="default collapsable">
+<form name="course-settings" name="settings" method="post" onsubmit="return validateForm()" action="<?= $controller->url_for('index/save', $entry->id) ?>" <?= $dialog_attr ?> class="default collapsable">
     <?= CSRFProtection::tokenTag() ?>
     <input id="open_variable" type="hidden" name="open" value="<?= $flash['open'] ?>">
     
@@ -67,6 +67,15 @@ use Studip\Button, Studip\LinkButton;
 
 
 <script>
+    
+    function validateForm() {
+        var e = document.getElementsByName("promotionsfach")[1];
+        var value = e.options[e.selectedIndex].value;
+            if (value == "NULL") {
+            alert("Promotionsfach muss angegeben werden!");
+            return false;
+        }
+    }
     
     var inputs, index;
     

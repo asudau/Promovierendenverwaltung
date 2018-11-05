@@ -72,7 +72,7 @@ use Studip\Button, Studip\LinkButton;
     var e = document.getElementsByName("promotionsfach")[1];
     var value = e.options[e.selectedIndex].value;
         if (value == "NULL") {
-        alert("Promotionsfach muss angegeben werdenff!");
+        alert("Promotionsfach muss angegeben werden!");
         return false;
     }
 } 

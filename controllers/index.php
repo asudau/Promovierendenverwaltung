@@ -41,8 +41,9 @@ class IndexController extends StudipController {
              $navcreate->addLink(_('Vollständiger Export'),
                                   $this->url_for('index/full_export'),
                                   Icon::create('seminar+add', 'clickable'));
-
+        }
         $sidebar->addWidget($navcreate);
+        
 
     }
 

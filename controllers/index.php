@@ -28,7 +28,6 @@ class IndexController extends StudipController {
         $sidebar = Sidebar::Get();
 
         $navcreate = new ActionsWidget();
-        $navcreate->addLink("FAQ", $this->url_for('index/faq') );
         $navcreate->addLink(_('Neuer Eintrag'),
                               $this->url_for('index/new'),
                               Icon::create('seminar+add', 'clickable'))->asDialog('size=big');
@@ -43,7 +42,6 @@ class IndexController extends StudipController {
         }
         $sidebar->addWidget($navcreate);
         
-
     }
 
     public function index_action()
@@ -66,7 +64,7 @@ class IndexController extends StudipController {
         }
         if ($query == '') $query = 'true';
 
-        $this->faecher = $this::getFaecherIDsForUser();
+        $this->faecher = $this->getFaecherIDsForUser();
         $this->fields = DoktorandenFields::getHeaderFields();
 
         if ($this->faecher){
@@ -120,7 +118,7 @@ class IndexController extends StudipController {
     
     public function faq_action()
     {
-
+        Navigation::activateItem('tools/doktorandenverwaltung/faq');
     }
 
     public function new_action()
@@ -160,9 +158,9 @@ class IndexController extends StudipController {
                     //if(Request::option($field)){
                         if (strpos($field, 'jahr') !== false){
                             if (Request::get($field)){
-                                $input = (int)htmlReady(Request::get($field));
+                                $input = Request::int($field);
                                 if($input>1000 && $input<2100){
-                                    $entry->$field = htmlReady(Request::get($field));
+                                    $entry->$field = Request::int($field);
                                 } else {
                                     $message = MessageBox::error(_('Falsches Datumsformat: ' . $field_entry->title . ' wurde nicht übernommen'));
                                     PageLayout::postMessage($message);
@@ -179,7 +177,7 @@ class IndexController extends StudipController {
                             } 
                         }
                         else {
-                                $entry->$field = htmlReady(Request::get($field));
+                                $entry->$field = Request::get($field);
                             }
                     //}
                 }

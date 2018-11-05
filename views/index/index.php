@@ -23,7 +23,7 @@
             <?php if ($field->value_key) : ?>
                 <td><?= $field->getValueTextByKey($entry[$field->id]) ?></td>
             <?php else: ?>
-                <td><?= $entry[$field->id] ?></td>
+                <td><?= htmlReady($entry[$field->id]) ?></td>
             <?php endif ?>
 
         <?php endforeach ?>

@@ -48,7 +48,7 @@ use Studip\Button, Studip\LinkButton;
                     <?php else : ?>
                     <input type='text' id ='<?=$field_entry->id?>' name ='<?=$field_entry->id?>' 
                            <? if ($entry->disabled($field_entry->id)): ?> disabled placeholder=''<? else: ?>
-                           value ='<?= $entry[$field_entry->id]?>' <? endif ?>> 
+                           value ='<?= htmlReady($entry[$field_entry->id])?>' <? endif ?>> 
                     <?php endif ?>
                 </td>
             </tr>

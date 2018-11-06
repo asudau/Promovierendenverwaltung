@@ -40,7 +40,7 @@ use Studip\Button, Studip\LinkButton;
                         <option value="NULL"> <?= $entry->getDefaultOption($field_entry->id) ?> </option>
                         <?php foreach ($field_entry->values as $entry_value): ?>
                         <? $key = $field_entry->value_key; ?>
-                            <option <? if ($entry[$field_entry->id] == $entry_value->$key) :?> selected <? endif ?> value="<?= $entry_value->$key ?>"><?= $entry_value->defaulttext . (($entry_value->uniquename)? ' ' . $entry_value->uniquename: '') ?></option>
+                            <option <? if ($entry[$field_entry->id] == $entry_value->$key) :?> selected <? endif ?> value="<?= $entry_value->$key ?>"><?= $entry_value->defaulttext . (($entry_value->uniquename)? ' ' . $entry_value->uniquename: '') . (($entry_value->astat_bund)? ' ' . $entry_value->astat_bund: '') ?></option>
                         <?php endforeach ?>
                     </select>
                     <?php elseif ($field_entry->id == 'geburtstag') : ?>

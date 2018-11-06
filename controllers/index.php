@@ -11,7 +11,7 @@ class IndexController extends StudipController {
     public function before_filter(&$action, &$args)
     {
         parent::before_filter($action, $args);
-        PageLayout::setTitle(_("Doktorandenverwaltung - Übersicht"));
+        PageLayout::setTitle(_("Promovierendenstatistik - Übersicht"));
 
         PageLayout::addStylesheet($this->plugin->getPluginURL().'/assets/style.css');
         //PageLayout::addScript($this->plugin->getPluginURL().'/assets/jquery.tablesorter.js');

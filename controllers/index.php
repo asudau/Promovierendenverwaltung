@@ -285,19 +285,21 @@ class IndexController extends StudipController {
     {
         $rowData = array();
         foreach($fields as $field){
-            if($field->id == 'paginiernummer'){
+            $field_id = $field->id;
+            if($field_id == 'paginiernummer'){
                 $rowData[] = $number;
             } else if($field_id == 'promotionsende_monat' ){
                 if($entry->art_reg_prom == '3' || $entry->art_reg_prom == '2' ){
-                    return '12';
-                }
+                    $rowData[] = '12';
+                } else $rowData[] = $entry->$field_id;
+                
             }  else if($field_id == 'promotionsende_jahr' ){
                 if($entry->art_reg_prom == '3' || $entry->art_reg_prom == '2' ){
-                    return '2018';
-                }
+                    $rowData[] =  '2018';
+                } else $rowData[] = $entry->$field_id;
+                
             } else {
             //get related astat_bund val of $entry->$field
-                $field_id = $field->id;
                 if ($field->getValueAstatByKey($entry->$field_id)){
                     $rowData[] = $field->getValueAstatByKey($entry->$field_id);
                 } else

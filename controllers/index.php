@@ -288,11 +288,11 @@ class IndexController extends StudipController {
             if($field->id == 'paginiernummer'){
                 $rowData[] = $number;
             } else if($field_id == 'promotionsende_monat' ){
-                if($this->art_reg_prom == '3' || $this->art_reg_prom == '2' ){
+                if($entry->art_reg_prom == '3' || $entry->art_reg_prom == '2' ){
                     return '12';
                 }
             }  else if($field_id == 'promotionsende_jahr' ){
-                if($this->art_reg_prom == '3' || $this->art_reg_prom == '2' ){
+                if($entry->art_reg_prom == '3' || $entry->art_reg_prom == '2' ){
                     return '2018';
                 }
             } else {

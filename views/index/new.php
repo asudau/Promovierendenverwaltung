@@ -114,11 +114,9 @@ use Studip\Button, Studip\LinkButton;
     document.getElementsByName("hzb_art")[1].onchange = function () {
         if (hzb_art_ids.indexOf(this.value) != -1) {
             document.getElementsByName("hzb_staat")[1].removeAttribute("disabled");
-            document.getElementsByName("hzb_land")[1].setAttribute("disabled", true);
             document.getElementsByName("hzb_kreis")[1].setAttribute("disabled", true);
         } else {
             document.getElementsByName("hzb_staat")[1].setAttribute("disabled", true); 
-            document.getElementsByName("hzb_land")[1].removeAttribute("disabled");
             document.getElementsByName("hzb_kreis")[1].removeAttribute("disabled");
         }
     };

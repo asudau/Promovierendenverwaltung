@@ -147,15 +147,11 @@ use Studip\Button, Studip\LinkButton;
         if (hzb_art_ids.indexOf(this.value) != -1) {
             document.getElementsByName("hzb_staat")[1].removeAttribute("disabled");
             document.getElementsByName("hzb_staat")[0].classList.add("needs_fill");
-            document.getElementsByName("hzb_land")[1].setAttribute("disabled", true);
-            document.getElementsByName("hzb_land")[0].classList.remove("needs_fill");
             document.getElementsByName("hzb_kreis")[1].setAttribute("disabled", true);
             document.getElementsByName("hzb_kreis")[0].classList.remove("needs_fill");
         } else {
             document.getElementsByName("hzb_staat")[1].setAttribute("disabled", true); 
             document.getElementsByName("hzb_staat")[0].classList.remove("needs_fill");
-            document.getElementsByName("hzb_land")[1].removeAttribute("disabled");
-            document.getElementsByName("hzb_land")[0].classList.add("needs_fill");
             document.getElementsByName("hzb_kreis")[1].removeAttribute("disabled");
             document.getElementsByName("hzb_kreis")[0].classList.add("needs_fill");
         }

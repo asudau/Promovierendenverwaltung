@@ -59,6 +59,9 @@ class DoktorandenEntry extends \SimpleORMap
             }
             return '';
         };
+        $config['additional_fields']['hzb_land']['get'] = function ($item) {
+            return '0530';
+        };
         $config['additional_fields']['ef026']['get'] = function ($item) {
             if($item['studienform_abschluss'] && $item['abschlusspruefung_abschluss']){
                 $field = DoktorandenFields::find('studienform_abschluss');

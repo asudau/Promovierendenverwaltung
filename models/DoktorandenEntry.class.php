@@ -60,7 +60,12 @@ class DoktorandenEntry extends \SimpleORMap
             return '';
         };
         $config['additional_fields']['hzb_land']['get'] = function ($item) {
-            return '0530';
+            $field = DoktorandenFields::find('hzb_kreis');
+            if ($item['hzb_kreis']){
+                $kreis_astat = $field->getValueAstatByKey($item['hzb_kreis']);
+                return substr($kreis_astat, 0, 2);
+            } else
+            return NULL;
         };
         $config['additional_fields']['ef026']['get'] = function ($item) {
             if($item['studienform_abschluss'] && $item['abschlusspruefung_abschluss']){

@@ -25,6 +25,27 @@ class DoktorandenEntry extends \SimpleORMap
             return '';
         } else return date('d.m.Y', mktime(0, 0, 0, $item->geburtsdatum_monat, $item->geburtsdatum_tag, $item->geburtsdatum_jahr));
         };
+        
+        $config['additional_fields']['extern_mail']['get'] = function ($item) {
+            if ($item->email){
+                return $item->email;
+            } else {
+                $db = DBManager::get();
+                $query = "SELECT email FROM doktorandenverwaltung_emails WHERE HISINONE_PERSON_ID = :id";
+
+                $stm = $db->prepare($query);
+                $stm->bindParam(':id', $item->hisinone_person_id);
+                //$stm->execute([':id' => $item->hisinone_person_id]);
+                $stm->execute();
+                $result = $stm->fetch();
+                if ($result['email']){
+                    $item->email = $result['email'];
+                    $item->store();
+                    return $result['email'];//$item->hisinone_person_id;//$result[0];   
+                }
+            } return '';
+        };
+        
         $config['additional_fields']['geburtstag']['set'] = function ($item, $field, $data) {
             $time = strtotime ($data);
             $item->geburtsdatum_tag = date("d", $time);

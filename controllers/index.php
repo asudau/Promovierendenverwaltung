@@ -112,8 +112,10 @@ class IndexController extends StudipController {
     public function edit_action($entry_id)
     {
         $this->entry = DoktorandenEntry::findOneBySQL('id = ' . $entry_id);
-        $this->groupedFields = DoktorandenEntry::getGroupedFields();
-
+        if (in_array($GLOBALS['user']->id, $this->admin_ids )){
+            $this->groupedFields = DoktorandenEntry::getGroupedFieldsForAdmin();
+        } else
+            $this->groupedFields = DoktorandenEntry::getGroupedFields();
     }
     
     public function faq_action()
@@ -126,8 +128,10 @@ class IndexController extends StudipController {
         $this->entry = new DoktorandenEntry();
         //$this->entry->store();
         //$this->new = true;
-        
-        $this->groupedFields = DoktorandenEntry::getGroupedFields();
+        if (in_array($GLOBALS['user']->id, $this->admin_ids )){
+            $this->groupedFields = DoktorandenEntry::getGroupedFieldsForAdmin();
+        } else
+            $this->groupedFields = DoktorandenEntry::getGroupedFields();
     }
 
     public function delete_action($entry_id){

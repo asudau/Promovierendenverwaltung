@@ -9,6 +9,7 @@
 class DoktorandenEntry extends \SimpleORMap
 {
     private static $groups = array(
+        'admin' => 'Zusätzliche Datenfelder für Nutzer mit administratver Freischaltung',
         'doktorandendaten'=> 'Persönliche Daten',
         'promotionsdaten' => 'Daten zur Promotion',
         'ersteinschreibung'=> 'Daten zur Ersteinschreibung',
@@ -140,6 +141,18 @@ class DoktorandenEntry extends \SimpleORMap
     }
     
     public static function getGroupedFields() {
+        $group_array = array();
+        foreach(self::$groups as $group => $title){
+            if($group != 'admin'){
+                $group_array[$group]['entries'] = DoktorandenFields::findBySQL("`group` LIKE :group ORDER BY `group_position` ASC", array(':group' => $group));
+                $group_array[$group]['title'] = $title;
+            } 
+        }
+        //return DoktorandenEntry::$groupedFields;
+        return $group_array;
+    }
+    
+    public static function getGroupedFieldsForAdmin() {
         $group_array = array();
         foreach(self::$groups as $group => $title){
             $group_array[$group]['entries'] = DoktorandenFields::findBySQL("`group` LIKE :group ORDER BY `group_position` ASC", array(':group' => $group));

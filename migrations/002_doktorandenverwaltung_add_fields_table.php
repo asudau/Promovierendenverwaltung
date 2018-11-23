@@ -34,7 +34,6 @@ class DoktorandenverwaltungAddFieldsTable extends Migration
            ('hisinone_person_id', 'PersonID', NULL, NULL, NULL, NULL, 'ext', NULL, NULL, '0'),
            ('hochschule_prom', 'Hochschule der Promotion', '0530', NULL, NULL, NULL, 'auto', 'university', 'lid', 'ef003'),
            ('paginiernummer', 'Paginiernummer', NULL, NULL, NULL, NULL, 'auto', NULL, NULL, 'ef004'),
-           ('id', 'Paginiernummer_int', NULL, NULL, NULL, NULL, 'auto', NULL, NULL, 'Paginiernummer_int'),
            ('geschlecht', 'Geschlecht', NULL, NULL, 'doktorandendaten', '1', 'manual_req', NULL, 'his_id', 'ef005'),
            ('geburtsdatum_tag', 'Geburtsdatum - Tag', NULL, NULL, NULL, NULL, 'manual_req', NULL, NULL, 'ef006u1'),
            ('geburtsdatum_monat', 'Geburtsdatum - Monat', NULL, NULL, NULL, NULL, 'manual_req', NULL, NULL, 'ef006u2'),

@@ -36,10 +36,15 @@ class IndexController extends StudipController {
             $navcreate->addLink(_('Statistikexport'),
                                   $this->url_for('index/export'),
                                   Icon::create('seminar+add', 'clickable'));
-             $navcreate->addLink(_('Vollständiger Export'),
+            $navcreate->addLink(_('Vollständiger Export'),
                                   $this->url_for('index/full_export'),
                                   Icon::create('seminar+add', 'clickable'));
-        }
+        } 
+        
+        $navcreate->addLink(_('Export der aktuellen Einträge'),
+                                  $this->url_for('index/export_user'),
+                                  Icon::create('seminar+add', 'clickable'));
+        
         $sidebar->addWidget($navcreate);
         
     }
@@ -284,6 +289,45 @@ class IndexController extends StudipController {
             $this->render_csv($export, 'bericht_promovierendendaten.csv');
         }
     }
+    public function export_user_action()
+    {
+        $search_query = array();
+        //noch kein enddatum
+        $search_query[] = '`promotionsende_jahr` IS NULL';
+        $search_query[] = '`promotionsende_jahr` = \'\'';
+        //oder ab 01.12.2017
+        $search_query[] = '`promotionsende_jahr` = 2018';
+        $search_query[] = '(`promotionsende_jahr` = 2017 AND `promotionsende_monat` = 12 AND `berichtet` != 2017 )';
+        $query = implode(" OR ",$search_query);
+        
+        $this->faecher = $this->getFaecherIDsForUser();
+
+        if ($this->faecher){
+            $doktoranden_entries = DoktorandenEntry::findBySQL("(" . $query . ") AND promotionsfach IN ('" . implode($this->faecher, '\' ,\'') . "')" ); 
+        } else {
+            $doktoranden_entries = DoktorandenEntry::findBySQL($query);
+        }
+
+        $grouped_fields = DoktorandenEntry::getGroupedFields();
+
+        $header = array();
+        $export = array();
+        
+        foreach ($grouped_fields as $group){
+            foreach ($group['entries'] as $field){
+                $header[] = $field->title;
+            }
+        }
+
+        $export[] = $header;
+
+        foreach ($doktoranden_entries as $entry){
+            $export[] = self::handleUserSingleRow($entry, $grouped_fields);
+        }
+
+        $this->render_csv($export, 'promovierendendaten.csv');
+
+    }
     
     static function handleSingleRow($entry, $fields, $number)
     {
@@ -328,6 +372,25 @@ class IndexController extends StudipController {
                     $rowData[] = $field->getValueAstatByKey($entry->$field_id);
                 } else
                 $rowData[] = $entry->$field_id;
+            }
+        }
+
+        return $rowData;
+    }
+    
+    static function handleUserSingleRow($entry, $grouped_fields)
+    {
+        $rowData = array();
+        foreach ($grouped_fields as $group){
+            foreach($group['entries'] as $field){
+                $field_id = $field->id;
+                //intern db-value
+                if ($field->getValueTextByKey($entry->$field_id)){
+                    $rowData[] = $field->getValueTextByKey($entry->$field_id);
+                } else if ($entry->$field_id != 'NULL'){
+                $rowData[] = $entry->$field_id;
+                } else 
+                   $rowData[] = ''; 
             }
         }
 

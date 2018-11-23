@@ -232,7 +232,7 @@ class IndexController extends StudipController {
             $search_query[] = '`promotionsende_jahr` = \'\'';
             //oder ab 01.12.2017
             $search_query[] = '`promotionsende_jahr` = 2018';
-            $search_query[] = '(`promotionsende_jahr` = 2017 AND `promotionsende_monat` = 11)';
+            $search_query[] = '(`promotionsende_jahr` = 2017 AND `promotionsende_monat` = 12 AND `berichtet` != 2017 )';
             $query = implode(" OR ",$search_query);
 
             $doktoranden_entries = DoktorandenEntry::findBySQL($query);

@@ -49,7 +49,7 @@ class DoktorandenFields extends \SimpleORMap
     }
     
     public function getValueTextByKey($key = null) {
-        if(($this->value_key != NULL) && $key){
+        if(($this->value_key != NULL)){
             $value = DoktorandenFieldValue::findOneBySQL("field_id = ? AND " . $this->value_key . " = '" . $key . "'", array($this->getIdOfValues()));
             return $value['defaulttext'];
         }
@@ -68,7 +68,7 @@ class DoktorandenFields extends \SimpleORMap
     
     //Astat-Werte für Berichtsexport zusammenstellen (inklusive weiterer Randbedingungen)
     public function getValueAstatByKey($key = null){
-        if($this->value_key != NULL && $key){
+        if($this->value_key != NULL){
             $value = DoktorandenFieldValue::findOneBySQL("field_id = ? AND " . $this->value_key . " = '" . $key . "'", array($this->getIdOfValues()));
             
             //Sonderfälle

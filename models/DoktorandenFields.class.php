@@ -49,10 +49,11 @@ class DoktorandenFields extends \SimpleORMap
     }
     
     public function getValueTextByKey($key = null) {
-        if($this->value_key != NULL && $key){
+        if(($this->value_key != NULL) && $key){
             $value = DoktorandenFieldValue::findOneBySQL("field_id = ? AND " . $this->value_key . " = '" . $key . "'", array($this->getIdOfValues()));
             return $value['defaulttext'];
-        } else return false;
+        }
+        return false;
     }
     
      public function getValueLIDByUniquename($key = null) {
@@ -78,7 +79,7 @@ class DoktorandenFields extends \SimpleORMap
             return $value['astat_bund'];
     
         //Sonderfälle bei fehlenden Einträgen
-        } else if($key == NULL) {
+        } else if($key == NULL || $key == 'NULL') {
             switch($this->id){
                 case 'staatsangehoerigkeit':
                     return '999';

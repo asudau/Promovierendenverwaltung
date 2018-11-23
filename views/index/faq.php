@@ -23,6 +23,6 @@
 <h2>Ansprechpartner </h2>
 Bei Fragen … <br>
 … zur Registrierung in Stud.IP: <br>
-<a href="mailto:doktorandenverwaltung@uni-osnabrueck.de">doktorandenverwaltung@uni-osnabrueck.de</a><br>
+<a href="mailto:virtuos@uos.de">virtuos@uos.de</a> oder telefonisch +49 541 969-6666<br>
 … zur statistischen Meldung: <br>
 <a href="mailto:zbw@uni-osnabrueck.de">zbw@uni-osnabrueck.de</a> <br>

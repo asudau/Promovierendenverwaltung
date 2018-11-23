@@ -9,7 +9,11 @@
 		<tr>
             <th data-sort="false" style='width:10%'>Aktionen</th>
             <?php foreach($fields as $field): ?>
-                <th data-sort="text"><span><?= $field['title'] ?></span></th>   
+                <?php if ($field->id == 'geburtstag') : ?>
+                    <th data-sort="htmldata"><span><?= $field['title'] ?></span></th>   
+                <?php else: ?>
+                    <th data-sort="text"><span><?= $field['title'] ?></span></th>   
+                <?php endif ?>
             <?php endforeach ?>
             <th data-sort="text" style='width:10%'>Status</th>    
         </tr>
@@ -27,7 +31,11 @@
             <?php if ($field->value_key) : ?>
                 <td><?= $field->getValueTextByKey($entry[$field->id]) ?></td>
             <?php else: ?>
-                <td><?= htmlReady($entry[$field->id]) ?></td>
+                <?php if ($field->id == 'geburtstag') : ?>
+                    <td data-sort-value=<?= $entry['geburtstag_time']?>><?= htmlReady($entry[$field->id]) ?></td>
+                <?php else: ?>
+                    <td><?= htmlReady($entry[$field->id]) ?></td>
+                <?php endif ?>
             <?php endif ?>
 
         <?php endforeach ?>

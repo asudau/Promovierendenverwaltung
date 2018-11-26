@@ -335,7 +335,7 @@ class IndexController extends StudipController {
         foreach($fields as $field){
             $field_id = $field->id;
             if($field_id == 'paginiernummer'){
-                $rowData[] = $number;
+                $rowData[] = str_pad($number, 6, '0', STR_PAD_LEFT);
             } else if($field_id == 'promotionsende_monat' ){
                 if($entry->art_reg_prom == '3' || $entry->art_reg_prom == '2' ){
                     $rowData[] = '12';

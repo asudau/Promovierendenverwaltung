@@ -64,7 +64,7 @@ class DoktorandenEntry extends \SimpleORMap
         $config['additional_fields']['berichtsland']['get'] = function ($item) {
             return '03';
         };
-         $config['additional_fields']['paginiernummer']['get'] = function ($item) {
+        $config['additional_fields']['paginiernummer']['get'] = function ($item) {
             return '1';
         };
         $config['additional_fields']['berichtsjahr']['get'] = function ($item) {
@@ -102,7 +102,7 @@ class DoktorandenEntry extends \SimpleORMap
             if($item['studienfach_abschluss']){
                 $field = DoktorandenFields::find('studienfach_abschluss');
                 $astat = $field->getValueAstatByKey($item['studienfach_abschluss']);
-                return substr($astat,1);
+                return $astat;
             } else return NULL;
         };
         

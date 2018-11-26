@@ -350,8 +350,10 @@ class IndexController extends StudipController {
             //get related astat_bund val of $entry->$field
                 if ($field->getValueAstatByKey($entry->$field_id)){
                     $rowData[] = $field->getValueAstatByKey($entry->$field_id);
-                } else
-                $rowData[] = $entry->$field_id;
+                } else if ($entry->$field_id != 'NULL'){
+                    $rowData[] = $entry->$field_id;
+                } else 
+                   $rowData[] = ''; 
             }
         }
 
@@ -370,8 +372,10 @@ class IndexController extends StudipController {
             if ($field->export_name){
                 if ($field->getValueAstatByKey($entry->$field_id)){
                     $rowData[] = $field->getValueAstatByKey($entry->$field_id);
-                } else
-                $rowData[] = $entry->$field_id;
+                } else if ($entry->$field_id != 'NULL'){
+                    $rowData[] = $entry->$field_id;
+                } else 
+                    $rowData[] = ''; 
             }
         }
 
@@ -388,9 +392,9 @@ class IndexController extends StudipController {
                 if ($field->getValueTextByKey($entry->$field_id)){
                     $rowData[] = $field->getValueTextByKey($entry->$field_id);
                 } else if ($entry->$field_id != 'NULL'){
-                $rowData[] = $entry->$field_id;
+                    $rowData[] = $entry->$field_id;
                 } else 
-                   $rowData[] = ''; 
+                    $rowData[] = ''; 
             }
         }
 

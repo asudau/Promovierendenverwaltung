@@ -337,12 +337,12 @@ class IndexController extends StudipController {
             if($field_id == 'paginiernummer'){
                 $rowData[] = str_pad($number, 6, '0', STR_PAD_LEFT);
             } else if($field_id == 'promotionsende_monat' ){
-                if($entry->art_reg_prom == '3' || $entry->art_reg_prom == '2' ){
+                if(($entry->art_reg_prom == '3' || $entry->art_reg_prom == '2') && !$entry->$field_id){
                     $rowData[] = '12';
                 } else $rowData[] = $entry->$field_id;
                 
             }  else if($field_id == 'promotionsende_jahr' ){
-                if($entry->art_reg_prom == '3' || $entry->art_reg_prom == '2' ){
+                if(($entry->art_reg_prom == '3' || $entry->art_reg_prom == '2') && !$entry->$field_id ){
                     $rowData[] =  '2018';
                 } else $rowData[] = $entry->$field_id;
                 

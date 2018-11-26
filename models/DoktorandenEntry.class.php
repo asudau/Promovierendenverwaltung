@@ -120,11 +120,11 @@ class DoktorandenEntry extends \SimpleORMap
         };
         
          $config['additional_fields']['ef033u1']['get'] = function ($item) {
-            $field = DoktorandenFields::find('hzb_land');
+            //$field = DoktorandenFields::find('hzb_land');
             if($item->hzb_art_abroad() ){
                 return '99'; 
             } else if($item['hzb_land']){
-                    return $field->getValueAstatByKey($item['hzb_land']);
+                    return $item['hzb_land'];
                 }
             else return NULL;
         };

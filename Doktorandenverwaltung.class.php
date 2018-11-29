@@ -22,7 +22,7 @@ class Doktorandenverwaltung extends StudipPlugin implements SystemPlugin
 
         if(RolePersistence::isAssignedRole($GLOBALS['user']->user_id,
                                                             self::DOKTORANDEN_ADMIN_ROLE)){
-            $navigation = new Navigation('Promovierendenstatistik');
+            $navigation = new Navigation('Promovierendenverwaltung');
             $navigation->setImage(Icon::create('edit', 'navigation'));
             $navigation->setURL(PluginEngine::getURL($this, array(), 'index'));
             

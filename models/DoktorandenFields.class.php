@@ -95,6 +95,15 @@ class DoktorandenFields extends \SimpleORMap
         return false;
     }
     
+    public function getValueUniquenameByKey($key = null) {
+        if($this->value_key != NULL){
+            $value = DoktorandenFieldValue::findOneBySQL("field_id = ? AND " . $this->value_key . " = '" . $key . "'", array($this->getIdOfValues()));
+            
+            return $value['uniquename'];
+        } 
+        return false;
+    }
+    
     public static function getRequiredFields() {
         return self::findBySQL("fill = 'manual_req'" );
     }

@@ -27,6 +27,17 @@ class DoktorandenEntry extends \SimpleORMap
         } else return date('d.m.Y', mktime(0, 0, 0, $item->geburtsdatum_monat, $item->geburtsdatum_tag, $item->geburtsdatum_jahr));
         };
         
+        $config['additional_fields']['fachbereich']['get'] = function ($item) {
+            $field = DoktorandenFields::find('promotionsfach');
+            $fach = $field->getValueUniquenameByKey($item['promotionsfach']);
+            $stmt = DBManager::get()->prepare("SELECT Institut_id FROM mvv_fach_inst WHERE fach_id IN (?)");
+            $stmt->execute(array(str_pad($fach, 3, "0", STR_PAD_LEFT)));
+            $inst_ids = $stmt->fetchAll(PDO::FETCH_ASSOC); 
+            $inst = new Institute($inst_ids);
+            return $inst->name;
+            
+        };
+        
         $config['additional_fields']['extern_mail']['get'] = function ($item) {
             if ($item->email){
                 return $item->email;

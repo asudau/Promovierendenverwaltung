@@ -13,7 +13,8 @@
 class Doktorandenverwaltung extends StudipPlugin implements SystemPlugin 
 {
 
-    const DOKTORANDEN_ADMIN_ROLE = 'Doktorandenverwaltung';
+    const DOKTORANDENVERWALTUNG_ROLE = 'Doktorandenverwaltung';
+    const DOKTORANDENVERWALTUNG_ADMIN_ROLE = 'Doktorandenverwaltung_Admin';
     
     public function __construct()
     {
@@ -21,7 +22,7 @@ class Doktorandenverwaltung extends StudipPlugin implements SystemPlugin
         global $perm;
 
         if(RolePersistence::isAssignedRole($GLOBALS['user']->user_id,
-                                                            self::DOKTORANDEN_ADMIN_ROLE)){
+                                                            self::DOKTORANDENVERWALTUNG_ROLE)){
             $navigation = new Navigation('Promovierendenverwaltung');
             $navigation->setImage(Icon::create('edit', 'navigation'));
             $navigation->setURL(PluginEngine::getURL($this, array(), 'index'));

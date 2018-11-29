@@ -234,7 +234,8 @@ class IndexController extends StudipController {
     //Bericht für 2018 erstellen
     public function export_action()
     {
-        if (in_array($GLOBALS['user']->id, $this->admin_ids ) ){
+        if(RolePersistence::isAssignedRole($GLOBALS['user']->user_id,
+                                                            Doktorandenverwaltung::DOKTORANDENVERWALTUNG_ADMIN_ROLE)){
             $search_query = array();
             //noch kein enddatum
             $search_query[] = '`promotionsende_jahr` IS NULL';
@@ -269,7 +270,8 @@ class IndexController extends StudipController {
     }
     
     public function full_export_action(){
-        if (in_array($GLOBALS['user']->id, $this->admin_ids ) ){
+        if(RolePersistence::isAssignedRole($GLOBALS['user']->user_id,
+                                                            Doktorandenverwaltung::DOKTORANDENVERWALTUNG_ADMIN_ROLE)){
             $doktoranden_entries = DoktorandenEntry::findBySQL('true');
 
             $export_fields = DoktorandenFields::getFullExportFieldsArray();

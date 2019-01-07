@@ -85,7 +85,7 @@ class DoktorandenverwaltungAddFieldsTable extends Migration
            ('ef038', 'frei für landesinterne Angaben', NULL, NULL, NULL, NULL, 'manual_opt', NULL, NULL, 'EF38'),
            ('geburtstag', 'Geburtsdatum', NULL, '3', 'doktorandendaten', '2', 'manual_req', NULL, NULL, '04 Geburtsdatum'),
            ('betreuer', 'Zuständiger Betreuer', NULL, NULL, 'promotionsdaten', '14', 'manual_opt', NULL, NULL, '0'),
-           ('email', 'EMail', NULL, '4', 'doktorandendaten', '7', 'manual_opt', NULL, NULL, '0'),
+           ('email', 'EMail', NULL, NULL, 'doktorandendaten', '7', 'manual_opt', NULL, NULL, '0'),
            ('berichtet', 'Als abgeschlossen oder abgebrochen berichtet (Jahr)', NULL, NULL, 'admin', '1', 'manual_opt', NULL, NULL, '0')
            ";
         

@@ -74,9 +74,9 @@ class IndexController extends StudipController {
         $this->fields = DoktorandenFields::getHeaderFields();
 
         if ($this->faecher){
-            $this->entries = DoktorandenEntry::findBySQL("(" . $query . ") AND promotionsfach IN ('" . implode($this->faecher, '\' ,\'') . "')" ); 
+            $this->entries = DoktorandenEntry::findBySQL("(" . $query . ") AND promotionsfach IN ('" . implode($this->faecher, '\' ,\'') . "') ORDER BY nachname ASC" ); 
         } else {
-            $this->entries = DoktorandenEntry::findBySQL($query);
+            $this->entries = DoktorandenEntry::findBySQL($query . ' ORDER BY nachname ASC');
         }
         //$this->number_required_fields = sizeof(DoktorandenFields::getRequiredFields());
         

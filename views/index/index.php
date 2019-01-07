@@ -9,7 +9,7 @@
 		<tr>
             <th data-sort="false" style='width:10%'>Aktionen</th>
             <?php foreach($fields as $field): ?>
-                <?php if ($field->id == 'geburtstag') : ?>
+                <?php if ($field->id == 'geburtstag' || $field->id == 'chdate') : ?>
                     <th data-sort="htmldata"><span><?= $field['title'] ?></span></th>   
                 <?php else: ?>
                     <th data-sort="text"><span><?= $field['title'] ?></span></th>   
@@ -34,6 +34,8 @@
             <?php else: ?>
                 <?php if ($field->id == 'geburtstag') : ?>
                     <td data-sort-value=<?= $entry['geburtstag_time']?>><?= htmlReady($entry[$field->id]) ?></td>
+                 <?php elseif ($field->id == 'chdate') : ?>
+                    <td data-sort-value=<?= $entry[$field->id]?>><?= date('d.m.Y', $entry[$field->id]) ?></td>
                 <?php else: ?>
                     <td><?= htmlReady($entry[$field->id]) ?></td>
                 <?php endif ?>

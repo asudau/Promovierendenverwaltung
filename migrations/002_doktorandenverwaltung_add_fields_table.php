@@ -86,6 +86,7 @@ class DoktorandenverwaltungAddFieldsTable extends Migration
            ('geburtstag', 'Geburtsdatum', NULL, '3', 'doktorandendaten', '2', 'manual_req', NULL, NULL, '04 Geburtsdatum'),
            ('betreuer', 'Zuständiger Betreuer', NULL, NULL, 'promotionsdaten', '14', 'manual_opt', NULL, NULL, '0'),
            ('email', 'EMail', NULL, NULL, 'doktorandendaten', '7', 'manual_opt', NULL, NULL, '0'),
+           ('chdate', 'Zuletzt bearbeitet', NULL, '7', NULL, NULL, 'auto', NULL, NULL, '0'),
            ('berichtet', 'Als abgeschlossen oder abgebrochen berichtet (Jahr)', NULL, NULL, 'admin', '1', 'manual_opt', NULL, NULL, '0')
            ";
         

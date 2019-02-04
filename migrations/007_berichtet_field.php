@@ -16,7 +16,7 @@ class BerichtetField extends Migration
         $query = "ALTER TABLE `doktorandenverwaltung` ADD `email` varchar(255) AFTER `complete_progress`";
         $db->exec($query);
         SimpleORMap::expireTableScheme();
-        
+
         $query = "UPDATE `doktorandenverwaltung` "
                 . "SET `berichtet` = '2017' "
                 . "WHERE 1";

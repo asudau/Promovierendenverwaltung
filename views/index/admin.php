@@ -6,13 +6,13 @@
 
 <table id='doktoranden-entries' class="tablesorter default">
     <thead>
-		<tr>
+        <tr>
             <th style='width:10%'>Aktionen</th>
             <?php foreach($fields as $field): ?>
-                <th><span><?= $field['name'] ?></span></th>   
+                <th><span><?= $field['name'] ?></span></th>
             <?php endforeach ?>
             <?php foreach($additionalfields as $field => $contents): ?>
-                <th><span><?= $field ?></span></th>   
+                <th><span><?= $field ?></span></th>
             <?php endforeach ?>
         <!--<th>Courseware besucht?</th>-->
         </tr>
@@ -26,7 +26,7 @@
             <td><?= $entry->$name ?></td>
         <?php endforeach ?>
          <?php foreach($additionalfields as $field => $contents): ?>
-            <td><?= $entry->$field ?></td>   
+            <td><?= $entry->$field ?></td>
         <?php endforeach ?>
 
     </tr>
@@ -41,13 +41,10 @@
 
 <script type="text/javascript">
 
-    
+
 $(function(){
-  $('#doktoranden-entries').tablesorter(); 
+  $('#doktoranden-entries').tablesorter();
 });
 
 
 </script>
-
-
-

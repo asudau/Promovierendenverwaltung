@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/../constants.inc.php';
+
 class DoktorandenverwaltungAddTable extends Migration
 {
     public function description()
@@ -10,10 +12,15 @@ class DoktorandenverwaltungAddTable extends Migration
     public function up()
     {
         $role = new Role();
-        $role->setRolename('Doktorandenverwaltung');
+        $role->setRolename(\Doktorandenverwaltung\DOKTORANDENVERWALTUNG_ROLE);
         $role->setSystemtype(false);
         RolePersistence::saveRole($role);
-        
+
+        $role = new Role();
+        $role->setRolename(\Doktorandenverwaltung\DOKTORANDENVERWALTUNG_ADMIN_ROLE);
+        $role->setSystemtype(false);
+        RolePersistence::saveRole($role);
+
         $db = DBManager::get();
 
         // add db-table

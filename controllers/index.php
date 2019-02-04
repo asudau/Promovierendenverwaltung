@@ -20,7 +20,7 @@ class IndexController extends StudipController {
         if (Request::get('berichtsjahrSelector') == 1){
             $_SESSION['Doktorandenverwaltung_vars']['berichtsjahr'] = 1;
         } else $_SESSION['Doktorandenverwaltung_vars']['berichtsjahr'] = 0;
-        
+
         $stmt = DBManager::get()->prepare("SELECT roleid FROM roles WHERE rolename = ?");
         $stmt->execute(array('Doktorandenverwaltung'));
         $this->role_id = $stmt->fetch()[0];
@@ -31,29 +31,29 @@ class IndexController extends StudipController {
         $navcreate->addLink(_('Neuer Eintrag'),
                               $this->url_for('index/new'),
                               Icon::create('seminar+add', 'clickable'))->asDialog('size=big');
-        
+
         if(RolePersistence::isAssignedRole($GLOBALS['user']->user_id,
-                                                            Doktorandenverwaltung::DOKTORANDENVERWALTUNG_ADMIN_ROLE)){
+                                                            \Doktorandenverwaltung\DOKTORANDENVERWALTUNG_ADMIN_ROLE)){
             $navcreate->addLink(_('Statistikexport'),
                                   $this->url_for('index/export'),
                                   Icon::create('seminar+add', 'clickable'));
             $navcreate->addLink(_('Vollständiger Export'),
                                   $this->url_for('index/full_export'),
                                   Icon::create('seminar+add', 'clickable'));
-        } 
-        
+        }
+
         $navcreate->addLink(_('Export der aktuellen Einträge'),
                                   $this->url_for('index/export_user'),
                                   Icon::create('seminar+add', 'clickable'));
-        
+
         $sidebar->addWidget($navcreate);
-        
+
     }
 
     public function index_action()
     {
         Navigation::activateItem('tools/doktorandenverwaltung/index');
-        
+
         $search_query = array();
         if($_SESSION['Doktorandenverwaltung_vars']['berichtsjahr'] == '0' ){
             //noch kein enddatum
@@ -65,7 +65,7 @@ class IndexController extends StudipController {
         }
 
         $query = '';
-        if($search_query){ 
+        if($search_query){
             $query = implode(" OR ",$search_query);
         }
         if ($query == '') $query = 'true';
@@ -74,16 +74,16 @@ class IndexController extends StudipController {
         $this->fields = DoktorandenFields::getHeaderFields();
 
         if ($this->faecher){
-            $this->entries = DoktorandenEntry::findBySQL("(" . $query . ") AND promotionsfach IN ('" . implode($this->faecher, '\' ,\'') . "') ORDER BY nachname ASC" ); 
+            $this->entries = DoktorandenEntry::findBySQL("(" . $query . ") AND promotionsfach IN ('" . implode($this->faecher, '\' ,\'') . "') ORDER BY nachname ASC" );
         } else {
             $this->entries = DoktorandenEntry::findBySQL($query . ' ORDER BY nachname ASC');
         }
         //$this->number_required_fields = sizeof(DoktorandenFields::getRequiredFields());
-        
+
         $sidebar = Sidebar::get();
-        
-        //promotionsende_monat promotionsende_jahr 
-        
+
+        //promotionsende_monat promotionsende_jahr
+
         $widget = new SelectWidget('Berichtsjahr', PluginEngine::GetURL('doktorandenverwaltung/index/'), 'berichtsjahrSelector');
         $option = new SelectElement('1', _('Alle Einträge'));
                 if ('1' ==  $_SESSION['Doktorandenverwaltung_vars']['berichtsjahr'] ) {
@@ -95,9 +95,9 @@ class IndexController extends StudipController {
             $option->setActive();
         }
         $widget->addElement($option);
-        
+
         $sidebar->insertWidget($widget, 'pdb_actions');
-        
+
 //        $actions = new OptionsWidget();
 //        $actions->addCheckbox(
 //                _('Nur aktive Promotionen anzeigen'),
@@ -106,25 +106,25 @@ class IndexController extends StudipController {
 //            );
 //
 //            $sidebar->addWidget($actions);
-        
-                
+
+
     }
-    
+
     public function showactive_action(){
         $this->render_nothing();
     }
-    
-    
+
+
     public function edit_action($entry_id)
     {
         $this->entry = DoktorandenEntry::findOneBySQL('id = ' . $entry_id);
         if(RolePersistence::isAssignedRole($GLOBALS['user']->user_id,
-                                                            Doktorandenverwaltung::DOKTORANDENVERWALTUNG_ADMIN_ROLE)){
+                                                            \Doktorandenverwaltung\DOKTORANDENVERWALTUNG_ADMIN_ROLE)){
             $this->groupedFields = DoktorandenEntry::getGroupedFieldsForAdmin();
         } else
             $this->groupedFields = DoktorandenEntry::getGroupedFields();
     }
-    
+
     public function faq_action()
     {
         Navigation::activateItem('tools/doktorandenverwaltung/faq');
@@ -136,7 +136,7 @@ class IndexController extends StudipController {
         //$this->entry->store();
         //$this->new = true;
         if(RolePersistence::isAssignedRole($GLOBALS['user']->user_id,
-                                                            Doktorandenverwaltung::DOKTORANDENVERWALTUNG_ADMIN_ROLE)){
+                                                            \Doktorandenverwaltung\DOKTORANDENVERWALTUNG_ADMIN_ROLE)){
             $this->groupedFields = DoktorandenEntry::getGroupedFieldsForAdmin();
         } else
             $this->groupedFields = DoktorandenEntry::getGroupedFields();
@@ -144,7 +144,7 @@ class IndexController extends StudipController {
 
     public function delete_action($entry_id){
         if(RolePersistence::isAssignedRole($GLOBALS['user']->user_id,
-                                                            Doktorandenverwaltung::DOKTORANDENVERWALTUNG_ADMIN_ROLE)){
+                                                            \Doktorandenverwaltung\DOKTORANDENVERWALTUNG_ADMIN_ROLE)){
             $entry = DoktorandenEntry::findOneBySQL('id = ' . $entry_id);
             if ($entry){
                 $message = MessageBox::success(_('Eintrag wurde gelöscht: ' . $entry->vorname . ' ' . $entry->nachname));
@@ -154,7 +154,7 @@ class IndexController extends StudipController {
         }
         $this->redirect('index');
     }
-    
+
     public function save_action($entry_id){
 
         if ($entry_id){
@@ -163,7 +163,7 @@ class IndexController extends StudipController {
             $entry = new DoktorandenEntry();
         }
         $groupedFields = DoktorandenEntry::getGroupedFields();
-        
+
         if($entry){
             foreach ($groupedFields as $group){
                 foreach ($group['entries'] as $field_entry){
@@ -178,7 +178,7 @@ class IndexController extends StudipController {
                                     $message = MessageBox::error(_('Falsches Datumsformat: ' . $field_entry->title . ' wurde nicht übernommen'));
                                     PageLayout::postMessage($message);
                                 }
-                            } 
+                            }
                         } if ($field == 'geburtstag'){
                             if (Request::get($field)){
                                 if($this->validateDate(Request::get($field))){
@@ -187,7 +187,7 @@ class IndexController extends StudipController {
                                     $message = MessageBox::error(_('Falsches Datumsformat: ' . $field_entry->title . ' wurde nicht übernommen'));
                                     PageLayout::postMessage($message);
                                 }
-                            } 
+                            }
                         }
                         else {
                                 $entry->$field = Request::get($field);
@@ -203,11 +203,11 @@ class IndexController extends StudipController {
             foreach($req_fields as $field_id){
                 if ($entry->isValueSet($field_id)){
                     $filled ++;
-                } 
+                }
             }
             $entry->complete_progress = $filled;
             $entry->number_required_fields = sizeof($req_fields);
-            
+
             if ($entry->store() !== false) {
                 $messagetext = 'Die Änderungen wurden übernommen.';
                 if ($entry->complete_progress < $entry->number_required_fields){
@@ -216,26 +216,26 @@ class IndexController extends StudipController {
                 }
                 $message = MessageBox::success($messagetext);
                 PageLayout::postMessage($message);
-            } 
-                
+            }
+
         } else {
 
             $message = MessageBox::success(_('Kein Eintrag mit dieser ID vorhanden'));
             PageLayout::postMessage($message);
-            
+
         }
 
         //$this->response->add_header('X-Dialog-Close', '1');
         //$this->render_nothing();
         $this->redirect('index');
-          
+
     }
-    
+
     //Bericht für 2018 erstellen
     public function export_action()
     {
         if(RolePersistence::isAssignedRole($GLOBALS['user']->user_id,
-                                                            Doktorandenverwaltung::DOKTORANDENVERWALTUNG_ADMIN_ROLE)){
+                                                            \Doktorandenverwaltung\DOKTORANDENVERWALTUNG_ADMIN_ROLE)){
             $search_query = array();
             //noch kein enddatum
             $search_query[] = '`promotionsende_jahr` IS NULL';
@@ -268,10 +268,10 @@ class IndexController extends StudipController {
 
         }
     }
-    
+
     public function full_export_action(){
         if(RolePersistence::isAssignedRole($GLOBALS['user']->user_id,
-                                                            Doktorandenverwaltung::DOKTORANDENVERWALTUNG_ADMIN_ROLE)){
+                                                            \Doktorandenverwaltung\DOKTORANDENVERWALTUNG_ADMIN_ROLE)){
             $doktoranden_entries = DoktorandenEntry::findBySQL('true');
 
             $export_fields = DoktorandenFields::getFullExportFieldsArray();
@@ -305,11 +305,11 @@ class IndexController extends StudipController {
         $search_query[] = '`promotionsende_jahr` = 2018';
         $search_query[] = '(`promotionsende_jahr` = 2017 AND `promotionsende_monat` = 12 AND `berichtet` != 2017 )';
         $query = implode(" OR ",$search_query);
-        
+
         $this->faecher = $this->getFaecherIDsForUser();
 
         if ($this->faecher){
-            $doktoranden_entries = DoktorandenEntry::findBySQL("(" . $query . ") AND promotionsfach IN ('" . implode($this->faecher, '\' ,\'') . "')" ); 
+            $doktoranden_entries = DoktorandenEntry::findBySQL("(" . $query . ") AND promotionsfach IN ('" . implode($this->faecher, '\' ,\'') . "')" );
         } else {
             $doktoranden_entries = DoktorandenEntry::findBySQL($query);
         }
@@ -318,7 +318,7 @@ class IndexController extends StudipController {
 
         $header = array();
         $export = array();
-        
+
         foreach ($grouped_fields as $group){
             foreach ($group['entries'] as $field){
                 $header[] = $field->title;
@@ -334,7 +334,7 @@ class IndexController extends StudipController {
         $this->render_csv($export, 'promovierendendaten.csv');
 
     }
-    
+
     static function handleSingleRow($entry, $fields, $number)
     {
         $rowData = array();
@@ -346,31 +346,31 @@ class IndexController extends StudipController {
                 if(($entry->art_reg_prom == '3' || $entry->art_reg_prom == '2') && !$entry->$field_id){
                     $rowData[] = '12';
                 } else $rowData[] = $entry->$field_id;
-                
+
             }  else if($field_id == 'promotionsende_jahr' ){
                 if(($entry->art_reg_prom == '3' || $entry->art_reg_prom == '2') && !$entry->$field_id ){
                     $rowData[] =  '2018';
                 } else $rowData[] = $entry->$field_id;
-                
+
             } else {
             //get related astat_bund val of $entry->$field
                 if ($field->getValueAstatByKey($entry->$field_id)){
                     $rowData[] = $field->getValueAstatByKey($entry->$field_id);
                 } else if ($entry->$field_id != 'NULL'){
                     $rowData[] = $entry->$field_id;
-                } else 
-                   $rowData[] = ''; 
+                } else
+                   $rowData[] = '';
             }
         }
 
         return $rowData;
     }
-    
+
     static function handleFullSingleRow($entry, $fields)
     {
         $rowData = array();
         foreach($fields as $field){
-            
+
             $field_id = $field->id;
             //intern db-value
             $rowData[] = $entry->$field_id;
@@ -380,14 +380,14 @@ class IndexController extends StudipController {
                     $rowData[] = $field->getValueAstatByKey($entry->$field_id);
                 } else if ($entry->$field_id != 'NULL'){
                     $rowData[] = $entry->$field_id;
-                } else 
-                    $rowData[] = ''; 
+                } else
+                    $rowData[] = '';
             }
         }
 
         return $rowData;
     }
-    
+
     static function handleUserSingleRow($entry, $grouped_fields)
     {
         $rowData = array();
@@ -399,8 +399,8 @@ class IndexController extends StudipController {
                     $rowData[] = $field->getValueTextByKey($entry->$field_id);
                 } else if ($entry->$field_id != 'NULL'){
                     $rowData[] = $entry->$field_id;
-                } else 
-                    $rowData[] = ''; 
+                } else
+                    $rowData[] = '';
             }
         }
 
@@ -409,12 +409,12 @@ class IndexController extends StudipController {
 
     private function getFaecherIDsForUser(){
         //zugehörige Fächer für aktuellen User
-        
+
         $this->inst_id = RolePersistence::getAssignedRoleInstitutes($GLOBALS['user']->user_id, $this->role_id);
         if ($this->inst_id[1]){
             $stmt = DBManager::get()->prepare("SELECT fach_id FROM mvv_fach_inst WHERE Institut_id IN (?)");
             $stmt->execute(array($this->inst_id));
-            $faecher = $stmt->fetchAll(PDO::FETCH_ASSOC); 
+            $faecher = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $faecher_array = array();
             $field = DoktorandenFields::find('promotionsfach');
             foreach($faecher as $fach){
@@ -425,7 +425,7 @@ class IndexController extends StudipController {
             } else return false;
         } else return false;
     }
-    
+
     private function validateDate($date, $format = 'Y-m-d')
     {
         $d = DateTime::createFromFormat($format, $date);
@@ -435,8 +435,8 @@ class IndexController extends StudipController {
             return false;
         } else return true;
     }
-    
-    
+
+
     // customized #url_for for plugins
     public function url_for($to = '')
     {
@@ -454,7 +454,7 @@ class IndexController extends StudipController {
 
         return PluginEngine::getURL($this->dispatcher->plugin, $params, join('/', $args));
     }
-    
-    
-    
+
+
+
 }

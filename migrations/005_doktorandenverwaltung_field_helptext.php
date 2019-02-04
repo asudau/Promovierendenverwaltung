@@ -14,7 +14,7 @@ class DoktorandenverwaltungFieldHelptext extends Migration
         $query = "ALTER TABLE `doktorandenverwaltung_fields` ADD `helptext` VARCHAR( 255 ) NOT NULL AFTER `title`";
         $db->exec($query);
         SimpleORMap::expireTableScheme();
-        
+
         $query = "UPDATE `doktorandenverwaltung_fields` "
                 . "SET `helptext` = 'Bei einer Ersteinschreibung im Ausland, soll hier \'Auslandshochschule\' ausgewählt werden' "
                 . "WHERE `doktorandenverwaltung_fields`.`id` = 'hochschule_erst'";

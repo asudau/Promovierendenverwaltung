@@ -25,9 +25,9 @@ class DoktorandenverwaltungAddFieldsTable extends Migration
             `export_name` varchar(250) NULL,
             PRIMARY KEY (id)
         ) ");
-        
-        $query = "INSERT INTO `doktorandenverwaltung_fields` (`id`, `title`, `default`, `overview_position`, `group`, `group_position`, `fill`, `value_id`, `value_key`, `export_name`) 
-           VALUES 
+
+        $query = "INSERT INTO `doktorandenverwaltung_fields` (`id`, `title`, `default`, `overview_position`, `group`, `group_position`, `fill`, `value_id`, `value_key`, `export_name`)
+           VALUES
            ('berichtseinheitid', 'BerichtseinheitID', '5300000', NULL, '', NULL, 'auto', NULL, NULL, 'berichtseinheitid'),
            ('berichtsland', 'Berichtsland', '03', NULL, NULL, NULL, 'auto', 'bundeslaender', 'his_id', 'EF01'),
            ('berichtsjahr', 'Berichtsjahr', NULL, NULL, NULL, NULL, 'auto', NULL, NULL, 'EF02'),
@@ -89,11 +89,11 @@ class DoktorandenverwaltungAddFieldsTable extends Migration
            ('chdate', 'Zuletzt bearbeitet', NULL, '7', NULL, NULL, 'auto', NULL, NULL, '0'),
            ('berichtet', 'Als abgeschlossen oder abgebrochen berichtet (Jahr)', NULL, NULL, 'admin', '1', 'manual_opt', NULL, NULL, '0')
            ";
-        
+
         $db->exec($query);
-        
-        
-        
+
+
+
 
         SimpleORMap::expireTableScheme();
     }

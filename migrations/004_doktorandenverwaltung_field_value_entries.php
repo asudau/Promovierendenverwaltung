@@ -11,9 +11,9 @@ class DoktorandenverwaltungFieldValueEntries extends Migration
     {
         $db = DBManager::get();
 
-        $query = "INSERT INTO `doktorandenverwaltung_field_values` (`field_id`, `his_id`, `lid`, `uniquename`, `defaulttext`, `astat_bund`) 
-            VALUES 
-            ('geschlecht', '1', NULL, NULL, 'männlich', NULL), 
+        $query = "INSERT INTO `doktorandenverwaltung_field_values` (`field_id`, `his_id`, `lid`, `uniquename`, `defaulttext`, `astat_bund`)
+            VALUES
+            ('geschlecht', '1', NULL, NULL, 'männlich', NULL),
             ('geschlecht', '2', NULL, NULL, 'weiblich', NULL),
             ('ja_nein', '1', NULL, NULL, 'Ja', '1'),
             ('ja_nein', '0', NULL, NULL, 'Nein', '0'),
@@ -24,9 +24,9 @@ class DoktorandenverwaltungFieldValueEntries extends Migration
             ('status_abschlusspruefung', '0', NULL, NULL, 'wurde noch nicht abgelegt', '0'),
             ('status_abschlusspruefung', '1', NULL, NULL, 'wurde abgelegt und bestanden', '1')
             ";
-        
+
         $db->exec($query);
-        
+
     }
 
     public function down()

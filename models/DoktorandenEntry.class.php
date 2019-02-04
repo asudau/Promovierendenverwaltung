@@ -20,24 +20,24 @@ class DoktorandenEntry extends \SimpleORMap
     protected static function configure($config = array())
     {
         $config['db_table'] = 'doktorandenverwaltung';
-        
+
         $config['additional_fields']['geburtstag']['get'] = function ($item) {
         if (!$item->geburtsdatum_tag){
             return '';
         } else return date('d.m.Y', mktime(0, 0, 0, $item->geburtsdatum_monat, $item->geburtsdatum_tag, $item->geburtsdatum_jahr));
         };
-        
+
         $config['additional_fields']['fachbereich']['get'] = function ($item) {
             $field = DoktorandenFields::find('promotionsfach');
             $fach = $field->getValueUniquenameByKey($item['promotionsfach']);
             $stmt = DBManager::get()->prepare("SELECT Institut_id FROM mvv_fach_inst WHERE fach_id IN (?)");
             $stmt->execute(array(str_pad($fach, 3, "0", STR_PAD_LEFT)));
-            $inst_ids = $stmt->fetchAll(PDO::FETCH_ASSOC); 
+            $inst_ids = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $inst = new Institute($inst_ids);
             return $inst->name;
-            
+
         };
-        
+
         $config['additional_fields']['extern_mail']['get'] = function ($item) {
             if ($item->email){
                 return $item->email;
@@ -53,11 +53,11 @@ class DoktorandenEntry extends \SimpleORMap
                 if ($result['email']){
                     $item->email = $result['email'];
                     $item->store();
-                    return $result['email'];//$item->hisinone_person_id;//$result[0];   
+                    return $result['email'];//$item->hisinone_person_id;//$result[0];
                 }
             } return '';
         };
-        
+
         $config['additional_fields']['geburtstag']['set'] = function ($item, $field, $data) {
             $time = strtotime ($data);
             $item->geburtsdatum_tag = date("d", $time);
@@ -116,7 +116,7 @@ class DoktorandenEntry extends \SimpleORMap
                 return $astat;
             } else return NULL;
         };
-        
+
         $config['additional_fields']['ef033u2']['get'] = function ($item) {
             $field = DoktorandenFields::find('hzb_art');
             if($item['hzb_kreis']){
@@ -129,11 +129,11 @@ class DoktorandenEntry extends \SimpleORMap
                 return $astat;
             } else return NULL;
         };
-        
+
          $config['additional_fields']['ef033u1']['get'] = function ($item) {
             //$field = DoktorandenFields::find('hzb_land');
             if($item->hzb_art_abroad() ){
-                return '99'; 
+                return '99';
             } else if($item['hzb_land']){
                     return $item['hzb_land'];
                 }
@@ -142,27 +142,27 @@ class DoktorandenEntry extends \SimpleORMap
 
         parent::configure($config);
     }
-    
+
     public function getFields() {
         return $this->db_fields;
     }
-    
+
     public function getAdditionalFields() {
         return $this->additional_fields;
     }
-    
+
     public static function getGroupedFields() {
         $group_array = array();
         foreach(self::$groups as $group => $title){
             if($group != 'admin'){
                 $group_array[$group]['entries'] = DoktorandenFields::findBySQL("`group` LIKE :group ORDER BY `group_position` ASC", array(':group' => $group));
                 $group_array[$group]['title'] = $title;
-            } 
+            }
         }
         //return DoktorandenEntry::$groupedFields;
         return $group_array;
     }
-    
+
     public static function getGroupedFieldsForAdmin() {
         $group_array = array();
         foreach(self::$groups as $group => $title){
@@ -172,7 +172,7 @@ class DoktorandenEntry extends \SimpleORMap
         //return DoktorandenEntry::$groupedFields;
         return $group_array;
     }
-    
+
     public function numberRequiredFields(){
         if ($this->number_required_fields > 0){
             return $this->number_required_fields;
@@ -181,17 +181,17 @@ class DoktorandenEntry extends \SimpleORMap
             $this->store();
             return $this->number_required_fields;
         }
-        
+
     }
-    
+
     public function isValueSet($field_id){
         if ((!is_null($this->$field_id)) && $this->$field_id != '' && $this->$field_id != 'NULL'){
             return true;
         } else return false;
     }
-    
+
     public function requiredFields(){
-        
+
         $fields = DoktorandenFields::getManualFields();
         $required_fields = array();
         foreach ($fields as $field){
@@ -199,9 +199,9 @@ class DoktorandenEntry extends \SimpleORMap
                 $required_fields[] = $field->id;
             }
         }
-        return $required_fields;  
+        return $required_fields;
     }
-    
+
     public function completeProgress(){
         if ($this->complete_progress > 0){
             return $this->complete_progress;
@@ -211,7 +211,7 @@ class DoktorandenEntry extends \SimpleORMap
             foreach($req_fields as $field_id){
                 if ($this->isValueSet($field_id)){
                     $filled ++;
-                } 
+                }
             }
             $this->complete_progress = $filled;
             $this->store();
@@ -220,7 +220,7 @@ class DoktorandenEntry extends \SimpleORMap
     }
 
     public function req($field_id){
-        
+
         //sonderregelung für Ende der Promotion: falls beendet, abschlussjahr/Monat Pflichtfeld
         if ($field_id == 'promotionsende_monat' || $field_id == 'promotionsende_jahr'){
             if($this->art_reg_prom == '3' || $this->art_reg_prom == '2' ){
@@ -233,14 +233,14 @@ class DoktorandenEntry extends \SimpleORMap
         //Abschluss(HZB) im Inland: Staat ausgegraut, Bundesland und Kreis Pflichtfeld
         } else if (($field_id == 'hzb_land' || $field_id == 'hzb_kreis') && $this->isValueSet('hzb_art') && !$this->hzb_art_abroad() ){
             return true;
-        //Abschlusshochschule Auslandshochschulen, dann Staat Pflichtfeld    
+        //Abschlusshochschule Auslandshochschulen, dann Staat Pflichtfeld
         } else if ($this->hochschule_abschlusspruefung == '2' &&
                 ($field_id == 'staat_abschlusspruefung' ) ){
-            return true; 
-        //Ersteinschreibung Auslandshochschulen, dann Staat Pflichtfeld 
+            return true;
+        //Ersteinschreibung Auslandshochschulen, dann Staat Pflichtfeld
         }else if ($this->hochschule_erst == '2' &&
                 ($field_id == 'staat_hochschule_erst' ) ){
-            return true; 
+            return true;
         //generelle Pflichtfelder
         }else  if (DoktorandenFields::find($field_id)->fill == 'manual_req'){
             //if ($this->$field_id == NULL || strlen($this->$field_id) < 1){
@@ -249,7 +249,7 @@ class DoktorandenEntry extends \SimpleORMap
         }
         return false;
     }
-    
+
     public function disabled($field_id){
         //Abschluss (HZB) im Ausland: Staat Pflichtfeld, Bundesland und Kreis ausgegraut
         if (($field_id == 'hzb_land' || $field_id =='hzb_kreis') && $this->req('hzb_staat') && $this->isValueSet('hzb_art')){
@@ -257,10 +257,10 @@ class DoktorandenEntry extends \SimpleORMap
         //Abschluss (HZB) im Inland: Staat ausgegraut, Bundesland und Kreis Pflichtfeld
         } else if (($field_id == 'hzb_staat') && $this->req('hzb_land') && $this->isValueSet('hzb_art')){
             return true;
-        //Abschlusshochschule keine Auslandshochschulen -> Staat kein Pflichtfeld dann ausgegraut 
+        //Abschlusshochschule keine Auslandshochschulen -> Staat kein Pflichtfeld dann ausgegraut
         } else if (($field_id == 'staat_abschlusspruefung' ) && !$this->req('staat_abschlusspruefung') && $this->isValueSet('hochschule_abschlusspruefung')){
             return true;
-        //Ersteinschreibung keine Auslandshochschulen, -> Staat kein Pflichtfeld dann ausgegraut 
+        //Ersteinschreibung keine Auslandshochschulen, -> Staat kein Pflichtfeld dann ausgegraut
         } else if (($field_id == 'staat_hochschule_erst' ) && !$this->req('staat_hochschule_erst') && $this->isValueSet('hochschule_erst')){
             return true;
         //sonderregelung für Ende der Promotion: abschlussjahr/Monat Pflichtfeld falls beendet
@@ -269,22 +269,22 @@ class DoktorandenEntry extends \SimpleORMap
         }
         return false;
     }
-    
+
     public function getDefaultOption($field_id){
         if($this->req($field_id)){
             return '-- bitte auswählen --';
         } if ($this->disabled($field_id)){
             return '-- ggf. auswählen --';
-        } 
+        }
         return '-- ggf. auswählen --';
     }
-    
+
     public function getNextId(){
         $max_id_entry = self::findOneBySQL('true ORDER BY id DESC');
         $next_id = $max_id_entry->id + 1;
         return $next_id;
     }
-    
+
     private static function clear_string($str){
         $search = array("ä", "ö", "ü", "ß", "Ä", "Ö",
                 "Ü", "-", "é", "á", "ú", "c", "â", "ê");
@@ -294,15 +294,15 @@ class DoktorandenEntry extends \SimpleORMap
         //$str = strtolower(preg_replace("/[^a-zA-Z0-9]+/", trim($how), $str));
         return substr($str, 0, 4);
     }
-    
+
     public function hzb_art_abroad(){
         $ef032 = DoktorandenFields::find('hzb_art');
         $hzb_art_astat = $ef032->getValueAstatByKey($this->hzb_art);
-        
+
         if (in_array($hzb_art_astat, array('17', '39', '47', '59', '67', '79'))){
             return true;
         } else return false;
-        
+
     }
-    
+
 }

@@ -11,10 +11,10 @@ class DoktorandenverwaltungColumnReqFields extends Migration
     {
         $db = DBManager::get();
         $db->exec("ALTER TABLE doktorandenverwaltung ADD COLUMN number_required_fields int(11)");
-        
-        
+
+
         SimpleORMap::expireTableScheme();
-    
+
     }
 
     public function down()

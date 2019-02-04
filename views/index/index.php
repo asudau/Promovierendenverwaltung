@@ -6,16 +6,16 @@
 
 <table id='doktoranden-entries' class="sortable-table default">
     <thead>
-		<tr>
+        <tr>
             <th data-sort="false" style='width:5%'></th>
             <?php foreach($fields as $field): ?>
                 <?php if ($field->id == 'geburtstag' || $field->id == 'chdate') : ?>
-                    <th data-sort="htmldata"><span><?= $field['title'] ?></span></th>   
+                    <th data-sort="htmldata"><span><?= $field['title'] ?></span></th>
                 <?php else: ?>
-                    <th data-sort="text"><span><?= $field['title'] ?></span></th>   
+                    <th data-sort="text"><span><?= $field['title'] ?></span></th>
                 <?php endif ?>
             <?php endforeach ?>
-            <th data-sort="text" style='width:10%'>Status</th>  
+            <th data-sort="text" style='width:10%'>Status</th>
             <th data-sort="false" style='width:5%'></th>
         </tr>
     </thead>
@@ -24,7 +24,7 @@
     <tr>
 
         <td><a href='<?=$this->controller->url_for('index/edit/' . $entry['id']) ?>' title='Eintrag editieren' data-dialog="size=big"><?=Icon::create('edit')?></a>
-        
+
         <br/></td>
         <?php foreach($fields as $field): ?>
             <?php if ($field->value_key) : ?>
@@ -42,11 +42,11 @@
         <?php endforeach ?>
         <td title='Noch <?= $entry->numberRequiredFields()-$entry->completeProgress() ?> fehlende Einträge'><?= round($entry->completeProgress()/$entry->numberRequiredFields(), 2)*100 ?>%</td>
          <?php if(RolePersistence::isAssignedRole($GLOBALS['user']->user_id,
-                                                            Doktorandenverwaltung::DOKTORANDENVERWALTUNG_ADMIN_ROLE)): ?>
+                                                            \Doktorandenverwaltung\DOKTORANDENVERWALTUNG_ADMIN_ROLE)): ?>
              <td>
                  <a onclick="return confirm('Eintrag löschen?')" href='<?=$this->controller->url_for('index/delete/' . $entry['id']) ?>' title='Eintrag löschen' ><?=Icon::create('trash')?></a>
              </td>
-         <?php endif ?>   
+         <?php endif ?>
     </tr>
     <?php endforeach ?>
     </tbody>
@@ -55,8 +55,3 @@
 
 
 </body>
-
-
-
-
-

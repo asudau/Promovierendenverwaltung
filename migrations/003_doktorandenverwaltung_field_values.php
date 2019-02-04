@@ -22,7 +22,7 @@ class DoktorandenverwaltungFieldValues extends Migration
             `astat_bund` varchar(32) NULL,
             PRIMARY KEY (id)
         ) ");
-      
+
         SimpleORMap::expireTableScheme();
     }
 

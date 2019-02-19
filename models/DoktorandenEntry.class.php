@@ -79,7 +79,7 @@ class DoktorandenEntry extends \SimpleORMap
             return '1';
         };
         $config['additional_fields']['berichtsjahr']['get'] = function ($item) {
-            return date('Y', time());
+            return '2018'; //date('Y', time());
         };
         $config['additional_fields']['hochschule_prom']['get'] = function ($item) {
             return '0530';

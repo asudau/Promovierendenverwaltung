@@ -13,8 +13,6 @@ class IndexController extends StudipController
         PageLayout::setTitle(_("Promovierendenverwaltung - Übersicht"));
 
         PageLayout::addStylesheet($this->plugin->getPluginURL().'/assets/style.css');
-        //PageLayout::addScript($this->plugin->getPluginURL().'/assets/jquery.tablesorter.js');
-        //PageLayout::addSqueezePackage('tablesorter');
 
         $_SESSION['Doktorandenverwaltung_vars']['berichtsjahr'] = Request::get('berichtsjahrSelector', date('Y'));
 

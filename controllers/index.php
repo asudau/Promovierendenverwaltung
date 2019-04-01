@@ -16,11 +16,7 @@ class IndexController extends StudipController
         //PageLayout::addScript($this->plugin->getPluginURL().'/assets/jquery.tablesorter.js');
         //PageLayout::addSqueezePackage('tablesorter');
 
-        if (Request::get('berichtsjahrSelector') == 1) {
-            $_SESSION['Doktorandenverwaltung_vars']['berichtsjahr'] = 1;
-        } else {
-            $_SESSION['Doktorandenverwaltung_vars']['berichtsjahr'] = 0;
-        }
+        $_SESSION['Doktorandenverwaltung_vars']['berichtsjahr'] = Request::get('berichtsjahrSelector', date('Y'));
 
         $stmt = DBManager::get()->prepare("SELECT roleid FROM roles WHERE rolename = ?");
         $stmt->execute(array('Doktorandenverwaltung'));
@@ -65,20 +61,15 @@ class IndexController extends StudipController
         Navigation::activateItem('tools/doktorandenverwaltung/index');
 
         $search_query = array();
-        if ($_SESSION['Doktorandenverwaltung_vars']['berichtsjahr'] == '0') {
-            //noch kein enddatum
-            $search_query[] = '`promotionsende_jahr` IS NULL';
-            $search_query[] = '`promotionsende_jahr` = \'\'';
-            //oder ab 01.12.2017
-            $search_query[] = '`promotionsende_jahr` = 2018';
-            $search_query[] = '(`promotionsende_jahr` = 2017 AND `promotionsende_monat` = 12 AND `berichtet` != 2017 )';
-        }
+        if ($_SESSION['Doktorandenverwaltung_vars']['berichtsjahr'] != '1') {
 
-        $query = '';
-        if ($search_query) {
-            $query = implode(" OR ", $search_query);
-        }
-        if ($query == '') {
+            $query = DoktorandenHelper::getFilterQuery($_SESSION['Doktorandenverwaltung_vars']['berichtsjahr']);
+
+            /*
+                AND `berichtet` IS NULL
+                OR `berichtet` = 0 )';
+                */
+        } else {
             $query = 'true';
         }
 
@@ -104,13 +95,16 @@ class IndexController extends StudipController
         }
 
         $widget->addElement($option);
-        $option = new SelectElement('0', _('Berichtsjahr 2018'));
+        for ($i = (int)date('Y'); $i >= 2018; $i--) {
+            $option = new SelectElement($i, _('Berichtsjahr '). $i);
 
-        if (('' ==  $_SESSION['Doktorandenverwaltung_vars']['berichtsjahr']) || ('0' ==  $_SESSION['Doktorandenverwaltung_vars']['berichtsjahr'])) {
-            $option->setActive();
+            if (($i == $_SESSION['Doktorandenverwaltung_vars']['berichtsjahr'])
+                || ('0' == $_SESSION['Doktorandenverwaltung_vars']['berichtsjahr']) && $i == date('Y')) {
+                $option->setActive();
+            }
+
+            $widget->addElement($option);
         }
-
-        $widget->addElement($option);
 
         $sidebar->insertWidget($widget, 'pdb_actions');
 
@@ -261,14 +255,7 @@ class IndexController extends StudipController
             $GLOBALS['user']->user_id,
             \Doktorandenverwaltung\DOKTORANDENVERWALTUNG_ADMIN_ROLE
         )) {
-            $search_query = array();
-            //noch kein enddatum
-            $search_query[] = '`promotionsende_jahr` IS NULL';
-            $search_query[] = '`promotionsende_jahr` = \'\'';
-            //oder ab 01.12.2017
-            $search_query[] = '`promotionsende_jahr` = 2018';
-            $search_query[] = '(`promotionsende_jahr` = 2017 AND `promotionsende_monat` = 12 AND `berichtet` != 2017 )';
-            $query = implode(" OR ", $search_query);
+            $query = DoktorandenHelper::getFilterQuery($_SESSION['Doktorandenverwaltung_vars']['berichtsjahr']);
 
             $doktoranden_entries = DoktorandenEntry::findBySQL($query);
 
@@ -324,14 +311,7 @@ class IndexController extends StudipController
     }
     public function export_user_action()
     {
-        $search_query = array();
-        //noch kein enddatum
-        $search_query[] = '`promotionsende_jahr` IS NULL';
-        $search_query[] = '`promotionsende_jahr` = \'\'';
-        //oder ab 01.12.2017
-        $search_query[] = '`promotionsende_jahr` = 2018';
-        $search_query[] = '(`promotionsende_jahr` = 2017 AND `promotionsende_monat` = 12 AND `berichtet` != 2017 )';
-        $query = implode(" OR ", $search_query);
+        $query = DoktorandenHelper::getFilterQuery($_SESSION['Doktorandenverwaltung_vars']['berichtsjahr']);
 
         $this->faecher = $this->getFaecherIDsForUser();
 

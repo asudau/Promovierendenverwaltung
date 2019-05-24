@@ -133,6 +133,33 @@ class IndexController extends StudipController
         } else {
             $this->groupedFields = DoktorandenEntry::getGroupedFields();
         }
+
+        $this->lock_fields = [];
+
+        if ($this->entry->hisinone_person_id) {
+            $this->lock_fields = [
+                'geschlecht',
+                'geburtsdatum_tag',
+                'geburtsdatum_monat',
+                'geburtsdatum_jahr',
+                'nachname',
+                'vorname',
+                'staatsangehoerigkeit',
+                'weitere_staatsangehoerigkeit',
+                'promotionsfach',
+                'matrikelnummer',
+                'immatrikulation',
+                'hzb_jahr',
+                'hzb_art',
+                'hzb_kreis',
+                'hzb_staat',
+                'email',
+                'hochschule_erst',
+                'staat_hochschule_erst',
+                'semester',
+                'jahr'
+            ];
+        };
     }
 
     public function faq_action()

@@ -25,6 +25,7 @@ use Studip\Button, Studip\LinkButton;
                     <? endif ?>
                 </td>
                 <td style="width:700px">
+                    <? $field_locked = in_array($field_entry->id, $lock_fields) === true; ?>
                     <?php if(sizeof($field_entry->values) > 1104) : ?>
 
                     <?= QuickSearch::get($field_entry->id, $field_entry->search_object)
@@ -35,7 +36,7 @@ use Studip\Button, Studip\LinkButton;
                         ->render();?>
 
                     <?php elseif (sizeof($field_entry->values) > 1) : ?>
-                    <select <? if ($entry->disabled($field_entry->id)): ?> disabled <? endif ?>
+                    <select <? if ($entry->disabled($field_entry->id) || $field_locked): ?> disabled <? endif ?>
                         class='nested-select' name ='<?=$field_entry->id?>'>
                         <option value="NULL"> <?= $entry->getDefaultOption($field_entry->id) ?> </option>
                         <?php foreach ($field_entry->values as $entry_value): ?>
@@ -44,12 +45,16 @@ use Studip\Button, Studip\LinkButton;
                         <?php endforeach ?>
                     </select>
                     <?php elseif ($field_entry->id == 'geburtstag') : ?>
-                    <input type='date' id ='<?=$field_entry->id?>' name ='<?=$field_entry->id?>' value='<?= $entry['geburtstag_time'] ? date('Y-m-d', $entry['geburtstag_time']) : ''?>'>
+                    <input
+                        <? if ($field_locked): ?> disabled <? endif ?>
+                        type='date' id ='<?=$field_entry->id?>' name ='<?=$field_entry->id?>' value='<?= $entry['geburtstag_time'] ? date('Y-m-d', $entry['geburtstag_time']) : ''?>'>
                     <?php else : ?>
                     <input type='text' id ='<?=$field_entry->id?>' name ='<?=$field_entry->id?>'
-                           <? if ($entry->disabled($field_entry->id)): ?> disabled placeholder=''<? else: ?>
-                           value ='<?= htmlReady($entry[$field_entry->id])?>' <? endif ?>>
+                            <? if ($field_locked): ?> disabled <? endif ?>
+                            <? if ($entry->disabled($field_entry->id)): ?> disabled placeholder=''<? else: ?>
+                            value ='<?= htmlReady($entry[$field_entry->id])?>' <? endif ?>>
                     <?php endif ?>
+
                 </td>
             </tr>
             <?php endforeach ?>

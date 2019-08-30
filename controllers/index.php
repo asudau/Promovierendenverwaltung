@@ -139,9 +139,7 @@ class IndexController extends StudipController
         if ($this->entry->hisinone_person_id) {
             $this->lock_fields = [
                 'geschlecht',
-                'geburtsdatum_tag',
-                'geburtsdatum_monat',
-                'geburtsdatum_jahr',
+                'geburtstag',
                 'nachname',
                 'vorname',
                 'staatsangehoerigkeit',

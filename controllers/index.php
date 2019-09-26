@@ -278,15 +278,27 @@ class IndexController extends StudipController
                 $header[] = $field->export_name;
             }
 
-            $export[] = $header;
+            ob_end_clean();
+
+            header('Content-Type: text/csv; charset=UTF-8');
+            header('Content-Disposition: attachment; ' . encode_header_parameter('filename', 'statistik_promovierendendaten.csv'));
+            flush();
+
+            $output = fopen('php://output', 'rw');
+            fputs($output, "\xEF\xBB\xBF");
+
+            fputcsv($output, $header, ';', '"');
 
             $i = 0;
             foreach ($doktoranden_entries as $entry) {
-                $export[] = self::handleSingleRow($entry, $export_fields, $i);
+                fputcsv($output, self::handleSingleRow($entry, $export_fields, $i), ';', '"');
+                fflush($output);
+                flush();
                 $i++;
             }
 
-            $this->render_csv($export, 'bericht_promovierendendaten.csv');
+            fclose($output);
+            die;
         }
     }
 
@@ -310,15 +322,31 @@ class IndexController extends StudipController
                 }
             }
 
-            $export[] = $header;
+            ob_end_clean();
+
+            header('Content-Type: text/csv; charset=UTF-8');
+            header('Content-Disposition: attachment; ' . encode_header_parameter('filename', 'bericht_promovierendendaten.csv'));
+            flush();
+
+            $output = fopen('php://output', 'rw');
+            fputs($output, "\xEF\xBB\xBF");
+
+            fputcsv($output, $header, ';', '"');
 
             foreach ($doktoranden_entries as $entry) {
-                $export[] = self::handleFullSingleRow($entry, $export_fields);
+                fputcsv($output, self::handleFullSingleRow($entry, $export_fields), ';', '"');
+                fflush($output);
+                flush();
             }
 
-            $this->render_csv($export, 'bericht_promovierendendaten.csv');
+            fclose($output);
+            die;
+
+            $this->render_nothing();
         }
     }
+
+
     public function export_user_action()
     {
         $query = DoktorandenHelper::getFilterQuery($_SESSION['Doktorandenverwaltung_vars']['berichtsjahr']);

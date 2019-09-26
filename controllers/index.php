@@ -342,13 +342,27 @@ class IndexController extends StudipController
             }
         }
 
-        $export[] = $header;
+        ob_end_clean();
+
+        header('Content-Type: text/csv; charset=UTF-8');
+        header('Content-Disposition: attachment; ' . encode_header_parameter('filename', 'promovierendendaten.csv'));
+        flush();
+
+        $output = fopen('php://output', 'rw');
+        fputs($output, "\xEF\xBB\xBF");
+
+        fputcsv($output, $header, ';', '"');
 
         foreach ($doktoranden_entries as $entry) {
-            $export[] = self::handleUserSingleRow($entry, $grouped_fields);
+            fputcsv($output, self::handleUserSingleRow($entry, $grouped_fields), ';', '"');
+            fflush($output);
+            flush();
         }
 
-        $this->render_csv($export, 'promovierendendaten.csv');
+        fclose($output);
+        die;
+
+        $this->render_nothing();
     }
 
     public static function handleSingleRow($entry, $fields, $number)

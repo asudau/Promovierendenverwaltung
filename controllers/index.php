@@ -137,26 +137,7 @@ class IndexController extends StudipController
         $this->lock_fields = [];
 
         if ($this->entry->hisinone_person_id) {
-            $this->lock_fields = [
-                'geschlecht',
-                'geburtstag',
-                'nachname',
-                'vorname',
-                'staatsangehoerigkeit',
-                'weitere_staatsangehoerigkeit',
-                'promotionsfach',
-                'matrikelnummer',
-                'immatrikulation',
-                'hzb_jahr',
-                'hzb_art',
-                'hzb_kreis',
-                'hzb_staat',
-                'email',
-                'hochschule_erst',
-                'staat_hochschule_erst',
-                'semester',
-                'jahr'
-            ];
+            $this->lock_fields = \Doktorandenverwaltung\DOKTORANDENVERWALTUNG_LOCKED_FIELDS;
         };
     }
 
@@ -207,11 +188,17 @@ class IndexController extends StudipController
         }
 
         $groupedFields = DoktorandenEntry::getGroupedFields();
+        $lockedFields = \Doktorandenverwaltung\DOKTORANDENVERWALTUNG_LOCKED_FIELDS;
 
         if ($entry) {
             foreach ($groupedFields as $group) {
                 foreach ($group['entries'] as $field_entry) {
                     $field = $field_entry->id;
+
+                    // disable editing of locked fields
+                    if (in_array($field, $lockedFields) !== false) {
+                        continue;
+                    }
                     //if(Request::option($field)){
                     if (strpos($field, 'jahr') !== false) {
                         if (Request::get($field)) {

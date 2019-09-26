@@ -108,10 +108,14 @@ use Studip\Button, Studip\LinkButton;
     //Ersteinschreibung Auslandshochschulen, dann Staat Pflichtfeld
     document.getElementsByName("hochschule_erst")[1].onchange = function () {
         if (this.value == '2'){
+            document.querySelector('tr[name=staat_hochschule_erst] > td').classList.add('required');
+            document.getElementsByName("staat_hochschule_erst")[0].classList.add("needs_fill");
             document.getElementsByName("staat_hochschule_erst")[1].removeAttribute("disabled");
             //document.getElementsByName("staat_hochschule_erst")[0].style.display = "";
         } else {
             //document.getElementsByName("staat_hochschule_erst")[1].value = "-- nicht erforderlich --";
+            document.querySelector('tr[name=staat_hochschule_erst] > td').classList.remove('required');
+            document.getElementsByName("staat_hochschule_erst")[0].classList.remove("needs_fill");
             document.getElementsByName("staat_hochschule_erst")[1].setAttribute("disabled", true);
             //$("tr[staat_hochschule_erst]").hide();//.removeClass( "required");
             //document.getElementsByName("staat_hochschule_erst")[0].style.display = "none";//.removeAttribute("class");

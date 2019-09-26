@@ -14,7 +14,13 @@ class IndexController extends StudipController
 
         PageLayout::addStylesheet($this->plugin->getPluginURL().'/assets/style.css');
 
-        $_SESSION['Doktorandenverwaltung_vars']['berichtsjahr'] = Request::get('berichtsjahrSelector', date('Y'));
+        if (Request::get('berichtsjahrSelector')) {
+            $_SESSION['Doktorandenverwaltung_vars']['berichtsjahr'] = Request::get('berichtsjahrSelector');
+        } else {
+            if (!isset($_SESSION['Doktorandenverwaltung_vars']['berichtsjahr'])) {
+                $_SESSION['Doktorandenverwaltung_vars']['berichtsjahr'] = date('Y');
+            }
+        }
 
         $stmt = DBManager::get()->prepare("SELECT roleid FROM roles WHERE rolename = ?");
         $stmt->execute(array('Doktorandenverwaltung'));

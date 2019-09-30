@@ -277,8 +277,10 @@ class IndexController extends StudipController
 
             $export_fields = DoktorandenFields::getExportFieldsArray();
 
-            $header = array();
-            $export = array();
+            $header = [];
+            $export = [];
+
+            $header[] = 'ID';
 
             foreach ($export_fields as $field) {
                 $header[] = $field->export_name;
@@ -318,8 +320,10 @@ class IndexController extends StudipController
 
             $export_fields = DoktorandenFields::getFullExportFieldsArray();
 
-            $header = array();
-            $export = array();
+            $header = [];
+            $export = [];
+
+            $header[] = 'ID';
 
             foreach ($export_fields as $field) {
                 $header[] = $field->id;
@@ -367,8 +371,10 @@ class IndexController extends StudipController
 
         $grouped_fields = DoktorandenEntry::getGroupedFields();
 
-        $header = array();
-        $export = array();
+        $header = [];
+        $export = [];
+
+        $header[] = 'ID';
 
         foreach ($grouped_fields as $group) {
             foreach ($group['entries'] as $field) {
@@ -401,7 +407,9 @@ class IndexController extends StudipController
 
     public static function handleSingleRow($entry, $fields, $number)
     {
-        $rowData = array();
+        $rowData = [];
+        $rowData[] = $entry->id;
+
         foreach ($fields as $field) {
             $field_id = $field->id;
             if ($field_id == 'paginiernummer') {
@@ -435,7 +443,9 @@ class IndexController extends StudipController
 
     public static function handleFullSingleRow($entry, $fields)
     {
-        $rowData = array();
+        $rowData = [];
+        $rowData[] = $entry->id;;
+
         foreach ($fields as $field) {
             $field_id = $field->id;
             //intern db-value
@@ -457,7 +467,9 @@ class IndexController extends StudipController
 
     public static function handleUserSingleRow($entry, $grouped_fields)
     {
-        $rowData = array();
+        $rowData = [];
+        $rowData[] = $entry->id;
+
         foreach ($grouped_fields as $group) {
             foreach ($group['entries'] as $field) {
                 $field_id = $field->id;

@@ -202,7 +202,7 @@ class IndexController extends StudipController
                     $field = $field_entry->id;
 
                     // disable editing of locked fields
-                    if (in_array($field, $lockedFields) !== false) {
+                    if ($entry->hisinone_person_id && in_array($field, $lockedFields) !== false) {
                         continue;
                     }
                     //if(Request::option($field)){

@@ -99,6 +99,16 @@ class IndexController extends StudipController
         }
 
         $widget->addElement($option);
+
+        $option = new SelectElement('-1', _('Noch zu bearbeiten'));
+
+        if ('-1' ==  $_SESSION['Doktorandenverwaltung_vars']['berichtsjahr']) {
+            $option->setActive();
+        }
+
+        $widget->addElement($option);
+
+
         for ($i = (int)date('Y'); $i >= 2018; $i--) {
             $option = new SelectElement($i, _('Berichtsjahr '). $i);
 

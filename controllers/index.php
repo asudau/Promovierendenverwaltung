@@ -437,9 +437,14 @@ class IndexController extends StudipController
                     $rowData[] = $entry->$field_id;
                 }
             } else {
+                $astat = $field->getValueAstatByKey($entry->$field_id);
                 //get related astat_bund val of $entry->$field
-                if ($field->getValueAstatByKey($entry->$field_id)) {
-                    $rowData[] = $field->getValueAstatByKey($entry->$field_id);
+                if ($astat) {
+                    if ($field_id == 'staat_hochschule_erst') {
+                        $rowData[] = $astat == '000' ? '' : $astat;
+                    } else {
+                        $rowData[] = $astat;
+                    }
                 } elseif ($entry->$field_id != 'NULL') {
                     $rowData[] = $entry->$field_id;
                 } else {

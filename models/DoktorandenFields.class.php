@@ -48,11 +48,36 @@ class DoktorandenFields extends \SimpleORMap
         return $fields;
     }
 
-    public function getValueTextByKey($key = null) {
-        if(($this->value_key != NULL)){
-            $value = DoktorandenFieldValue::findOneBySQL("field_id = ? AND " . $this->value_key . " = '" . $key . "'", array($this->getIdOfValues()));
-            return $value['defaulttext'];
+    public function getValueTextByKey($content = null)
+    {
+        if ($this->value_key != NULL) {
+            return self::getValueText(
+                $this->getIdOfValues(),
+                $this->value_key,
+                $content
+            );
         }
+
+        return false;
+    }
+
+    public static function getValueText($field_id, $key, $content)
+    {
+        static $value_text;
+
+        if (!$value_text[$field_id]) {
+            foreach (DoktorandenFieldValue::findByField_id($field_id) as $entry) {
+                $value_text[$field_id][] = $entry->toArray();
+            }
+
+        }
+
+        foreach ($value_text[$field_id] as $entry) {
+            if ($entry[$key] == $content) {
+                 return $entry['defaulttext'];
+            }
+        }
+
         return false;
     }
 

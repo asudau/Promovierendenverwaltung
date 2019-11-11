@@ -40,7 +40,11 @@
             <?php endif ?>
 
         <?php endforeach ?>
-        <td title='Noch <?= $entry->numberRequiredFields()-$entry->completeProgress() ?> fehlende Einträge'><?= round($entry->completeProgress()/$entry->numberRequiredFields(), 2)*100 ?>%</td>
+
+        <td title='Noch <?= $entry->numberRequiredFields()-$entry->completeProgress() ?> fehlende Einträge'>
+            <?= round($entry->completeProgress()/$entry->numberRequiredFields(), 2)*100 ?>%
+        </td>
+
          <?php if(RolePersistence::isAssignedRole($GLOBALS['user']->user_id,
                                                             \Doktorandenverwaltung\DOKTORANDENVERWALTUNG_ADMIN_ROLE)): ?>
              <td>

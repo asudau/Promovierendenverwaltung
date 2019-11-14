@@ -100,7 +100,7 @@ class IndexController extends StudipController
 
         $widget->addElement($option);
 
-        $option = new SelectElement('-1', _('Noch zu bearbeiten'));
+        $option = new SelectElement('-1', _('neu Immatrikulierte'));
 
         if ('-1' ==  $_SESSION['Doktorandenverwaltung_vars']['berichtsjahr']) {
             $option->setActive();

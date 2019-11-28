@@ -514,7 +514,7 @@ class IndexController extends StudipController
             $faecher_array = array();
             $field = DoktorandenFields::find('promotionsfach');
             foreach ($faecher as $fach) {
-                $faecher_array[] = $field->getValueLIDByUniquename((int)$fach['fach_id']);
+                $faecher_array[] = $field->getValueLIDByUniquename($fach['fach_id']);
             }
             if (sizeof($faecher_array) >0) {
                 return $faecher_array;

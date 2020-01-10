@@ -23,7 +23,7 @@
     <?php foreach ($entries as $entry): ?>
     <tr>
 
-        <td><a href='<?=$this->controller->url_for('index/edit/' . $entry['id']) ?>' title='Eintrag editieren' data-dialog="size=big"><?=Icon::create('edit')?></a>
+        <td><a href='<?=$this->controller->url_for('index/edit/' . $entry['id']) ?>' title='Eintrag editieren (hisinone_person_id: <?= $entry['hisinone_person_id'] ?>)' data-dialog="size=big"><?=Icon::create('edit')?></a>
 
         <br/></td>
         <?php foreach($fields as $field): ?>

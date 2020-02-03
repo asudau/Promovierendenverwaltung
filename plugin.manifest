@@ -1,6 +1,6 @@
 pluginname=Doktorandenverwaltung
 pluginclassname=Doktorandenverwaltung
 origin=virtUOS
-version=1.0.18
+version=1.0.19
 studipMinVersion=4.0
 studipMaxVersion=4.4

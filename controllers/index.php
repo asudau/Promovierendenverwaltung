@@ -109,27 +109,23 @@ class IndexController extends StudipController
         $widget->addElement($option);
 
 
-        for ($i = (int)date('Y'); $i >= 2018; $i--) {
-            $option = new SelectElement($i, _('Berichtsjahr '). $i);
+        // Berichtsjahr
+        // TODO: let an admin set the report year
+        $year = 2020;
 
-            if (($i == $_SESSION['Doktorandenverwaltung_vars']['berichtsjahr'])
-                || ('0' == $_SESSION['Doktorandenverwaltung_vars']['berichtsjahr']) && $i == date('Y')) {
-                $option->setActive();
-            }
+        //for ($i = (int)date('Y'); $i >= (int)date('Y') -1; $i--) {
+        //
+        $option = new SelectElement($year, _('Berichtsjahr '). $year);
 
-            $widget->addElement($option);
+        if (($year == $_SESSION['Doktorandenverwaltung_vars']['berichtsjahr'])
+            || ('0' == $_SESSION['Doktorandenverwaltung_vars']['berichtsjahr'])) {
+            $option->setActive();
         }
 
-        $sidebar->insertWidget($widget, 'pdb_actions');
+        $widget->addElement($option);
+        //}
 
-//        $actions = new OptionsWidget();
-//        $actions->addCheckbox(
-//                _('Nur aktive Promotionen anzeigen'),
-//                $_SESSION['Doktorandenverwaltung_vars']['show_active'],
-//                $this->url_for('index?set_showactive=' . $_SESSION['Doktorandenverwaltung_vars']['show_active'])
-//            );
-//
-//            $sidebar->addWidget($actions);
+        $sidebar->insertWidget($widget, 'pdb_actions');
     }
 
     public function showactive_action()

@@ -108,10 +108,8 @@ class IndexController extends StudipController
 
         $widget->addElement($option);
 
-
-        // Berichtsjahr
-        // TODO: let an admin set the report year
-        $year = 2020;
+        // get configured report year
+        $year = Config::get()->DOKTORANDEN_REPORT_YEAR;
 
         //for ($i = (int)date('Y'); $i >= (int)date('Y') -1; $i--) {
         //
@@ -156,6 +154,23 @@ class IndexController extends StudipController
     public function faq_action()
     {
         Navigation::activateItem('tools/doktorandenverwaltung/faq');
+    }
+
+    public function config_action()
+    {
+        if (RolePersistence::isAssignedRole($GLOBALS['user']->user_id,
+                \Doktorandenverwaltung\DOKTORANDENVERWALTUNG_ADMIN_ROLE)) {
+
+            Navigation::activateItem('tools/doktorandenverwaltung/config');
+            if (Request::int('year')) {
+                CSRFProtection::verifyUnsafeRequest();
+                Config::get()->store('DOKTORANDEN_REPORT_YEAR', Request::int('year'));
+            }
+
+            $this->year = Config::get()->DOKTORANDEN_REPORT_YEAR;
+        } else {
+            $this->redirect('index');
+        }
     }
 
     public function new_action()

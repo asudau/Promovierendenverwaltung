@@ -32,6 +32,13 @@ class Doktorandenverwaltung extends StudipPlugin implements SystemPlugin
             $item = new Navigation(_('FAQ'), PluginEngine::getURL($this, array(), 'index/faq'));
             $navigation->addSubNavigation('faq', $item);
 
+
+            if (RolePersistence::isAssignedRole($GLOBALS['user']->user_id,
+                    \Doktorandenverwaltung\DOKTORANDENVERWALTUNG_ADMIN_ROLE)) {
+                $item = new Navigation(_('Konfiguration'), PluginEngine::getURL($this, array(), 'index/config'));
+                $navigation->addSubNavigation('config', $item);
+            }
+
             Navigation::addItem('tools/doktorandenverwaltung', $navigation);
         }
     }
